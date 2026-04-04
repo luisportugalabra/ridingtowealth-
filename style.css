@@ -92,7 +92,7 @@ p { color: #999; font-size: 1rem; max-width: 640px; }
   cursor: pointer;
   transition: all 0.2s;
 }
-.btn-sub:hover { background: #fff; color: #0a0a0a; }
+.btn-sub:hover { background: #2d7a4f; border-color: #2d7a4f; color: #fff; }
 
 /* Mobile nav toggle */
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
@@ -130,7 +130,7 @@ p { color: #999; font-size: 1rem; max-width: 640px; }
   color: #fff;
   transition: color 0.2s;
 }
-.card-link:hover { color: var(--accent); }
+.card-link:hover { color: #2d7a4f; }
 
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
 
