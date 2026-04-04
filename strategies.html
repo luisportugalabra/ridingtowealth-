@@ -197,6 +197,16 @@
               </div>
               <a class="btn" style="margin-top:24px;cursor:pointer;padding:16px 40px;font-size:1rem" onclick="selectStrategy('trend')">Invest &rarr;</a>
             </div>
+            <div class="card">
+              <span class="label">Momentum</span>
+              <h3>21.7% CAGR</h3>
+              <p>Buy stocks with the strongest intermediate momentum. Fully systematic.</p>
+              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+                <span class="tag">Annual Rebalance</span>
+                <span class="tag">Intermediate Momentum</span>
+              </div>
+              <a class="btn" style="margin-top:24px;cursor:pointer;padding:16px 40px;font-size:1rem" onclick="selectStrategy('momentum')">Invest &rarr;</a>
+            </div>
           </div>
           <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Backtests conducted on US market data, spanning 20 to 40+ years, where historical records are deepest. Results are independently verified by my own analysis and align with findings published in <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">* See Research</a></p>
         </div>
@@ -335,9 +345,11 @@
       if (!wizardData) return;
 
       const isRandom = typeof randomCount === 'number';
-      const stratLabel = selectedStrategy === 'value' ? 'Value' : 'Momentum + Value';
+      const stratLabels = { value: 'Value', trend: 'Momentum + Value', momentum: 'Momentum' };
+      const stratLabel = stratLabels[selectedStrategy] || selectedStrategy;
       const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
-      const source = selectedStrategy === 'value' ? wizardData.value : wizardData.trend;
+      const sourceKey = selectedStrategy === 'value' ? 'value' : selectedStrategy === 'momentum' ? 'momentum' : 'trend';
+      const source = wizardData[sourceKey] || wizardData.trend;
       const allStocks = source[selectedGeo] || [];
       const count = isRandom ? randomCount : 25;
       const weight = (100 / count).toFixed(1);
@@ -352,6 +364,7 @@
 
       // Rules
       const rulesBox = document.getElementById('rules-box');
+      const recommendTip = `<li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>`;
       if (selectedStrategy === 'value') {
         rulesBox.innerHTML = `
           <h3>Value Strategy Rules</h3>
@@ -361,7 +374,18 @@
             <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked from top 25)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
-            <li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>
+            ${recommendTip}
+          </ol>`;
+      } else if (selectedStrategy === 'momentum') {
+        rulesBox.innerHTML = `
+          <h3>Momentum Strategy Rules</h3>
+          <ol>
+            <li>Take the ${geoLabel} universe of stocks</li>
+            <li>Rank all stocks by their return over months 7&ndash;12 (ignoring the most recent 6 months)</li>
+            <li>Select the top ${count} stocks with the strongest intermediate momentum${isRandom ? ' (randomly picked from top 25)' : ''}</li>
+            <li>Equal weight each position at ${weight}%</li>
+            <li>Rebalance annually</li>
+            ${recommendTip}
           </ol>`;
       } else {
         rulesBox.innerHTML = `
@@ -373,7 +397,7 @@
             <li>Select the top ${count} stocks with the strongest momentum${isRandom ? ' (randomly picked from top 25)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
-            <li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>
+            ${recommendTip}
           </ol>`;
       }
 
@@ -385,7 +409,10 @@
         ? [...allStocks].sort(() => Math.random() - 0.5).slice(0, count)
         : allStocks.slice(0, 25);
 
-      if (selectedStrategy === 'value') {
+      if (stocks.length === 0) {
+        thead.innerHTML = '';
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">Data coming soon. Check back after the next update.</td></tr>`;
+      } else if (selectedStrategy === 'value') {
         thead.innerHTML = `<tr>
           <th>#</th><th>Ticker</th>
           <th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th>
@@ -407,7 +434,7 @@
       } else {
         thead.innerHTML = `<tr>
           <th>#</th><th>Ticker</th>
-          <th class="r">Momentum 6M %</th><th class="r">Weight</th>
+          <th class="r">Momentum %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
