@@ -188,7 +188,7 @@
               <a class="btn" style="margin-top:24px;cursor:pointer" onclick="selectStrategy('value')">Invest &rarr;</a>
             </div>
             <div class="card">
-              <span class="label">Trend Value</span>
+              <span class="label">Momentum + Value</span>
               <h3>21.19% CAGR</h3>
               <p>Undervalued companies combined with momentum. Rebalance once a year. Fully systematic.</p>
               <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
@@ -198,7 +198,7 @@
               <a class="btn" style="margin-top:24px;cursor:pointer" onclick="selectStrategy('trend')">Invest &rarr;</a>
             </div>
           </div>
-          <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Returns based on backtested data from <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy (1964&ndash;2009). Past performance does not guarantee future results.</p>
+          <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Backtests conducted on US market data, spanning 20 to 40+ years, where historical records are deepest. Results are independently verified by my own analysis and align with findings published in <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">* See Research</a></p>
         </div>
 
         <!-- Step 2: Geography -->
@@ -225,7 +225,11 @@
               <div class="output-meta" id="output-meta"></div>
             </div>
             <div class="output-actions">
-              <button class="action-btn" onclick="randomPortfolio()">Random Portfolio</button>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
+                Stocks:
+                <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
+              </label>
+              <button class="action-btn" onclick="randomSelect()">Random Selector</button>
               <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
             </div>
           </div>
@@ -241,9 +245,15 @@
             </table>
           </div>
 
-          <p style="font-size:0.75rem;color:#555;text-align:center;max-width:100%;margin-top:24px">
-            Returns based on backtested data from <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy (1964&ndash;2009). Past performance does not guarantee future results. Not financial advice.
-          </p>
+          <!-- Advice box -->
+          <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
+            <p style="font-size:0.88rem;color:#ccc;max-width:100%;margin-bottom:14px;line-height:1.6">
+              We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.
+            </p>
+            <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
+              Backtests are based on US market data, spanning 20 to 40+ years, where historical coverage is most reliable. All strategies have been independently tested by me and validated against published sources, including <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. Not financial advice. <a href="research.html" style="color:var(--accent)">* See Research &rarr;</a>
+            </p>
+          </div>
         </div>
 
       </div>
@@ -324,48 +334,46 @@
       setTimeout(() => showOutput(), 200);
     }
 
-    function showOutput(isRandom) {
+    function showOutput(randomCount) {
       if (!wizardData) return;
 
-      const stratLabel = selectedStrategy === 'value' ? 'Value' : 'Trend Value';
+      const isRandom = typeof randomCount === 'number';
+      const stratLabel = selectedStrategy === 'value' ? 'Value' : 'Momentum + Value';
       const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
+      const source = selectedStrategy === 'value' ? wizardData.value : wizardData.trend;
+      const allStocks = source[selectedGeo] || [];
+      const count = isRandom ? randomCount : 25;
+      const weight = (100 / count).toFixed(1);
+
       const title = isRandom
-        ? `Random Portfolio — ${geoLabel}`
+        ? `Random Selection — ${stratLabel} ${geoLabel}`
         : `${stratLabel} — ${geoLabel}`;
 
       document.getElementById('output-title').textContent = title;
       document.getElementById('output-meta').textContent =
-        `25 stocks · Equal weight (4.0% each) · Data: ${wizardData.date}`;
+        `${count} stocks · Equal weight (${weight}% each) · Data: ${wizardData.date}`;
 
       // Rules
       const rulesBox = document.getElementById('rules-box');
-      if (isRandom) {
-        rulesBox.innerHTML = `
-          <h3>Random Portfolio Rules</h3>
-          <ol>
-            <li>From the ${geoLabel} universe, randomly select 25 stocks</li>
-            <li>Equal weight each position at 4.0%</li>
-            <li>This is a benchmark — compare against the systematic strategies</li>
-          </ol>`;
-      } else if (selectedStrategy === 'value') {
+      if (selectedStrategy === 'value') {
         rulesBox.innerHTML = `
           <h3>Value Strategy Rules</h3>
           <ol>
             <li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li>
-            <li>Combine the percentile ranks into a composite Value Score (VC2)</li>
-            <li>Select the 25 cheapest stocks by VC2</li>
-            <li>Equal weight each position at 4.0%</li>
+            <li>Combine the percentile ranks into a composite Value Score</li>
+            <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked from top 25)' : ''}</li>
+            <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
           </ol>`;
       } else {
         rulesBox.innerHTML = `
-          <h3>Trend Value Strategy Rules</h3>
+          <h3>Momentum + Value Strategy Rules</h3>
           <ol>
             <li>Start with the Value strategy: rank the ${geoLabel} universe using 6 value metrics</li>
-            <li>Identify the cheapest 10% of stocks (Decile 1 by VC2 score)</li>
+            <li>Identify the cheapest 10% of stocks based on the composite Value Score</li>
             <li>Within that cheapest 10%, rank by 6-month price momentum</li>
-            <li>Select the top 25 stocks with the strongest momentum</li>
-            <li>Equal weight each position at 4.0%</li>
+            <li>Select the top ${count} stocks with the strongest momentum${isRandom ? ' (randomly picked from top 25)' : ''}</li>
+            <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
           </ol>`;
       }
@@ -374,21 +382,16 @@
       const thead = document.getElementById('table-head');
       const tbody = document.getElementById('table-body');
 
-      if (isRandom) {
-        // Random: pick 25 from value universe (larger pool)
-        const pool = wizardData.value[selectedGeo] || [];
-        const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 25);
-        thead.innerHTML = '<tr><th>#</th><th>Ticker</th><th class="r">Weight</th></tr>';
-        tbody.innerHTML = shuffled.map((s, i) =>
-          `<tr><td>${i+1}</td><td class="ticker">${s[0]}</td><td class="r weight-col">4.0%</td></tr>`
-        ).join('');
-      } else if (selectedStrategy === 'value') {
-        const stocks = (wizardData.value[selectedGeo] || []).slice(0, 25);
+      let stocks = isRandom
+        ? [...allStocks].sort(() => Math.random() - 0.5).slice(0, count)
+        : allStocks.slice(0, 25);
+
+      if (selectedStrategy === 'value') {
         thead.innerHTML = `<tr>
           <th>#</th><th>Ticker</th>
           <th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th>
           <th class="r">P/CF</th><th class="r">EV/EBITDA</th>
-          <th class="r">SH Yield %</th><th class="r">VC2</th><th class="r">Weight</th>
+          <th class="r">SH Yield %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
@@ -399,22 +402,19 @@
             <td class="r">${s[4] != null ? s[4].toFixed(1) : '—'}</td>
             <td class="r">${s[5] != null ? s[5].toFixed(1) : '—'}</td>
             <td class="r">${s[6] != null ? s[6].toFixed(1) : '—'}</td>
-            <td class="r">${s[7] != null ? s[7].toFixed(2) : '—'}</td>
-            <td class="r weight-col">4.0%</td>
+            <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
       } else {
-        const stocks = (wizardData.trend[selectedGeo] || []).slice(0, 25);
         thead.innerHTML = `<tr>
           <th>#</th><th>Ticker</th>
-          <th class="r">Momentum 6M %</th><th class="r">VC2</th><th class="r">Weight</th>
+          <th class="r">Momentum 6M %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
             <td>${i+1}</td><td class="ticker">${s[0]}</td>
             <td class="r">${s[1] != null ? s[1].toFixed(1) : '—'}</td>
-            <td class="r">${s[2] != null ? s[2].toFixed(2) : '—'}</td>
-            <td class="r weight-col">4.0%</td>
+            <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
       }
@@ -422,8 +422,9 @@
       goToStep(3);
     }
 
-    function randomPortfolio() {
-      showOutput(true);
+    function randomSelect() {
+      const n = Math.min(25, Math.max(1, parseInt(document.getElementById('pick-count').value) || 25));
+      showOutput(n);
     }
   </script>
 
