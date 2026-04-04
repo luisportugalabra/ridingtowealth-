@@ -247,9 +247,6 @@
 
           <!-- Advice box -->
           <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
-            <p style="font-size:0.88rem;color:#ccc;max-width:100%;margin-bottom:14px;line-height:1.6">
-              We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.
-            </p>
             <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
               Backtests are based on US market data, spanning 20 to 40+ years, where historical coverage is most reliable. All strategies have been independently tested by me and validated against published sources, including <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. Not financial advice. <a href="research.html" style="color:var(--accent)">* See Research &rarr;</a>
             </p>
@@ -364,6 +361,7 @@
             <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked from top 25)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
+            <li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>
           </ol>`;
       } else {
         rulesBox.innerHTML = `
@@ -375,6 +373,7 @@
             <li>Select the top ${count} stocks with the strongest momentum${isRandom ? ' (randomly picked from top 25)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
+            <li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>
           </ol>`;
       }
 
