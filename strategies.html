@@ -132,6 +132,7 @@
       .stock-table { font-size: 0.78rem; }
       .stock-table th, .stock-table td { padding: 8px 6px; }
       .output-header { flex-direction: column; align-items: flex-start; }
+      .cards-grid[style*="repeat(3"] { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -176,7 +177,10 @@
 
         <!-- Step 1: Strategy Cards -->
         <div class="wizard-panel active" id="step1">
-          <div class="cards-grid">
+          <div style="text-align:center;margin-bottom:40px">
+            <p style="font-size:1.05rem;color:#ccc;max-width:640px;margin:0 auto 12px">Three systematic strategies averaging <strong style="color:#fff">20.5% CAGR</strong> vs the S&amp;P 500's ~10.9%. No discretionary calls. No simulations. Just rules, data, and rebalances.</p>
+          </div>
+          <div class="cards-grid" style="grid-template-columns:repeat(3,1fr)">
             <div class="card">
               <span class="label">Value Strategy</span>
               <h3>18.61% CAGR</h3>
@@ -185,7 +189,7 @@
                 <span class="tag">Annual Rebalance</span>
                 <span class="tag">Undervalued Companies</span>
               </div>
-              <a class="btn" style="margin-top:24px;cursor:pointer;padding:16px 40px;font-size:1rem" onclick="selectStrategy('value')">Invest &rarr;</a>
+              <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px" onclick="selectStrategy('value')">Invest &rarr;</a>
             </div>
             <div class="card">
               <span class="label">Momentum + Value</span>
@@ -195,7 +199,7 @@
                 <span class="tag">Annual Rebalance</span>
                 <span class="tag">Value + Momentum</span>
               </div>
-              <a class="btn" style="margin-top:24px;cursor:pointer;padding:16px 40px;font-size:1rem" onclick="selectStrategy('trend')">Invest &rarr;</a>
+              <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px" onclick="selectStrategy('trend')">Invest &rarr;</a>
             </div>
             <div class="card">
               <span class="label">Momentum</span>
@@ -205,7 +209,7 @@
                 <span class="tag">Annual Rebalance</span>
                 <span class="tag">Intermediate Momentum</span>
               </div>
-              <a class="btn" style="margin-top:24px;cursor:pointer;padding:16px 40px;font-size:1rem" onclick="selectStrategy('momentum')">Invest &rarr;</a>
+              <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px" onclick="selectStrategy('momentum')">Invest &rarr;</a>
             </div>
           </div>
           <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Backtests conducted on US market data, spanning 20 to 40+ years, where historical records are deepest. Results are independently verified by my own analysis and align with findings published in <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">* See Research</a></p>
@@ -349,7 +353,7 @@
       const stratLabel = stratLabels[selectedStrategy] || selectedStrategy;
       const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
       const sourceKey = selectedStrategy === 'value' ? 'value' : selectedStrategy === 'momentum' ? 'momentum' : 'trend';
-      const source = wizardData[sourceKey] || wizardData.trend;
+      const source = wizardData[sourceKey] || {};
       const allStocks = source[selectedGeo] || [];
       const count = isRandom ? randomCount : 25;
       const weight = (100 / count).toFixed(1);
