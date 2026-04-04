@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JD.com — Riding to Wealth Research</title>
+<meta name="description" content="Deep dive investment thesis on JD.com (NASDAQ: JD). Margin improvement, logistics moat, and a deeply mispriced stock.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* Research page-specific styles */
+  .research-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+    padding: 80px 0 48px;
+  }
+  .research-hero .ticker-label {
+    font-family: 'Inter', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .research-hero h1 { margin-bottom: 16px; }
+  .research-hero .tagline {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    max-width: 540px;
+    line-height: 1.6;
+    font-family: Georgia, serif;
+  }
+  .hero-meta { text-align: right; min-width: 180px; }
+  .price-box {
+    background: #fff;
+    color: #0a0a0a;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .price-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .price-val {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .price-sub { font-size: 0.72rem; opacity: 0.6; margin-top: 2px; }
+  .rating-box {
+    background: var(--green);
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 6px;
+  }
+
+  /* Masthead */
+  .masthead {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .research-section { margin-bottom: 56px; }
+  .research-section h2 { margin-bottom: 16px; }
+  .research-section h3 { margin-top: 28px; margin-bottom: 10px; }
+  .research-section p { margin-bottom: 14px; color: var(--text-secondary); font-size: 0.95rem; max-width: none; }
+
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .sg-stat {
+    background: var(--bg-card);
+    padding: 18px 20px;
+  }
+  .sg-stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .sg-stat-val {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .sg-stat-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* Multiples grid */
+  .mult-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .mult-card {
+    background: var(--bg-card);
+    padding: 16px 14px;
+    text-align: center;
+  }
+  .mult-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .mult-val { font-size: 1.25rem; font-weight: 700; color: #fff; }
+  .mult-note { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* Tables */
+  .seg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-bottom: 32px;
+  }
+  .seg-table th {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 2px solid #333;
+  }
+  .seg-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: #ccc;
+  }
+  .seg-table tr:hover { background: var(--bg-elevated); }
+  .seg-table tr:last-child td { border-bottom: 2px solid #333; font-weight: 500; }
+  .pos { color: #4ade80; }
+  .neg { color: #f87171; }
+
+  /* Pullquote */
+  .pullquote {
+    border-left: 3px solid var(--accent);
+    padding: 16px 24px;
+    margin: 28px 0;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #ccc;
+    line-height: 1.6;
+    background: var(--bg-elevated);
+    border-radius: 0 8px 8px 0;
+    font-family: Georgia, serif;
+  }
+
+  /* Scenario cards */
+  .cases {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .case { background: var(--bg-card); padding: 28px 22px; }
+  .case-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .case-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .case-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .case-return { font-size: 2.2rem; font-weight: 700; margin-bottom: 4px; }
+  .case-price {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+  .case-item {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .case-item::before { content: '—'; position: absolute; left: 0; color: var(--text-muted); }
+
+  /* Valuation bridge */
+  .bridge {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    margin-bottom: 32px;
+  }
+  .bridge-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .bridge-row:last-child {
+    border-bottom: none;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 4px;
+    padding-top: 14px;
+    border-top: 2px solid #444;
+  }
+  .bridge-label { color: #ccc; }
+  .bridge-val { font-weight: 600; color: #fff; }
+
+  /* Risk grid */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .risk-item {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+  }
+  .risk-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; color: #fff; }
+  .risk-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+  .risk-level {
+    display: inline-block;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .risk-high { background: rgba(248,113,113,0.15); color: #f87171; }
+  .risk-med { background: rgba(251,191,36,0.15); color: #fbbf24; }
+  .risk-low { background: rgba(74,222,128,0.15); color: #4ade80; }
+
+  /* Timeline */
+  .tl-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+    align-items: start;
+  }
+  .tl-year {
+    font-size: 0.72rem;
+    color: var(--accent);
+    padding-top: 2px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .tl-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; color: #fff; }
+  .tl-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+
+  /* Research divider */
+  .rdivider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* Research footer */
+  .research-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 48px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .research-footer p { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    margin-bottom: 8px;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .research-hero { grid-template-columns: 1fr; }
+    .hero-meta { text-align: left; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .cases { grid-template-columns: 1fr; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .mult-grid { grid-template-columns: repeat(3, 1fr); }
+    .tl-item { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo">RIDING TO WEALTH</a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="/">Invest</a>
+      <a href="/portfolio.html">Portfolio</a>
+      <a href="/strategies.html">Strategies</a>
+      <a href="/research.html" class="active">Research</a>
+      <a href="/about.html">About</a>
+      <a href="#subscribe" class="btn-sub">Subscribe</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Back link -->
+    <div style="padding-top:32px;">
+      <a href="/research.html" class="back-link">&larr; Back to Research</a>
+    </div>
+
+    <!-- Masthead -->
+    <div class="masthead">
+      <span>Riding to Wealth Research — Long Idea</span>
+      <span>March 2026 &nbsp;|&nbsp; Confidential</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="research-hero">
+      <div>
+        <div class="ticker-label">NASDAQ: JD &nbsp;/&nbsp; HKEX: 9618</div>
+        <h1>JD.com</h1>
+        <p class="tagline">China's supply chain champion trading at a distressed multiple while the market prices in permanent margin destruction that is already reversing.</p>
+      </div>
+      <div class="hero-meta">
+        <div class="price-box">
+          <div class="price-label">Current Price</div>
+          <div class="price-val">US$29.75</div>
+          <div class="price-sub">Market Cap ~US$38B</div>
+        </div>
+        <div class="rating-box">Strong Buy &nbsp;/&nbsp; 3Y</div>
+      </div>
+    </div>
+
+    <!-- FY2025 Fundamentals -->
+    <div class="research-section">
+      <div class="section-label">FY2025 Fundamentals</div>
+      <div class="stats-grid">
+        <div class="sg-stat">
+          <div class="sg-stat-label">Revenue</div>
+          <div class="sg-stat-val">US$187B</div>
+          <div class="sg-stat-sub">+17.9% YoY</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">JD Retail Op. Income</div>
+          <div class="sg-stat-val">US$7.4B</div>
+          <div class="sg-stat-sub">Margin 4.6% (+60bps YoY)</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">Non-GAAP Net Income</div>
+          <div class="sg-stat-val">US$3.9B</div>
+          <div class="sg-stat-sub">EPS US$2.55/ADS</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">Net Cash</div>
+          <div class="sg-stat-val">~US$29B</div>
+          <div class="sg-stat-sub">76% of market cap</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">Forward P/E</div>
+          <div class="sg-stat-val">~7.6x</div>
+          <div class="sg-stat-sub">vs. sector 18x</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">Buyback (2025)</div>
+          <div class="sg-stat-val">US$3.0B</div>
+          <div class="sg-stat-sub">6.3% of shares retired</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">Annual Dividend</div>
+          <div class="sg-stat-val">US$1.4B</div>
+          <div class="sg-stat-sub">US$1.0/ADS</div>
+        </div>
+        <div class="sg-stat">
+          <div class="sg-stat-label">Active Customers</div>
+          <div class="sg-stat-val">700M+</div>
+          <div class="sg-stat-sub">Freq. +40% YoY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Valuation Multiples -->
+    <div class="research-section">
+      <div class="section-label">Valuation Multiples</div>
+      <h2>Current Multiples &amp; Peer Comparison</h2>
+      <p>JD.com trades at a significant discount to the Chinese and global e-commerce sector across virtually every valuation metric. The market is pricing the business as if it were in structural decline, when the core business fundamentals demonstrate the opposite.</p>
+
+      <div class="mult-grid">
+        <div class="mult-card">
+          <div class="mult-label">P/E (TTM)</div>
+          <div class="mult-val">8.5x</div>
+          <div class="mult-note">Sector ~18x</div>
+        </div>
+        <div class="mult-card">
+          <div class="mult-label">P/E (Fwd)</div>
+          <div class="mult-val">7.6x</div>
+          <div class="mult-note">60% discount</div>
+        </div>
+        <div class="mult-card">
+          <div class="mult-label">EV/EBITDA</div>
+          <div class="mult-val">3.8x</div>
+          <div class="mult-note">Sector ~12x</div>
+        </div>
+        <div class="mult-card">
+          <div class="mult-label">P/S</div>
+          <div class="mult-val">0.22x</div>
+          <div class="mult-note">Extremely low</div>
+        </div>
+        <div class="mult-card">
+          <div class="mult-label">P/B</div>
+          <div class="mult-val">1.0x</div>
+          <div class="mult-note">Near book value</div>
+        </div>
+        <div class="mult-card">
+          <div class="mult-label">P/CF</div>
+          <div class="mult-val">15.4x</div>
+          <div class="mult-note">Hist. median ~35x</div>
+        </div>
+      </div>
+
+      <table class="seg-table">
+        <thead>
+          <tr>
+            <th>Multiple</th>
+            <th>JD.com</th>
+            <th>Alibaba (BABA)</th>
+            <th>PDD Holdings</th>
+            <th>Amazon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>P/E (Fwd)</td><td><strong>7.6x</strong></td><td>~10x</td><td>~9x</td><td>~28x</td></tr>
+          <tr><td>EV/EBITDA</td><td><strong>3.8x</strong></td><td>~8x</td><td>~7x</td><td>~18x</td></tr>
+          <tr><td>P/S</td><td><strong>0.22x</strong></td><td>~1.8x</td><td>~2.5x</td><td>~3x</td></tr>
+          <tr><td>P/B</td><td><strong>1.0x</strong></td><td>~1.5x</td><td>~3x</td><td>~7x</td></tr>
+          <tr><td>P/CF</td><td><strong>15.4x</strong></td><td>~18x</td><td>~12x</td><td>~35x</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Investment Thesis -->
+    <div class="research-section">
+      <div class="section-label">Investment Thesis</div>
+      <h2>The Market is Pricing Permanent Damage to a Temporary Problem</h2>
+      <p>JD.com trades at ~7.6x forward earnings — a discount of roughly 60% to its Chinese e-commerce peers and 70% to global comparables. The implied valuation, net of US$29B in cash, ascribes essentially zero value to the world's most sophisticated retail logistics network, a dominant position in electronics and appliances, and a portfolio of high-growth adjacent businesses.</p>
+      <p>The market's concern is legitimate but misdirected: JD launched JD Food Delivery in 2024, triggering a period of heavy investment that compressed group-level margins and obscured the steady improvement in the core retail business. The market has conflated cyclical investment losses with structural deterioration.</p>
+      <div class="pullquote">JD Retail's operating margin expanded from 4.0% in FY2024 to 4.6% in FY2025 — a full-year record — even as the company simultaneously funded the fastest-scaling food delivery launch in China's history.</div>
+      <p>The core thesis is simple: if JD Retail stabilises at US$8B+ in operating income (already achieved), the New Businesses investment cycle peaks in 2026–2027, and the market re-rates the stock to a still-conservative 10–12x multiple, the implied return over 3 years is 2–3.5x from current prices. Cash provides a hard floor.</p>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Segment Deep-Dive -->
+    <div class="research-section">
+      <div class="section-label">Segment Deep-Dive</div>
+      <h2>Three Businesses, One Mispriced Stock</h2>
+
+      <table class="seg-table">
+        <thead>
+          <tr>
+            <th>Segment</th>
+            <th>FY2025 Revenue</th>
+            <th>Op. Income</th>
+            <th>Op. Margin</th>
+            <th>3Y Outlook</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>JD Retail (core)</strong></td><td>~US$168B</td><td>US$7.4B</td><td class="pos">4.6%</td><td>5.5–6.0%</td></tr>
+          <tr><td><strong>JD Logistics</strong></td><td>~US$20B</td><td>~US$0.6B</td><td class="pos">~3%</td><td>4–5%</td></tr>
+          <tr><td><strong>New Businesses</strong></td><td>~US$6B</td><td class="neg">(~US$3B)</td><td class="neg">negative</td><td>Breakeven 2027–28</td></tr>
+          <tr><td><strong>Group Total</strong></td><td>US$187B</td><td>US$2.6B*</td><td>~1.4%</td><td>3.5–4.5%</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.75rem; color:var(--text-muted);">*Group Non-GAAP EBITDA. Consolidated group operating income is significantly lower than segment totals due to corporate overhead, share-based compensation, and inter-segment eliminations.</p>
+
+      <h3>JD Retail — The Engine</h3>
+      <p>The core business is a best-in-class supply chain operation with 90%+ of orders fulfilled same-day or next-day. Operating margins expanded 60bps in FY2025 to 4.6%, a record, driven by rising ad revenue mix and improved category economics. The path to 6%+ margins is structural: advertising penetration is still below Alibaba's comparable segment, and JD's first-party inventory model becomes more valuable as brands seek channel integrity. We model 5.5–6.0% retail margins by 2028.</p>
+
+      <h3>JD Logistics — Undervalued Infrastructure</h3>
+      <p>JD Logistics is listed separately (HKEX: 2618) and is one of the few end-to-end supply chain operators in China with cold-chain, bulk, and last-mile capabilities under one roof. The external revenue business (selling logistics to third parties) is growing at 20%+ and is not reflected in the parent's valuation. We treat this segment as optionality — any re-rating of the listed subsidiary benefits JD.com proportionally.</p>
+
+      <h3>New Businesses — The Overhang, and the Opportunity</h3>
+      <p>JD Food Delivery launched in 2024 and scaled to meaningful GMV by Q4 2025, with sequential loss narrowing every quarter since launch. This is the swing factor in the investment case. The market is pricing a permanently loss-making segment. The base case is that losses peak in mid-2026 as JD gains density in core cities and subsidy intensity rationalises. JD's structural advantage is its existing logistics network, which gives it an inherent cost advantage in unit economics once density is achieved.</p>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- 3-Year Projections -->
+    <div class="research-section">
+      <div class="section-label">3-Year Projections</div>
+      <h2>Financial Analysis (2026–2028)</h2>
+
+      <table class="seg-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>FY2025 (actual)</th>
+            <th>FY2026E</th>
+            <th>FY2027E</th>
+            <th>FY2028E</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Group Revenue (US$B)</td><td>187</td><td>205</td><td>223</td><td>242</td></tr>
+          <tr><td>YoY Growth</td><td class="pos">+17.9%</td><td>+10%</td><td>+9%</td><td>+8%</td></tr>
+          <tr><td>JD Retail Op. Income (US$B)</td><td>7.4</td><td>8.5</td><td>10.0</td><td>11.5</td></tr>
+          <tr><td>JD Retail Op. Margin</td><td>4.6%</td><td>5.0%</td><td>5.3%</td><td>5.7%</td></tr>
+          <tr><td>New Businesses — Losses (US$B)</td><td class="neg">(3.0)</td><td class="neg">(2.5)</td><td class="neg">(1.2)</td><td class="neg">(0.3)</td></tr>
+          <tr><td>Group Non-GAAP EBITDA (US$B)</td><td>2.6</td><td>4.5</td><td>7.2</td><td>9.5</td></tr>
+          <tr><td>Non-GAAP EPS (US$/ADS)</td><td>2.55</td><td>3.20</td><td>4.50</td><td>5.80</td></tr>
+          <tr><td>Implied P/E (at current price)</td><td>8.5x</td><td>9.3x</td><td class="pos">6.6x</td><td class="pos">5.1x</td></tr>
+        </tbody>
+      </table>
+
+      <p>The key takeaway: even without any market re-rating, JD's forward P/E will drop to ~5x by 2028 — an unsustainably low level for a profitable, growing business. The combination of retail margin expansion and narrowing new business losses should create a visible inflection in group earnings between H2 2026 and H1 2027, forcing a market reassessment.</p>
+
+      <h3>Forward Multiple Evolution (Base Case)</h3>
+      <table class="seg-table">
+        <thead>
+          <tr>
+            <th>Multiple</th>
+            <th>Current (Mar 2026)</th>
+            <th>FY2027E (at current price)</th>
+            <th>FY2028E (at current price)</th>
+            <th>Target (re-rating)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>P/E</td><td>8.5x</td><td>6.6x</td><td>5.1x</td><td>10–12x</td></tr>
+          <tr><td>EV/EBITDA</td><td>3.8x</td><td>~2.5x</td><td>~1.8x</td><td>6–8x</td></tr>
+          <tr><td>P/S</td><td>0.22x</td><td>~0.17x</td><td>~0.16x</td><td>0.4–0.6x</td></tr>
+          <tr><td>P/B</td><td>1.0x</td><td>~0.8x</td><td>~0.7x</td><td>1.5–2.0x</td></tr>
+          <tr><td>P/CF</td><td>15.4x</td><td>~8x</td><td>~6x</td><td>10–14x</td></tr>
+        </tbody>
+      </table>
+
+      <p>The message is clear across all multiples: at the current price, JD.com gets progressively cheaper with every passing year. A simple re-rating to multiples that still represent a significant sector discount implies 2–3x upside.</p>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Sum-of-Parts Valuation -->
+    <div class="research-section">
+      <div class="section-label">Sum-of-Parts Valuation</div>
+      <h2>The Math at US$29.75</h2>
+
+      <div class="bridge">
+        <div class="bridge-row"><span class="bridge-label">JD Retail — US$8.5B op. income x 10x</span><span class="bridge-val">US$85B</span></div>
+        <div class="bridge-row"><span class="bridge-label">JD Logistics — listed market cap (proportional stake)</span><span class="bridge-val">~US$8B</span></div>
+        <div class="bridge-row"><span class="bridge-label">New Businesses — zero value (conservative)</span><span class="bridge-val">US$0</span></div>
+        <div class="bridge-row"><span class="bridge-label">Net cash on balance sheet</span><span class="bridge-val">+US$29B</span></div>
+        <div class="bridge-row"><span class="bridge-label">Implied intrinsic value</span><span class="bridge-val">~US$122B</span></div>
+        <div class="bridge-row"><span class="bridge-label">Current market cap</span><span class="bridge-val">~US$38B</span></div>
+        <div class="bridge-row"><span class="bridge-label">Implied upside (base case)</span><span class="bridge-val" style="color:#4ade80;">~3.2x / ~220%</span></div>
+      </div>
+
+      <p><em>Note: 10x operating income multiple is a 45% discount to Chinese internet sector average and a 60% discount to global e-commerce peers. Even a 12x multiple (still deeply discounted) implies ~US$130B or ~3.4x upside.</em></p>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Scenario Analysis -->
+    <div class="research-section">
+      <div class="section-label">Scenario Analysis — 3-Year Horizon</div>
+      <h2>Bear, Base &amp; Bull Case</h2>
+
+      <div class="cases">
+        <!-- Bear -->
+        <div class="case">
+          <div class="case-header">
+            <div class="case-dot" style="background:#f87171;"></div>
+            <div class="case-title">Bear Case</div>
+          </div>
+          <div class="case-return" style="color:#f87171;">-15%</div>
+          <div class="case-price">Target: ~US$25 &nbsp;|&nbsp; Prob: 20%</div>
+          <div class="case-item">PDD and Douyin continue eroding JD Retail market share in electronics. Revenue growth declines to 4–5% CAGR.</div>
+          <div class="case-item">Food delivery losses widen beyond 2027 as Meituan and Douyin match JD's subsidies indefinitely.</div>
+          <div class="case-item">Management misallocates the US$29B cash pile via a large, poor-quality acquisition.</div>
+          <div class="case-item">JD Retail margins stagnate at 4.5–4.8%. Group Non-GAAP EBITDA stays ~US$3B.</div>
+          <div class="case-item">Multiple contracts further to 6x. Market cap reaches ~US$30B + cash = US$59B. ~US$25/ADS.</div>
+          <div class="case-item">Cash provides hard floor — probability of permanent capital loss is very low.</div>
+        </div>
+        <!-- Base -->
+        <div class="case">
+          <div class="case-header">
+            <div class="case-dot" style="background:#fbbf24;"></div>
+            <div class="case-title">Base Case</div>
+          </div>
+          <div class="case-return" style="color:#4ade80;">+150%</div>
+          <div class="case-price">Target: ~US$75 &nbsp;|&nbsp; Prob: 55%</div>
+          <div class="case-item">JD Retail grows revenue 8–10% CAGR, margin expands to 5.5% by 2028. Operating income reaches US$10–11B.</div>
+          <div class="case-item">Food delivery losses peak H1 2026 and narrow sequentially. Breakeven by late 2027.</div>
+          <div class="case-item">JD Logistics external revenue grows 20%+ CAGR, re-rated to 15–18x earnings.</div>
+          <div class="case-item">Market re-rates JD Retail from 7x to 10x as margin expansion trajectory becomes visible.</div>
+          <div class="case-item">Group intrinsic value: US$100–110B operating + US$25B cash (after buybacks/dividends) = ~US$130B.</div>
+          <div class="case-item">~US$75/ADS. 2.5x from current price. ~36% IRR over 3 years.</div>
+        </div>
+        <!-- Bull -->
+        <div class="case">
+          <div class="case-header">
+            <div class="case-dot" style="background:#4ade80;"></div>
+            <div class="case-title">Bull Case</div>
+          </div>
+          <div class="case-return" style="color:#4ade80;">+300%</div>
+          <div class="case-price">Target: ~US$120 &nbsp;|&nbsp; Prob: 25%</div>
+          <div class="case-item">JD Retail margin expands to 6%+ as advertising penetration catches Alibaba. Revenue +12% CAGR.</div>
+          <div class="case-item">Food delivery reaches profitability in 2027. JD becomes the #2 food delivery operator in China with 20%+ share.</div>
+          <div class="case-item">JD Health and JD Industrials listed or spun off at meaningful multiples, unlocking hidden value.</div>
+          <div class="case-item">AI integration drives 200–300bps of additional margin improvement across fulfilment and customer service by 2028.</div>
+          <div class="case-item">Group re-rates to 14–15x. Total equity value ~US$200B.</div>
+          <div class="case-item">~US$120/ADS. 4x. ~60% IRR over 3 years.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Catalyst Timeline -->
+    <div class="research-section">
+      <div class="section-label">Catalyst Timeline</div>
+      <h2>What Closes the Gap</h2>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">H2 2026</div>
+          <div>
+            <div class="tl-title">Food delivery losses peak and begin sequential narrowing</div>
+            <div class="tl-desc">Management guided Q4 2025 as the peak investment quarter. If H1 2026 results confirm narrowing losses, the single largest overhang on the stock begins to lift. This is the near-term catalyst.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026–27</div>
+          <div>
+            <div class="tl-title">Buyback programme accelerates at distressed prices</div>
+            <div class="tl-desc">US$5B programme (Aug 2024) with ~US$2B remaining as of March 2026. At US$30, each dollar of buyback retires ~3.7% more NAV than the stock implies — highly accretive. Expect programme renewal.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2027</div>
+          <div>
+            <div class="tl-title">New Businesses approaching breakeven</div>
+            <div class="tl-desc">Every quarter of sequential loss narrowing in food delivery removes drag from group earnings. At breakeven, group Non-GAAP EBITDA jumps from US$2.6B to US$7B+ without any retail growth — a multiple re-rating event.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2027–28</div>
+          <div>
+            <div class="tl-title">JD Retail margin reaches 5.5%+ — visible to consensus</div>
+            <div class="tl-desc">Sell-side upgrades typically happen 2–4 quarters after a new margin regime is established. When 5.5%+ becomes the consensus expectation, the forward P/E re-rating follows. Target: 10–12x.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Optionality</div>
+          <div>
+            <div class="tl-title">Subsidiary spin-offs or listings</div>
+            <div class="tl-desc">JD Health (HK-listed), JD Industrials, and JD Property are embedded in the retail segment. Any formal separation unlocks sum-of-parts value that the market is currently ignoring entirely.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Risk Assessment -->
+    <div class="research-section">
+      <div class="section-label">Risk Assessment</div>
+      <h2>What Could Go Wrong</h2>
+
+      <div class="risk-grid">
+        <div class="risk-item">
+          <div class="risk-level risk-high">High</div>
+          <div class="risk-title">Capital misallocation</div>
+          <div class="risk-desc">US$29B cash is the thesis's foundation — and its biggest risk. A large, ill-conceived acquisition could destroy years of value creation. This is the #1 risk to monitor.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-level risk-high">High</div>
+          <div class="risk-title">PDD erosion of core e-commerce</div>
+          <div class="risk-desc">Pinduoduo has taken meaningful share in mass-market electronics. If this extends upmarket into JD's premium positioning, revenue growth slows and the margin expansion thesis stalls.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-level risk-med">Medium</div>
+          <div class="risk-title">Food delivery war of attrition</div>
+          <div class="risk-desc">Meituan and Douyin have deeper pockets and stronger network effects. If the food delivery loss-narrowing trajectory reverses, the New Businesses overhang becomes permanent.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-level risk-med">Medium</div>
+          <div class="risk-title">China macro / consumer weakness</div>
+          <div class="risk-desc">JD is exposed to Chinese consumer spending. Prolonged weakness in electronics and home appliance demand compresses both revenue growth and operating leverage.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-level risk-med">Medium</div>
+          <div class="risk-title">Regulatory risk</div>
+          <div class="risk-desc">China's regulatory posture toward large internet platforms has moderated since 2021–22 but has not disappeared. Any renewed focus could weigh on the stock.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-level risk-low">Low</div>
+          <div class="risk-title">VIE structure / geopolitical</div>
+          <div class="risk-desc">Applicable to US-listed ADRs. For investors holding via HKEX (9618), this risk is substantially mitigated. Recommend HK listing over ADR for long-term holders.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rdivider">
+
+    <!-- Conclusion -->
+    <div class="research-section">
+      <div class="section-label">Conclusion</div>
+      <h2>A Margin-of-Safety Investment in a World-Class Business</h2>
+      <p>At US$29.75, the market is offering JD.com's core retail operation — one of the most capable supply chain businesses in the world — at 5x operating income, net of a cash pile that represents 76% of the current market cap. This is the kind of mispricing that occurs when a short-term investment cycle (food delivery) is confused with a structural deterioration of the business.</p>
+      <p>The bear case is protected by cash. The base case requires only that JD continues doing what it has been doing — expanding retail margins and narrowing food delivery losses — and that the market eventually notices. The bull case does not require extraordinary execution; it requires JD to reach the profitability levels that its own cost structure implies are achievable.</p>
+      <div class="pullquote">At 7.6x earnings on a business generating US$7.4B in retail operating income, with US$29B in net cash, and the most capable logistics infrastructure in China — the risk is not that you're wrong. The risk is that you're right too early.</div>
+      <p>For a 3-year holder without tax friction, the expected value of this position is strongly positive across all reasonable scenarios. The position size should reflect the genuine uncertainty around the food delivery investment cycle, but the asymmetry — hard floor from cash, 2–4x upside in base and bull cases — is among the most compelling in China tech today.</p>
+    </div>
+
+    <!-- Research Footer -->
+    <div class="research-footer">
+      <p><strong>Disclosures:</strong> This document is prepared for informational and educational purposes only. It does not constitute investment advice, a solicitation, or a recommendation to buy or sell any security. All figures are estimates based on publicly available information (JD.com SEC filings, HKEX filings, and company IR materials). Actual results may differ materially. The author may hold positions in securities discussed. Past performance is not indicative of future results. Investors should conduct their own due diligence and consult a qualified financial advisor before making investment decisions.</p>
+      <p style="margin-top: 12px;"><strong>Sources:</strong> JD.com FY2025 Results (SEC EX-99.1, March 5, 2026) · JD.com Q1–Q3 2025 Quarterly Results · MacroTrends · StockAnalysis.com · Yahoo Finance · GuruFocus</p>
+    </div>
+
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="footer">
+    <span class="footer-logo">RIDING TO WEALTH</span>
+    <div class="footer-links">
+      <a href="/">Invest</a>
+      <a href="/portfolio.html">Portfolio</a>
+      <a href="/strategies.html">Strategies</a>
+      <a href="/research.html">Research</a>
+      <a href="/about.html">About</a>
+    </div>
+    <span class="footer-disclaimer">This site is for informational and educational purposes only. Not financial advice. Past performance does not guarantee future results.</span>
+  </footer>
+
+</body>
+</html>
