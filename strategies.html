@@ -137,9 +137,10 @@
     @media (max-width: 600px) {
       .opt-btn { min-width: 100%; }
       .geo-btn { min-width: calc(50% - 8px); text-align: center; }
-      .stock-table { font-size: 0.78rem; }
-      .stock-table th, .stock-table td { padding: 8px 6px; }
+      .stock-table { font-size: 0.72rem; }
+      .stock-table th, .stock-table td { padding: 8px 5px; white-space: nowrap; }
       .output-header { flex-direction: column; align-items: flex-start; }
+      .output-actions { flex-wrap: wrap; }
       .cards-grid[style*="repeat(3"] { grid-template-columns: 1fr !important; }
     }
     .card .btn:hover, .card .btn:active { color: #2d7a4f; border-color: #2d7a4f; }
@@ -253,6 +254,7 @@
                 <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
               </label>
               <button class="action-btn" onclick="randomSelect()">Random Selector</button>
+              <button class="action-btn" onclick="exportCSV()">Export CSV</button>
               <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
             </div>
           </div>
@@ -465,6 +467,24 @@
     function randomSelect() {
       const n = Math.min(25, Math.max(1, parseInt(document.getElementById('pick-count').value) || 25));
       showOutput(n);
+    }
+
+    function exportCSV() {
+      const table = document.querySelector('.stock-table');
+      const rows = table.querySelectorAll('tr');
+      let csv = [];
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('th, td');
+        const rowData = Array.from(cells).map(c => '"' + c.textContent.trim().replace(/"/g, '""') + '"');
+        csv.push(rowData.join(','));
+      });
+      const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (selectedStrategy + '_' + selectedGeo + '_stocks.csv').toLowerCase();
+      a.click();
+      URL.revokeObjectURL(url);
     }
   </script>
 
