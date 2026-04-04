@@ -10,6 +10,130 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Wizard */
+    .wizard { max-width: 900px; margin: 0 auto; }
+    .wizard-steps { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 48px; }
+    .step-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+      border: 2px solid var(--border);
+      color: var(--text-muted);
+      transition: all 0.3s;
+    }
+    .step-dot.active { border-color: var(--accent); color: var(--accent); }
+    .step-dot.done { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+    .step-line { width: 40px; height: 2px; background: var(--border); transition: background 0.3s; }
+    .step-line.active { background: var(--accent); }
+
+    .wizard-title { text-align: center; margin-bottom: 8px; font-size: 1.1rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.7rem; }
+    .wizard-question { text-align: center; margin-bottom: 32px; }
+    .wizard-question h2 { font-size: 1.6rem; }
+
+    /* Option buttons */
+    .options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .opt-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 36px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      min-width: 200px;
+    }
+    .opt-btn:hover { border-color: #444; transform: translateY(-2px); }
+    .opt-btn.selected { border-color: var(--accent); }
+    .opt-btn h3 { font-size: 1.15rem; margin-bottom: 4px; }
+    .opt-btn .cagr { color: var(--accent); font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .opt-btn p { font-size: 0.82rem; color: var(--text-muted); max-width: 220px; margin: 0 auto; }
+
+    .geo-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 28px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #ccc;
+    }
+    .geo-btn:hover { border-color: #444; transform: translateY(-2px); }
+    .geo-btn.selected { border-color: var(--accent); color: var(--accent); }
+
+    /* Output */
+    .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .output-header h2 { font-size: 1.4rem; }
+    .output-meta { font-size: 0.75rem; color: var(--text-muted); }
+    .output-actions { display: flex; gap: 10px; }
+    .action-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ccc;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .action-btn:hover { border-color: #444; color: #fff; }
+    .action-btn.accent { border-color: var(--accent); color: var(--accent); }
+    .action-btn.accent:hover { background: var(--accent); color: #0a0a0a; }
+
+    /* Stock table */
+    .stock-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 32px; }
+    .stock-table th {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted);
+      text-align: left; padding: 10px 12px;
+      border-bottom: 2px solid #333;
+      position: sticky; top: 0; background: var(--bg-primary);
+    }
+    .stock-table th.r { text-align: right; }
+    .stock-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: #ccc; }
+    .stock-table td.r { text-align: right; font-variant-numeric: tabular-nums; }
+    .stock-table td.ticker { font-weight: 600; color: #fff; }
+    .stock-table tr:hover { background: var(--bg-elevated); }
+    .weight-col { color: var(--text-muted) !important; }
+
+    /* Rules */
+    .rules-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+    .rules-box h3 { margin-bottom: 16px; font-size: 1rem; }
+    .rules-box ol { padding-left: 20px; }
+    .rules-box li { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 10px; line-height: 1.5; }
+
+    /* Back button */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 500; color: var(--text-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: color 0.2s; margin-bottom: 24px;
+      background: none; border: none; padding: 0;
+    }
+    .back-btn:hover { color: var(--accent); }
+
+    /* Wizard panel visibility */
+    .wizard-panel { display: none; }
+    .wizard-panel.active { display: block; }
+
+    @media (max-width: 600px) {
+      .opt-btn { min-width: 100%; }
+      .geo-btn { min-width: calc(50% - 8px); text-align: center; }
+      .stock-table { font-size: 0.78rem; }
+      .stock-table th, .stock-table td { padding: 8px 6px; }
+      .output-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
@@ -36,36 +160,93 @@
     <p>No discretionary calls. No anxiety. Just rules and rebalances.</p>
   </header>
 
-  <!-- Strategy Cards -->
+  <!-- Wizard -->
   <section class="section">
     <div class="container">
-      <div class="cards-grid">
+      <div class="wizard" id="wizard">
 
-        <div class="card">
-          <span class="label">Value Strategy</span>
-          <h3>18.61% CAGR</h3>
-          <p>Buy undervalued stocks based on fundamental metrics. Rebalance once a year. Fully systematic.</p>
-          <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-            <span class="tag">Annual Rebalance</span>
-            <span class="tag">Undervalued Companies</span>
-          </div>
-          <a href="#" class="btn" style="margin-top:24px">Invest &rarr;</a>
+        <!-- Progress dots -->
+        <div class="wizard-steps" id="wizard-steps" style="display:none">
+          <div class="step-dot active" id="dot1">1</div>
+          <div class="step-line" id="line1"></div>
+          <div class="step-dot" id="dot2">2</div>
+          <div class="step-line" id="line2"></div>
+          <div class="step-dot" id="dot3">3</div>
         </div>
 
-        <div class="card">
-          <span class="label">Trend Value</span>
-          <h3>21.19% CAGR</h3>
-          <p>Undervalued companies combined with momentum. Rebalance once a year. Fully systematic.</p>
-          <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-            <span class="tag">Annual Rebalance</span>
-            <span class="tag">Value + Momentum</span>
+        <!-- Step 1: Strategy Cards -->
+        <div class="wizard-panel active" id="step1">
+          <div class="cards-grid">
+            <div class="card">
+              <span class="label">Value Strategy</span>
+              <h3>18.61% CAGR</h3>
+              <p>Buy undervalued stocks based on fundamental metrics. Rebalance once a year. Fully systematic.</p>
+              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+                <span class="tag">Annual Rebalance</span>
+                <span class="tag">Undervalued Companies</span>
+              </div>
+              <a class="btn" style="margin-top:24px;cursor:pointer" onclick="selectStrategy('value')">Invest &rarr;</a>
+            </div>
+            <div class="card">
+              <span class="label">Trend Value</span>
+              <h3>21.19% CAGR</h3>
+              <p>Undervalued companies combined with momentum. Rebalance once a year. Fully systematic.</p>
+              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+                <span class="tag">Annual Rebalance</span>
+                <span class="tag">Value + Momentum</span>
+              </div>
+              <a class="btn" style="margin-top:24px;cursor:pointer" onclick="selectStrategy('trend')">Invest &rarr;</a>
+            </div>
           </div>
-          <a href="#" class="btn" style="margin-top:24px">Invest &rarr;</a>
+          <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Returns based on backtested data from <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy (1964&ndash;2009). Past performance does not guarantee future results.</p>
+        </div>
+
+        <!-- Step 2: Geography -->
+        <div class="wizard-panel" id="step2">
+          <button class="back-btn" onclick="goToStep(1)">&larr; Back</button>
+          <div class="wizard-title">Step 2</div>
+          <div class="wizard-question"><h2>Choose your geography</h2></div>
+          <div class="options">
+            <div class="geo-btn" onclick="selectGeo('USA')">USA</div>
+            <div class="geo-btn" onclick="selectGeo('Global')">Global</div>
+            <div class="geo-btn" onclick="selectGeo('Europe')">Europe</div>
+            <div class="geo-btn" onclick="selectGeo('Asia')">Asia</div>
+            <div class="geo-btn" onclick="selectGeo('Emerging')">Emerging Markets</div>
+          </div>
+        </div>
+
+        <!-- Step 3: Output -->
+        <div class="wizard-panel" id="step3">
+          <button class="back-btn" onclick="goToStep(2)">&larr; Back</button>
+
+          <div class="output-header">
+            <div>
+              <h2 id="output-title"></h2>
+              <div class="output-meta" id="output-meta"></div>
+            </div>
+            <div class="output-actions">
+              <button class="action-btn" onclick="randomPortfolio()">Random Portfolio</button>
+              <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
+            </div>
+          </div>
+
+          <!-- Rules -->
+          <div class="rules-box" id="rules-box"></div>
+
+          <!-- Table -->
+          <div style="overflow-x:auto">
+            <table class="stock-table">
+              <thead id="table-head"></thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+
+          <p style="font-size:0.75rem;color:#555;text-align:center;max-width:100%;margin-top:24px">
+            Returns based on backtested data from <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy (1964&ndash;2009). Past performance does not guarantee future results. Not financial advice.
+          </p>
         </div>
 
       </div>
-
-      <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Returns based on backtested data from <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy (1964&ndash;2009). Past performance does not guarantee future results.</p>
     </div>
   </section>
 
@@ -96,6 +277,155 @@
     </div>
     <p class="footer-disclaimer">Not financial advice. Past performance does not guarantee future results. &copy; 2026 Riding to Wealth</p>
   </footer>
+
+  <script>
+    let wizardData = null;
+    let selectedStrategy = '';
+    let selectedGeo = '';
+
+    // Load data
+    fetch('wizard-data.json')
+      .then(r => r.json())
+      .then(d => { wizardData = d; })
+      .catch(() => { console.error('Failed to load wizard-data.json'); });
+
+    function goToStep(n) {
+      document.querySelectorAll('.wizard-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('step' + n).classList.add('active');
+
+      // Show/hide progress dots
+      document.getElementById('wizard-steps').style.display = n === 1 ? 'none' : 'flex';
+
+      // Update dots
+      for (let i = 1; i <= 3; i++) {
+        const dot = document.getElementById('dot' + i);
+        dot.classList.remove('active', 'done');
+        if (i < n) dot.classList.add('done');
+        else if (i === n) dot.classList.add('active');
+      }
+      document.getElementById('line1').classList.toggle('active', n >= 2);
+      document.getElementById('line2').classList.toggle('active', n >= 3);
+
+      window.scrollTo({ top: document.getElementById('wizard').offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function selectStrategy(s) {
+      selectedStrategy = s;
+      // Highlight selected
+      document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      setTimeout(() => goToStep(2), 200);
+    }
+
+    function selectGeo(g) {
+      selectedGeo = g;
+      document.querySelectorAll('.geo-btn').forEach(b => b.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      setTimeout(() => showOutput(), 200);
+    }
+
+    function showOutput(isRandom) {
+      if (!wizardData) return;
+
+      const stratLabel = selectedStrategy === 'value' ? 'Value' : 'Trend Value';
+      const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
+      const title = isRandom
+        ? `Random Portfolio — ${geoLabel}`
+        : `${stratLabel} — ${geoLabel}`;
+
+      document.getElementById('output-title').textContent = title;
+      document.getElementById('output-meta').textContent =
+        `25 stocks · Equal weight (4.0% each) · Data: ${wizardData.date}`;
+
+      // Rules
+      const rulesBox = document.getElementById('rules-box');
+      if (isRandom) {
+        rulesBox.innerHTML = `
+          <h3>Random Portfolio Rules</h3>
+          <ol>
+            <li>From the ${geoLabel} universe, randomly select 25 stocks</li>
+            <li>Equal weight each position at 4.0%</li>
+            <li>This is a benchmark — compare against the systematic strategies</li>
+          </ol>`;
+      } else if (selectedStrategy === 'value') {
+        rulesBox.innerHTML = `
+          <h3>Value Strategy Rules</h3>
+          <ol>
+            <li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li>
+            <li>Combine the percentile ranks into a composite Value Score (VC2)</li>
+            <li>Select the 25 cheapest stocks by VC2</li>
+            <li>Equal weight each position at 4.0%</li>
+            <li>Rebalance annually</li>
+          </ol>`;
+      } else {
+        rulesBox.innerHTML = `
+          <h3>Trend Value Strategy Rules</h3>
+          <ol>
+            <li>Start with the Value strategy: rank the ${geoLabel} universe using 6 value metrics</li>
+            <li>Identify the cheapest 10% of stocks (Decile 1 by VC2 score)</li>
+            <li>Within that cheapest 10%, rank by 6-month price momentum</li>
+            <li>Select the top 25 stocks with the strongest momentum</li>
+            <li>Equal weight each position at 4.0%</li>
+            <li>Rebalance annually</li>
+          </ol>`;
+      }
+
+      // Table
+      const thead = document.getElementById('table-head');
+      const tbody = document.getElementById('table-body');
+
+      if (isRandom) {
+        // Random: pick 25 from value universe (larger pool)
+        const pool = wizardData.value[selectedGeo] || [];
+        const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 25);
+        thead.innerHTML = '<tr><th>#</th><th>Ticker</th><th class="r">Weight</th></tr>';
+        tbody.innerHTML = shuffled.map((s, i) =>
+          `<tr><td>${i+1}</td><td class="ticker">${s[0]}</td><td class="r weight-col">4.0%</td></tr>`
+        ).join('');
+      } else if (selectedStrategy === 'value') {
+        const stocks = (wizardData.value[selectedGeo] || []).slice(0, 25);
+        thead.innerHTML = `<tr>
+          <th>#</th><th>Ticker</th>
+          <th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th>
+          <th class="r">P/CF</th><th class="r">EV/EBITDA</th>
+          <th class="r">SH Yield %</th><th class="r">VC2</th><th class="r">Weight</th>
+        </tr>`;
+        tbody.innerHTML = stocks.map((s, i) =>
+          `<tr>
+            <td>${i+1}</td><td class="ticker">${s[0]}</td>
+            <td class="r">${s[1] != null ? s[1].toFixed(1) : '—'}</td>
+            <td class="r">${s[2] != null ? s[2].toFixed(2) : '—'}</td>
+            <td class="r">${s[3] != null ? s[3].toFixed(2) : '—'}</td>
+            <td class="r">${s[4] != null ? s[4].toFixed(1) : '—'}</td>
+            <td class="r">${s[5] != null ? s[5].toFixed(1) : '—'}</td>
+            <td class="r">${s[6] != null ? s[6].toFixed(1) : '—'}</td>
+            <td class="r">${s[7] != null ? s[7].toFixed(2) : '—'}</td>
+            <td class="r weight-col">4.0%</td>
+          </tr>`
+        ).join('');
+      } else {
+        const stocks = (wizardData.trend[selectedGeo] || []).slice(0, 25);
+        thead.innerHTML = `<tr>
+          <th>#</th><th>Ticker</th>
+          <th class="r">Momentum 6M %</th><th class="r">VC2</th><th class="r">Weight</th>
+        </tr>`;
+        tbody.innerHTML = stocks.map((s, i) =>
+          `<tr>
+            <td>${i+1}</td><td class="ticker">${s[0]}</td>
+            <td class="r">${s[1] != null ? s[1].toFixed(1) : '—'}</td>
+            <td class="r">${s[2] != null ? s[2].toFixed(2) : '—'}</td>
+            <td class="r weight-col">4.0%</td>
+          </tr>`
+        ).join('');
+      }
+
+      goToStep(3);
+    }
+
+    function randomPortfolio() {
+      showOutput(true);
+    }
+  </script>
 
 </body>
 </html>
