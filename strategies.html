@@ -225,7 +225,7 @@
           <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Backtests conducted on US market data, spanning 20 to 40+ years, where historical records are deepest. Results are independently verified by my own analysis and align with findings published in <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">* See Research</a></p>
         </div>
 
-        <!-- Step 2: Geography -->
+        <!-- Step 2: Geography + Market Cap -->
         <div class="wizard-panel" id="step2">
           <button class="back-btn" onclick="goToStep(1)">&larr; Back</button>
           <div class="wizard-title">Step 2</div>
@@ -236,6 +236,20 @@
             <div class="geo-btn" onclick="selectGeo('Europe')">Europe</div>
             <div class="geo-btn" onclick="selectGeo('Asia')">Asia</div>
             <div class="geo-btn" onclick="selectGeo('Emerging')">Emerging Markets</div>
+          </div>
+          <div style="margin-top:32px;text-align:center">
+            <label style="display:inline-flex;align-items:center;gap:10px;font-size:0.85rem;color:#888">
+              Min. Market Cap:
+              <select id="mktcap-filter" style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:#fff;font-size:0.85rem">
+                <option value="0">All</option>
+                <option value="200">$200M+</option>
+                <option value="500">$500M+</option>
+                <option value="1000">$1B+</option>
+                <option value="2000">$2B+</option>
+                <option value="5000">$5B+</option>
+                <option value="10000">$10B+</option>
+              </select>
+            </label>
           </div>
         </div>
 
@@ -316,7 +330,15 @@
     let selectedStrategy = '';
     let selectedGeo = '';
 
-    // Load data
+    // Default market cap by strategy (in $M)
+    const defaultMktCap = { value: 200, trend: 200, momentum: 10000 };
+
+    // Data indices — mktcap is always index 1
+    // value:    [ticker, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
+    // trend:    [ticker, mktcap, mom6m, vc2]
+    // momentum: [ticker, mktcap, mom12m, mom6m, intmom]
+    const MKTCAP_IDX = 1;
+
     fetch('wizard-data.json')
       .then(r => r.json())
       .then(d => { wizardData = d; })
@@ -325,11 +347,7 @@
     function goToStep(n) {
       document.querySelectorAll('.wizard-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('step' + n).classList.add('active');
-
-      // Show/hide progress dots
       document.getElementById('wizard-steps').style.display = n === 1 ? 'none' : 'flex';
-
-      // Update dots
       for (let i = 1; i <= 3; i++) {
         const dot = document.getElementById('dot' + i);
         dot.classList.remove('active', 'done');
@@ -338,15 +356,17 @@
       }
       document.getElementById('line1').classList.toggle('active', n >= 2);
       document.getElementById('line2').classList.toggle('active', n >= 3);
-
       window.scrollTo({ top: document.getElementById('wizard').offsetTop - 100, behavior: 'smooth' });
     }
 
     function selectStrategy(s) {
       selectedStrategy = s;
-      // Highlight selected
       document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
       event.currentTarget.classList.add('selected');
+      // Set default market cap for this strategy
+      const sel = document.getElementById('mktcap-filter');
+      const def = defaultMktCap[s] || 0;
+      for (let o of sel.options) { o.selected = parseInt(o.value) === def; }
       setTimeout(() => goToStep(2), 200);
     }
 
@@ -357,6 +377,16 @@
       setTimeout(() => showOutput(), 200);
     }
 
+    function getFilteredStocks() {
+      if (!wizardData) return [];
+      const sourceKey = selectedStrategy === 'value' ? 'value' : selectedStrategy === 'momentum' ? 'momentum' : 'trend';
+      const source = wizardData[sourceKey] || {};
+      const raw = source[selectedGeo] || [];
+      const minCap = parseInt(document.getElementById('mktcap-filter').value) || 0;
+      if (minCap === 0) return raw;
+      return raw.filter(s => s[MKTCAP_IDX] != null && s[MKTCAP_IDX] >= minCap);
+    }
+
     function showOutput(randomCount) {
       if (!wizardData) return;
 
@@ -364,11 +394,13 @@
       const stratLabels = { value: 'Value', trend: 'Momentum + Value', momentum: 'Momentum' };
       const stratLabel = stratLabels[selectedStrategy] || selectedStrategy;
       const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
-      const sourceKey = selectedStrategy === 'value' ? 'value' : selectedStrategy === 'momentum' ? 'momentum' : 'trend';
-      const source = wizardData[sourceKey] || {};
-      const allStocks = source[selectedGeo] || [];
-      const count = isRandom ? randomCount : 25;
-      const weight = (100 / count).toFixed(1);
+
+      const filtered = getFilteredStocks();
+      const count = isRandom ? Math.min(randomCount, filtered.length) : Math.min(25, filtered.length);
+      const weight = count > 0 ? (100 / count).toFixed(1) : '0';
+
+      const minCap = parseInt(document.getElementById('mktcap-filter').value) || 0;
+      const capLabel = minCap > 0 ? ` · Min $${minCap >= 1000 ? (minCap/1000)+'B' : minCap+'M'}` : '';
 
       const title = isRandom
         ? `Random Selection — ${stratLabel} ${geoLabel}`
@@ -376,7 +408,7 @@
 
       document.getElementById('output-title').textContent = title;
       document.getElementById('output-meta').textContent =
-        `${count} stocks · Equal weight (${weight}% each) · Data: ${wizardData.date}`;
+        `${count} stocks · Equal weight (${weight}% each)${capLabel} · Data: ${wizardData.date}`;
 
       // Rules
       const rulesBox = document.getElementById('rules-box');
@@ -386,31 +418,34 @@
           <h3>Value Strategy Rules</h3>
           <ol>
             <li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li>
+            <li>Exclude financial sector stocks (P/B and EV/EBITDA are not meaningful for financials)</li>
+            <li>Exclude stocks without positive earnings</li>
             <li>Combine the percentile ranks into a composite Value Score</li>
-            <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked from top 25)' : ''}</li>
+            <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
             ${recommendTip}
           </ol>`;
       } else if (selectedStrategy === 'momentum') {
         rulesBox.innerHTML = `
-          <h3>Momentum Strategy Rules</h3>
+          <h3>Intermediate Momentum Strategy Rules</h3>
           <ol>
             <li>Take the ${geoLabel} universe of stocks</li>
-            <li>Rank all stocks by their return over months 7&ndash;12 (ignoring the most recent 6 months)</li>
-            <li>Select the top ${count} stocks with the strongest intermediate momentum${isRandom ? ' (randomly picked from top 25)' : ''}</li>
+            <li>Calculate intermediate momentum: 12-month return minus 6-month return (months 7&ndash;12)</li>
+            <li>Select the top ${count} stocks with the strongest intermediate momentum${isRandom ? ' (randomly picked)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
             ${recommendTip}
           </ol>`;
       } else {
         rulesBox.innerHTML = `
-          <h3>Momentum + Value Strategy Rules</h3>
+          <h3>Trending Value Strategy Rules</h3>
           <ol>
             <li>Start with the Value strategy: rank the ${geoLabel} universe using 6 value metrics</li>
+            <li>Exclude financial sector stocks and stocks without positive earnings</li>
             <li>Identify the cheapest 10% of stocks based on the composite Value Score</li>
             <li>Within that cheapest 10%, rank by 6-month price momentum</li>
-            <li>Select the top ${count} stocks with the strongest momentum${isRandom ? ' (randomly picked from top 25)' : ''}</li>
+            <li>Select the top ${count} stocks with the strongest momentum${isRandom ? ' (randomly picked)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
             <li>Rebalance annually</li>
             ${recommendTip}
@@ -422,15 +457,16 @@
       const tbody = document.getElementById('table-body');
 
       let stocks = isRandom
-        ? [...allStocks].sort(() => Math.random() - 0.5).slice(0, count)
-        : allStocks.slice(0, 25);
+        ? [...filtered].sort(() => Math.random() - 0.5).slice(0, count)
+        : filtered.slice(0, 25);
 
       if (stocks.length === 0) {
         thead.innerHTML = '';
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">Data coming soon. Check back after the next update.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">No stocks match this filter. Try lowering the market cap threshold.</td></tr>`;
       } else if (selectedStrategy === 'value') {
+        // [ticker, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
         thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th>
+          <th>#</th><th>Ticker</th><th class="r">Mkt Cap</th>
           <th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th>
           <th class="r">P/CF</th><th class="r">EV/EBITDA</th>
           <th class="r">SH Yield %</th><th class="r">Weight</th>
@@ -438,30 +474,57 @@
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
             <td>${i+1}</td><td class="ticker">${s[0]}</td>
-            <td class="r">${s[1] != null ? s[1].toFixed(1) : '—'}</td>
-            <td class="r">${s[2] != null ? s[2].toFixed(2) : '—'}</td>
-            <td class="r">${s[3] != null ? s[3].toFixed(2) : '—'}</td>
-            <td class="r">${s[4] != null ? s[4].toFixed(1) : '—'}</td>
-            <td class="r">${s[5] != null ? s[5].toFixed(1) : '—'}</td>
-            <td class="r">${s[6] != null ? s[6].toFixed(1) : '—'}</td>
+            <td class="r">${fmtCap(s[1])}</td>
+            <td class="r">${fmt(s[2],1)}</td>
+            <td class="r">${fmt(s[3],2)}</td>
+            <td class="r">${fmt(s[4],2)}</td>
+            <td class="r">${fmt(s[5],1)}</td>
+            <td class="r">${fmt(s[6],1)}</td>
+            <td class="r">${fmt(s[7],1)}</td>
             <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
-      } else {
+      } else if (selectedStrategy === 'momentum') {
+        // [ticker, mktcap, mom12m, mom6m, intmom]
         thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th>
-          <th class="r">Momentum %</th><th class="r">Weight</th>
+          <th>#</th><th>Ticker</th><th class="r">Mkt Cap</th>
+          <th class="r">12M %</th><th class="r">6M %</th>
+          <th class="r">Int. Mom %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
             <td>${i+1}</td><td class="ticker">${s[0]}</td>
-            <td class="r">${s[1] != null ? s[1].toFixed(1) : '—'}</td>
+            <td class="r">${fmtCap(s[1])}</td>
+            <td class="r">${fmt(s[2],1)}</td>
+            <td class="r">${fmt(s[3],1)}</td>
+            <td class="r">${fmt(s[4],1)}</td>
+            <td class="r weight-col">${weight}%</td>
+          </tr>`
+        ).join('');
+      } else {
+        // trend: [ticker, mktcap, mom6m, vc2]
+        thead.innerHTML = `<tr>
+          <th>#</th><th>Ticker</th><th class="r">Mkt Cap</th>
+          <th class="r">Momentum 6M %</th><th class="r">Weight</th>
+        </tr>`;
+        tbody.innerHTML = stocks.map((s, i) =>
+          `<tr>
+            <td>${i+1}</td><td class="ticker">${s[0]}</td>
+            <td class="r">${fmtCap(s[1])}</td>
+            <td class="r">${fmt(s[2],1)}</td>
             <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
       }
 
       goToStep(3);
+    }
+
+    function fmt(v, d) { return v != null ? v.toFixed(d) : '—'; }
+    function fmtCap(v) {
+      if (v == null) return '—';
+      if (v >= 1000) return '$' + (v/1000).toFixed(1) + 'B';
+      return '$' + v + 'M';
     }
 
     function randomSelect() {
