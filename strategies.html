@@ -419,7 +419,7 @@
           <ol>
             <li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li>
             <li>Exclude financial sector stocks (P/B and EV/EBITDA are not meaningful for financials)</li>
-            <li>Exclude stocks without positive earnings</li>
+            <li>Exclude stocks with negative earnings</li>
             <li>Combine the percentile ranks into a composite Value Score</li>
             <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked)' : ''}</li>
             <li>Equal weight each position at ${weight}%</li>
