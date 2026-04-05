@@ -134,6 +134,35 @@
     .wizard-panel { display: none; }
     .wizard-panel.active { display: block; }
 
+    /* Loading state */
+    .loading-overlay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+      gap: 20px;
+    }
+    .loading-spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+    .loading-sub {
+      font-size: 0.7rem;
+      color: #444;
+      letter-spacing: 0.04em;
+      margin-top: -12px;
+    }
+
     @media (max-width: 600px) {
       .opt-btn { min-width: 100%; }
       .geo-btn { min-width: calc(50% - 8px); text-align: center; }
@@ -333,11 +362,12 @@
     // Default market cap by strategy (in $M)
     const defaultMktCap = { value: 200, trend: 200, momentum: 10000 };
 
-    // Data indices — mktcap is always index 1
-    // value:    [ticker, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
-    // trend:    [ticker, mktcap, mom6m, vc2]
-    // momentum: [ticker, mktcap, mom12m, mom6m, intmom]
-    const MKTCAP_IDX = 1;
+    // Data indices — name is index 1, mktcap is index 2
+    // value:    [ticker, name, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
+    // trend:    [ticker, name, mktcap, mom6m, vc2]
+    // momentum: [ticker, name, mktcap, mom12m, mom6m, intmom]
+    const NAME_IDX = 1;
+    const MKTCAP_IDX = 2;
 
     fetch('wizard-data.json')
       .then(r => r.json())
@@ -374,7 +404,55 @@
       selectedGeo = g;
       document.querySelectorAll('.geo-btn').forEach(b => b.classList.remove('selected'));
       event.currentTarget.classList.add('selected');
-      setTimeout(() => showOutput(), 200);
+      setTimeout(() => showLoading(), 200);
+    }
+
+    function showLoading() {
+      const stratLabels = { value: 'Value', trend: 'Trending Value', momentum: 'Momentum' };
+      const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
+      const panel = document.getElementById('step3');
+      panel.innerHTML = `
+        <div class="loading-overlay">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Screening ${geoLabel} universe...</div>
+          <div class="loading-sub">Applying ${stratLabels[selectedStrategy]} filters</div>
+        </div>`;
+      goToStep(3);
+      setTimeout(() => rebuildStep3(), 1400);
+    }
+
+    function rebuildStep3() {
+      const panel = document.getElementById('step3');
+      panel.innerHTML = `
+        <button class="back-btn" onclick="goToStep(2)">&larr; Back</button>
+        <div class="output-header">
+          <div>
+            <h2 id="output-title"></h2>
+            <div class="output-meta" id="output-meta"></div>
+          </div>
+          <div class="output-actions">
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
+              Stocks:
+              <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
+            </label>
+            <button class="action-btn" onclick="randomSelect()">Random Selector</button>
+            <button class="action-btn" onclick="exportCSV()">Export CSV</button>
+            <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
+          </div>
+        </div>
+        <div class="rules-box" id="rules-box"></div>
+        <div style="overflow-x:auto">
+          <table class="stock-table">
+            <thead id="table-head"></thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
+          <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
+            Backtests are based on US market data, spanning 20 to 40+ years, where historical coverage is most reliable. All strategies have been independently tested by me and validated against published sources, including <em>What Works on Wall Street</em> by James O&rsquo;Shaughnessy. Past performance does not guarantee future results. Not financial advice. <a href="research.html" style="color:var(--accent)">* See Research &rarr;</a>
+          </p>
+        </div>`;
+      showOutput();
     }
 
     function getFilteredStocks() {
@@ -464,54 +542,54 @@
         thead.innerHTML = '';
         tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">No stocks match this filter. Try lowering the market cap threshold.</td></tr>`;
       } else if (selectedStrategy === 'value') {
-        // [ticker, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
+        // [ticker, name, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
         thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th><th class="r">Mkt Cap</th>
+          <th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th>
           <th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th>
           <th class="r">P/CF</th><th class="r">EV/EBITDA</th>
           <th class="r">SH Yield %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
-            <td>${i+1}</td><td class="ticker">${s[0]}</td>
-            <td class="r">${fmtCap(s[1])}</td>
-            <td class="r">${fmt(s[2],1)}</td>
-            <td class="r">${fmt(s[3],2)}</td>
+            <td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td>
+            <td class="r">${fmtCap(s[2])}</td>
+            <td class="r">${fmt(s[3],1)}</td>
             <td class="r">${fmt(s[4],2)}</td>
-            <td class="r">${fmt(s[5],1)}</td>
+            <td class="r">${fmt(s[5],2)}</td>
             <td class="r">${fmt(s[6],1)}</td>
             <td class="r">${fmt(s[7],1)}</td>
+            <td class="r">${fmt(s[8],1)}</td>
             <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
       } else if (selectedStrategy === 'momentum') {
-        // [ticker, mktcap, mom12m, mom6m, intmom]
+        // [ticker, name, mktcap, mom12m, mom6m, intmom]
         thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th><th class="r">Mkt Cap</th>
+          <th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th>
           <th class="r">12M %</th><th class="r">6M %</th>
           <th class="r">Int. Mom %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
-            <td>${i+1}</td><td class="ticker">${s[0]}</td>
-            <td class="r">${fmtCap(s[1])}</td>
-            <td class="r">${fmt(s[2],1)}</td>
+            <td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td>
+            <td class="r">${fmtCap(s[2])}</td>
             <td class="r">${fmt(s[3],1)}</td>
             <td class="r">${fmt(s[4],1)}</td>
+            <td class="r">${fmt(s[5],1)}</td>
             <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
       } else {
-        // trend: [ticker, mktcap, mom6m, vc2]
+        // trend: [ticker, name, mktcap, mom6m, vc2]
         thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th><th class="r">Mkt Cap</th>
+          <th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th>
           <th class="r">Momentum 6M %</th><th class="r">Weight</th>
         </tr>`;
         tbody.innerHTML = stocks.map((s, i) =>
           `<tr>
-            <td>${i+1}</td><td class="ticker">${s[0]}</td>
-            <td class="r">${fmtCap(s[1])}</td>
-            <td class="r">${fmt(s[2],1)}</td>
+            <td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td>
+            <td class="r">${fmtCap(s[2])}</td>
+            <td class="r">${fmt(s[3],1)}</td>
             <td class="r weight-col">${weight}%</td>
           </tr>`
         ).join('');
