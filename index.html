@@ -49,6 +49,25 @@
     <p style="margin-top:16px;color:#ccc">Three strategies averaging <strong style="color:#fff">20.5% CAGR</strong> vs the S&amp;P 500's ~10.9%.</p>
   </header>
 
+  <!-- Growth Chart -->
+  <section class="section" style="padding:48px 0">
+    <div class="container" style="max-width:800px">
+      <div style="text-align:center;margin-bottom:24px">
+        <span class="sublabel">20 Years &middot; 2006&ndash;2025</span>
+        <h2 style="margin:12px 0 8px">$100,000 invested in 2006</h2>
+        <p style="margin:0 auto">This is what 21.7% CAGR looks like.</p>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px 28px 20px">
+        <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR &mdash; $5.05M (50.5x)</span>
+          <span style="font-size:0.72rem;color:#888">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K (7.5x)</span>
+        </div>
+        <canvas id="homeChart" style="width:100%;height:220px"></canvas>
+      </div>
+      <p style="margin:16px auto 0;font-size:0.78rem;color:#444;text-align:center;max-width:100%">Based on 20-year backtest. I run all three strategies with real capital. <a href="strategies.html" style="color:var(--accent)">See methodology &rarr;</a></p>
+    </div>
+  </section>
+
   <!-- Strategy Cards -->
   <section class="section">
     <div class="container">
@@ -76,25 +95,6 @@
         </a>
 
       </div>
-    </div>
-  </section>
-
-  <!-- Growth Chart -->
-  <section class="section" style="padding:48px 0">
-    <div class="container" style="max-width:800px">
-      <div style="text-align:center;margin-bottom:24px">
-        <span class="sublabel">20 Years &middot; 2006&ndash;2025</span>
-        <h2 style="margin:12px 0 8px">$100,000 invested in 2006</h2>
-        <p style="margin:0 auto">This is what 21.7% CAGR looks like.</p>
-      </div>
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px 28px 20px">
-        <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
-          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR &mdash; $5.05M (50.5x)</span>
-          <span style="font-size:0.72rem;color:#888">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K (7.5x)</span>
-        </div>
-        <canvas id="homeChart" style="width:100%;height:220px"></canvas>
-      </div>
-      <p style="margin:16px auto 0;font-size:0.78rem;color:#444;text-align:center;max-width:100%">Based on 20-year backtest. I run all three strategies with real capital. <a href="strategies.html" style="color:var(--accent)">See methodology &rarr;</a></p>
     </div>
   </section>
 
