@@ -223,7 +223,7 @@
       </div>
 
       <!-- Key Stats -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:32px">
+      <div class="grid-4-responsive" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:32px">
         <div style="background:var(--bg-card);padding:20px;text-align:center">
           <div style="font-size:1.6rem;font-weight:700;color:#4ade80">$505K</div>
           <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Momentum</div>
@@ -243,7 +243,7 @@
       </div>
 
       <!-- How It Works -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:48px">
+      <div class="grid-3-responsive" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:48px">
         <div>
           <div style="font-size:1.8rem;font-weight:700;color:var(--accent);margin-bottom:8px">01</div>
           <h3 style="font-size:0.95rem;margin-bottom:6px">Screen the universe</h3>
@@ -301,7 +301,7 @@
         <p>Based on <strong style="color:#fff">Novy-Marx (2012)</strong> academic research. Instead of looking at recent returns (which tend to reverse), this strategy uses returns from months 7&ndash;12 &mdash; the &ldquo;intermediate&rdquo; momentum window that has been shown to persist.</p>
         <p>Calculate: 12-month return minus 6-month return. Buy the top 25 stocks. Rebalance annually.</p>
         <p>Unlike value strategies, momentum historically performs better on larger, more liquid stocks. <strong style="color:#fff">$2B+ market cap</strong> tends to deliver the best risk-adjusted returns, closely matching the S&amp;P 500 universe where the original research was conducted.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:20px 0">
+        <div class="grid-3-responsive" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:20px 0">
           <div style="background:var(--bg-card);padding:16px;text-align:center">
             <div style="font-size:1.2rem;font-weight:700;color:#4ade80">$505K</div>
             <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:2px">$10K &rarr; 20 years</div>
@@ -346,7 +346,7 @@
           <div style="text-align:center;margin-bottom:40px">
             <p style="font-size:1.05rem;color:#ccc;max-width:640px;margin:0 auto 12px">Three systematic strategies averaging <strong style="color:#fff">20.5% CAGR</strong> vs the S&amp;P 500's ~10.9%. No discretionary calls. No simulations. Just rules, data, and rebalances.</p>
           </div>
-          <div class="cards-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="cards-grid cards-3">
             <div class="card">
               <span class="label">Value Strategy</span>
               <h3>18.61% CAGR</h3>
@@ -771,7 +771,7 @@
       // Data: yearly equity values starting from $10,000
       const years = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
       // Momentum annual returns
-      const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,20.0,40.16,6.93,3.14,35.47,42.07];
+      const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,65.8,40.16,6.93,3.14,35.47,42.07];
       // S&P 500 annual returns
       const spR = [15.81,5.17,-36.97,26.70,15.06,1.79,15.90,32.53,13.45,1.19,12.00,21.83,-4.38,31.49,18.40,28.71,-18.11,26.29,25.02,10.00];
       function buildEquity(returns) {
@@ -823,16 +823,17 @@
       ctx.fillText(2025, x(years.length), H - 8);
 
       // Lines
-      drawLine(spEq, '#333', 1.5);
+      drawLine(spEq, '#555', 2);
       drawLine(momEq, '#4ade80', 2.5);
 
-      // End labels
-      ctx.font = 'bold 11px Inter, sans-serif';
+      const momFinal = momEq[momEq.length-1], spFinal = spEq[spEq.length-1];
+      const momX = (momFinal/10000).toFixed(1), spX = (spFinal/10000).toFixed(1);
+      ctx.font = 'bold 12px Inter, sans-serif';
       ctx.textAlign = 'left';
       ctx.fillStyle = '#4ade80';
-      ctx.fillText('$' + Math.round(momEq[momEq.length-1]/1000) + 'K', x(years.length) + 4, y(momEq[momEq.length-1]) - 6);
-      ctx.fillStyle = '#666';
-      ctx.fillText('$' + Math.round(spEq[spEq.length-1]/1000) + 'K', x(years.length) + 4, y(spEq[spEq.length-1]) + 14);
+      ctx.fillText('$'+Math.round(momFinal/1000)+'K ('+momX+'x)', x(years.length)+4, y(momFinal)-8);
+      ctx.fillStyle = '#aaa';
+      ctx.fillText('$'+Math.round(spFinal/1000)+'K ('+spX+'x)', x(years.length)+4, y(spFinal)+16);
     })();
   </script>
 

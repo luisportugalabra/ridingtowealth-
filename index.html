@@ -47,7 +47,7 @@
   <!-- Strategy Cards -->
   <section class="section">
     <div class="container">
-      <div class="cards-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cards-grid cards-3">
 
         <a href="strategies.html" class="card" style="text-decoration:none;cursor:pointer">
           <span class="label">Value Strategy</span>
@@ -95,7 +95,7 @@
 
   <!-- Portfolio -->
   <section style="padding:48px 0;background:var(--bg-elevated);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
+    <div class="container portfolio-row" style="display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
       <div style="max-width:520px">
         <span class="sublabel">Or follow my picks</span>
         <h2 style="margin:12px 0 12px">Active Portfolio</h2>
@@ -168,7 +168,7 @@
     const pad = { t: 10, r: 55, b: 28, l: 10 };
 
     const years = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
-    const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,20.0,40.16,6.93,3.14,35.47,42.07];
+    const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,65.8,40.16,6.93,3.14,35.47,42.07];
     const spR = [15.81,5.17,-36.97,26.70,15.06,1.79,15.90,32.53,13.45,1.19,12.00,21.83,-4.38,31.49,18.40,28.71,-18.11,26.29,25.02,10.00];
 
     function buildEquity(r) { let e=[10000]; for(let x of r) e.push(e[e.length-1]*(1+x/100)); return e; }
@@ -187,12 +187,14 @@
     years.forEach((yr,i)=>{if(i%4===0)ctx.fillText(yr,x(i),H-8);});
     ctx.fillText(2025,x(years.length),H-8);
 
-    draw(spEq,'#333',1.5);
+    draw(spEq,'#555',2);
     draw(momEq,'#4ade80',2.5);
 
-    ctx.font='bold 11px Inter,sans-serif';ctx.textAlign='left';
-    ctx.fillStyle='#4ade80';ctx.fillText('$'+Math.round(momEq[momEq.length-1]/1000)+'K',x(years.length)+4,y(momEq[momEq.length-1])-6);
-    ctx.fillStyle='#666';ctx.fillText('$'+Math.round(spEq[spEq.length-1]/1000)+'K',x(years.length)+4,y(spEq[spEq.length-1])+14);
+    const momFinal = momEq[momEq.length-1], spFinal = spEq[spEq.length-1];
+    const momX = (momFinal/10000).toFixed(1), spX = (spFinal/10000).toFixed(1);
+    ctx.font='bold 12px Inter,sans-serif';ctx.textAlign='left';
+    ctx.fillStyle='#4ade80';ctx.fillText('$'+Math.round(momFinal/1000)+'K ('+momX+'x)',x(years.length)+4,y(momFinal)-8);
+    ctx.fillStyle='#aaa';ctx.fillText('$'+Math.round(spFinal/1000)+'K ('+spX+'x)',x(years.length)+4,y(spFinal)+16);
   })();
   </script>
 

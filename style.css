@@ -136,6 +136,7 @@ p { color: #aaa; font-size: 1rem; max-width: 640px; }
 .card-link:hover, .card:hover .card-link { color: #2d7a4f; }
 
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.cards-3 { grid-template-columns: repeat(3, 1fr); }
 
 /* --- Quote / Philosophy --- */
 .quote-block {
@@ -605,7 +606,10 @@ tbody tr:hover { background: var(--bg-elevated); }
   .feature-list { grid-template-columns: 1fr; }
   .footer { padding: 32px 20px; flex-direction: column; text-align: center; }
   .footer-links { justify-content: center; }
-  .cards-grid { grid-template-columns: 1fr; }
+  .cards-grid, .cards-3 { grid-template-columns: 1fr !important; }
+  .grid-3-responsive { grid-template-columns: 1fr !important; }
+  .grid-4-responsive { grid-template-columns: repeat(2, 1fr) !important; }
+  .portfolio-row { flex-direction: column; text-align: center; }
   .card { padding: 28px; }
   .subscribe-form { flex-direction: column; }
   .subscribe-form input[type="email"] { border-right: 1px solid var(--border); border-radius: 6px; }
