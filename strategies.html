@@ -216,8 +216,8 @@
           <span style="font-size:0.7rem;color:#555;letter-spacing:0.08em">20-YEAR BACKTEST</span>
         </div>
         <div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap">
-          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR</span>
-          <span style="font-size:0.72rem;color:#555">&#9679; S&amp;P 500 ~10.9% CAGR</span>
+          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR &mdash; $5.05M (50.5x)</span>
+          <span style="font-size:0.72rem;color:#888">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K (7.5x)</span>
         </div>
         <canvas id="growthChart" style="width:100%;height:220px"></canvas>
       </div>
@@ -229,7 +229,7 @@
           <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Momentum</div>
         </div>
         <div style="background:var(--bg-card);padding:20px;text-align:center">
-          <div style="font-size:1.6rem;font-weight:700;color:#fff">$795K</div>
+          <div style="font-size:1.6rem;font-weight:700;color:#fff">$747K</div>
           <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">S&amp;P 500</div>
         </div>
         <div style="background:var(--bg-card);padding:20px;text-align:center">
@@ -769,8 +769,7 @@
       canvas.height = H * dpr;
       ctx.scale(dpr, dpr);
 
-      const isMobile = W < 500;
-      const pad = { t: 10, r: isMobile ? 8 : 110, b: 28, l: 10 };
+      const pad = { t: 20, r: 10, b: 28, l: 10 };
 
       const years = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
       const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,65.8,40.16,6.93,3.14,35.47,42.07];
@@ -779,39 +778,32 @@
       function buildEquity(r){let e=[100000];for(let x of r)e.push(e[e.length-1]*(1+x/100));return e;}
       const momEq=buildEquity(momR),spEq=buildEquity(spR);
       const allV=[...momEq,...spEq];
-      const logMin=Math.log10(Math.min(...allV)*0.8),logMax=Math.log10(Math.max(...allV)*1.1);
+      const logMin=Math.log10(Math.min(...allV)*0.7),logMax=Math.log10(Math.max(...allV)*1.3);
 
       function xp(i){return pad.l+(i/years.length)*(W-pad.l-pad.r);}
       function yp(v){return pad.t+(1-(Math.log10(v)-logMin)/(logMax-logMin))*(H-pad.t-pad.b);}
       function drawLine(eq,col,w){ctx.beginPath();eq.forEach((v,i)=>{i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();}
-      function fmtVal(v){if(v>=1000000)return '$'+(v/1000000).toFixed(1)+'M';if(v>=1000)return '$'+Math.round(v/1000)+'K';return '$'+Math.round(v);}
-
-      // Grid
+      // Subtle grid
       ctx.strokeStyle='#1a1a1a';ctx.lineWidth=1;
-      if(!isMobile){[100000,500000,1000000,5000000].forEach(v=>{if(v>=Math.min(...allV)*0.8&&v<=Math.max(...allV)*1.1){ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();ctx.fillStyle='#444';ctx.font='10px Inter,sans-serif';ctx.textAlign='left';ctx.fillText(fmtVal(v),W-pad.r+6,yp(v)+3);}});}
+      [100000,1000000].forEach(v=>{ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();});
 
       // Years
+      const isMobile = W < 400;
       const step=isMobile?5:4;
-      ctx.fillStyle='#444';ctx.font=(isMobile?'9':'10')+'px Inter,sans-serif';ctx.textAlign='center';
-      years.forEach((yr,i)=>{if(i%step===0)ctx.fillText(yr,xp(i),H-8);});
-      ctx.fillText('2025',xp(years.length),H-8);
+      ctx.fillStyle='#444';ctx.font='10px Inter,sans-serif';ctx.textAlign='center';
+      years.forEach((yr,i)=>{if(i%step===0)ctx.fillText(yr,xp(i),H-10);});
+      ctx.fillText('2025',xp(years.length),H-10);
 
       drawLine(spEq,'#555',2);
       drawLine(momEq,'#4ade80',2.5);
 
-      const momFinal=momEq[momEq.length-1],spFinal=spEq[spEq.length-1];
-      const momX=(momFinal/100000).toFixed(1),spX=(spFinal/100000).toFixed(1);
-      const fs=isMobile?'10':'12';
-      ctx.font='bold '+fs+'px Inter,sans-serif';
-      if(isMobile){
-        ctx.textAlign='right';
-        ctx.fillStyle='#4ade80';ctx.fillText(fmtVal(Math.round(momFinal))+' ('+momX+'x)',W-pad.r-4,yp(momFinal)-10);
-        ctx.fillStyle='#aaa';ctx.fillText(fmtVal(Math.round(spFinal))+' ('+spX+'x)',W-pad.r-4,yp(spFinal)-10);
-      }else{
-        ctx.textAlign='left';
-        ctx.fillStyle='#4ade80';ctx.fillText(fmtVal(Math.round(momFinal))+' ('+momX+'x)',xp(years.length)+6,yp(momFinal)-12);
-        ctx.fillStyle='#aaa';ctx.fillText(fmtVal(Math.round(spFinal))+' ('+spX+'x)',xp(years.length)+6,yp(spFinal)+20);
-      }
+      // End labels — always right-aligned inside chart
+      ctx.font='bold 13px Inter,sans-serif';
+      ctx.textAlign='right';
+      ctx.fillStyle='#4ade80';
+      ctx.fillText('$5.05M',xp(years.length)-4,yp(momEq[momEq.length-1])-12);
+      ctx.fillStyle='#bbb';
+      ctx.fillText('$747K',xp(years.length)-4,yp(spEq[spEq.length-1])-12);
     }
     drawStratChart();
     window.addEventListener('resize',drawStratChart);
