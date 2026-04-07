@@ -99,7 +99,7 @@
       <div style="max-width:520px">
         <span class="sublabel">Or follow my picks</span>
         <h2 style="margin:12px 0 12px">Active Portfolio</h2>
-        <p style="color:#aaa;margin-bottom:16px">Don&rsquo;t want to run a strategy yourself? Follow my real portfolio &mdash; 23 positions across global markets, every thesis explained. Real capital, full transparency.</p>
+        <p style="color:#aaa;margin-bottom:16px">Don&rsquo;t want to run a strategy yourself? Follow my real portfolio &mdash; 23 positions across global markets. Real capital, full transparency.</p>
         <a href="portfolio.html" class="card-link" style="font-size:0.9rem">View portfolio &rarr;</a>
       </div>
       <div style="display:flex;gap:24px;flex-wrap:wrap">
@@ -169,7 +169,7 @@
     ctx.scale(dpr, dpr);
 
     const isMobile = W < 500;
-    const pad = { t: 10, r: isMobile ? 8 : 80, b: 28, l: 10 };
+    const pad = { t: 10, r: isMobile ? 8 : 110, b: 28, l: 10 };
 
     const years = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
     const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,65.8,40.16,6.93,3.14,35.47,42.07];
@@ -187,7 +187,7 @@
     // Grid
     ctx.strokeStyle='#1a1a1a';ctx.lineWidth=1;
     if (!isMobile) {
-      function fmtVal(v){if(v>=1000000)return '$'+(v/1000000).toFixed(1)+'M';if(v>=1000)return '$'+(v/1000)+'K';return '$'+v;}
+      function fmtVal(v){if(v>=1000000)return '$'+(v/1000000).toFixed(1)+'M';if(v>=1000)return '$'+Math.round(v/1000)+'K';return '$'+Math.round(v);}
       [100000,500000,1000000,5000000].forEach(v=>{if(v>=Math.min(...allV)*0.8&&v<=Math.max(...allV)*1.1){ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();ctx.fillStyle='#444';ctx.font='10px Inter,sans-serif';ctx.textAlign='left';ctx.fillText(fmtVal(v),W-pad.r+6,yp(v)+3);}});
     }
 
@@ -195,7 +195,7 @@
     const step = isMobile ? 5 : 4;
     ctx.fillStyle='#444';ctx.font=(isMobile?'9':'10')+'px Inter,sans-serif';ctx.textAlign='center';
     years.forEach((yr,i)=>{if(i%step===0)ctx.fillText(yr,xp(i),H-8);});
-    ctx.fillText('25',xp(years.length),H-8);
+    ctx.fillText('2025',xp(years.length),H-8);
 
     // Lines
     drawLine(spEq,'#555',2);
