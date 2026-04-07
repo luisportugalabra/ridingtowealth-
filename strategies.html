@@ -174,12 +174,6 @@
     }
     .card .btn:hover, .card .btn:active { color: #2d7a4f; border-color: #2d7a4f; }
   </style>
-  <script>
-    // If coming from homepage with strategy param, hide everything above wizard instantly
-    if (new URLSearchParams(window.location.search).get('strategy')) {
-      document.write('<style>.pre-wizard{display:none!important}</style>');
-    }
-  </script>
 </head>
 <body>
 
@@ -200,14 +194,14 @@
   </nav>
 
   <!-- Hero -->
-  <header class="hero pre-wizard">
+  <header class="hero">
     <span class="label">Systematic Strategies &middot; Rules-Based</span>
     <h1 style="margin-top:16px">Rules-based strategies.<br><span class="italic">Proven returns.</span></h1>
     <p>No discretionary calls. No anxiety. Just rules and rebalances.</p>
   </header>
 
   <!-- Why It Works -->
-  <section class="section pre-wizard" style="padding:48px 0 0">
+  <section class="section" style="padding:48px 0 0">
     <div class="container" style="max-width:800px">
       <div style="text-align:center;margin-bottom:48px">
         <span class="sublabel">The Evidence</span>
@@ -275,7 +269,7 @@
   </section>
 
   <!-- Strategy Deep Dives -->
-  <section class="pre-wizard" style="padding:48px 0;border-top:1px solid var(--border)">
+  <section style="padding:48px 0;border-top:1px solid var(--border)">
     <div class="container" style="max-width:800px">
       <div style="text-align:center;margin-bottom:48px">
         <span class="sublabel">The Three Strategies</span>
@@ -289,7 +283,7 @@
         <p>Rank every stock in the market using six fundamental metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield. Combine them into a single composite score (VC2). Buy the 25 cheapest. Rebalance annually.</p>
         <p>Financial stocks are excluded because P/B and EV/EBITDA are not meaningful for banks and insurers. Stocks with negative earnings are also removed.</p>
         <p>Historically, this strategy performs best when including small caps &mdash; <strong style="color:#fff">market cap above $200M</strong> is the sweet spot that balances liquidity with the small-cap value premium.</p>
-        <a class="btn" style="cursor:pointer;padding:14px 36px;font-size:1rem;margin-top:20px;display:inline-block;border:1px solid var(--accent)" onclick="selectStrategy('value')">Invest &rarr;</a>
+        <a class="btn" href="invest.html?strategy=value" style="padding:14px 36px;font-size:1rem;margin-top:20px;display:inline-block;border:1px solid var(--accent);text-decoration:none">Invest &rarr;</a>
       </div>
 
       <!-- Trending Value -->
@@ -299,7 +293,7 @@
         <p>Start with the Value strategy. Identify the cheapest 10% of stocks by composite score. Then, within that cheap decile, rank by 6-month price momentum and buy the top 25.</p>
         <p>This combines two of the strongest factors in finance &mdash; value and momentum &mdash; into one strategy. You&rsquo;re buying cheap stocks that are already moving up, avoiding value traps.</p>
         <p>Like the Value strategy, this works best with <strong style="color:#fff">$200M+ market cap</strong>, and excludes financials and negative earnings.</p>
-        <a class="btn" style="cursor:pointer;padding:14px 36px;font-size:1rem;margin-top:20px;display:inline-block;border:1px solid var(--accent)" onclick="selectStrategy('trend')">Invest &rarr;</a>
+        <a class="btn" href="invest.html?strategy=trend" style="padding:14px 36px;font-size:1rem;margin-top:20px;display:inline-block;border:1px solid var(--accent);text-decoration:none">Invest &rarr;</a>
       </div>
 
       <!-- Momentum -->
@@ -323,7 +317,7 @@
             <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:2px">Win Rate (17/20 yrs)</div>
           </div>
         </div>
-        <a class="btn" style="cursor:pointer;padding:14px 36px;font-size:1rem;margin-top:20px;display:inline-block;border:1px solid var(--accent)" onclick="selectStrategy('momentum')">Invest &rarr;</a>
+        <a class="btn" href="invest.html?strategy=momentum" style="padding:14px 36px;font-size:1rem;margin-top:20px;display:inline-block;border:1px solid var(--accent);text-decoration:none">Invest &rarr;</a>
       </div>
 
       <!-- Diversification -->
@@ -336,128 +330,12 @@
     </div>
   </section>
 
-  <!-- Wizard -->
-  <section class="section">
+  <!-- Invest CTA -->
+  <section class="section" style="text-align:center">
     <div class="container">
-      <div class="wizard" id="wizard">
-
-        <!-- Progress dots -->
-        <div class="wizard-steps" id="wizard-steps" style="display:none">
-          <div class="step-dot active" id="dot1">1</div>
-          <div class="step-line" id="line1"></div>
-          <div class="step-dot" id="dot2">2</div>
-          <div class="step-line" id="line2"></div>
-          <div class="step-dot" id="dot3">3</div>
-        </div>
-
-        <!-- Step 1: Strategy Cards -->
-        <div class="wizard-panel active" id="step1">
-          <div style="text-align:center;margin-bottom:40px">
-            <p style="font-size:1.05rem;color:#ccc;max-width:640px;margin:0 auto 12px">Three systematic strategies averaging <strong style="color:#fff">20.5% CAGR</strong> vs the S&amp;P 500's ~10.9%. No discretionary calls. No simulations. Just rules, data, and rebalances.</p>
-          </div>
-          <div class="cards-grid cards-3">
-            <div class="card">
-              <span class="label">Value Strategy</span>
-              <h3>18.61% CAGR</h3>
-              <p>Buy undervalued stocks based on fundamental metrics. Fully systematic.</p>
-              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag">Annual Rebalance</span>
-                <span class="tag">Undervalued Companies</span>
-              </div>
-              <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px" onclick="selectStrategy('value')">Invest &rarr;</a>
-            </div>
-            <div class="card">
-              <span class="label">Momentum + Value</span>
-              <h3>21.19% CAGR</h3>
-              <p>Undervalued companies combined with momentum. Fully systematic.</p>
-              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag">Annual Rebalance</span>
-                <span class="tag">Value + Momentum</span>
-              </div>
-              <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px" onclick="selectStrategy('trend')">Invest &rarr;</a>
-            </div>
-            <div class="card">
-              <span class="label">Momentum</span>
-              <h3>21.7% CAGR</h3>
-              <p>Strongest intermediate momentum stocks. Fully systematic.</p>
-              <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag">Annual Rebalance</span>
-                <span class="tag">Intermediate Momentum</span>
-              </div>
-              <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px" onclick="selectStrategy('momentum')">Invest &rarr;</a>
-            </div>
-          </div>
-          <p style="margin-top:40px;font-size:0.78rem;color:#555;text-align:center;max-width:100%">Every strategy is backed by 20&ndash;40+ years of US market data and validated against peer-reviewed research and James O&rsquo;Shaughnessy&rsquo;s <em>What Works on Wall Street</em>. I run all three portfolios with real capital. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">See Research &rarr;</a></p>
-        </div>
-
-        <!-- Step 2: Geography + Market Cap -->
-        <div class="wizard-panel" id="step2">
-          <button class="back-btn" onclick="goToStep(1)">&larr; Back</button>
-          <div class="wizard-title">Step 2</div>
-          <div class="wizard-question"><h2>Where do you want to invest?</h2></div>
-          <div class="options">
-            <div class="geo-btn" onclick="selectGeo('USA')">USA</div>
-            <div class="geo-btn" onclick="selectGeo('Global')">Global</div>
-            <div class="geo-btn" onclick="selectGeo('Europe')">Europe</div>
-            <div class="geo-btn" onclick="selectGeo('Asia')">Asia</div>
-            <div class="geo-btn" onclick="selectGeo('Emerging')">Emerging Markets</div>
-          </div>
-          <div style="margin-top:32px;text-align:center">
-            <label style="display:inline-flex;align-items:center;gap:10px;font-size:0.85rem;color:#888">
-              Min. Market Cap:
-              <select id="mktcap-filter" style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:#fff;font-size:0.85rem">
-                <option value="0">All</option>
-                <option value="200">$200M+</option>
-                <option value="500">$500M+</option>
-                <option value="1000">$1B+</option>
-                <option value="2000">$2B+</option>
-                <option value="5000">$5B+</option>
-                <option value="10000">$10B+</option>
-              </select>
-            </label>
-          </div>
-        </div>
-
-        <!-- Step 3: Output -->
-        <div class="wizard-panel" id="step3">
-          <button class="back-btn" onclick="goToStep(2)">&larr; Back</button>
-
-          <div class="output-header">
-            <div>
-              <h2 id="output-title"></h2>
-              <div class="output-meta" id="output-meta"></div>
-            </div>
-            <div class="output-actions">
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
-                Stocks:
-                <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
-              </label>
-              <button class="action-btn" onclick="randomSelect()">Random Selector</button>
-              <button class="action-btn" onclick="exportCSV()">Export CSV</button>
-              <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
-            </div>
-          </div>
-
-          <!-- Rules -->
-          <div class="rules-box" id="rules-box"></div>
-
-          <!-- Table -->
-          <div style="overflow-x:auto">
-            <table class="stock-table">
-              <thead id="table-head"></thead>
-              <tbody id="table-body"></tbody>
-            </table>
-          </div>
-
-          <!-- Advice box -->
-          <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
-            <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
-              Every strategy is backed by 20&ndash;40+ years of US market data and validated against peer-reviewed research and James O&rsquo;Shaughnessy&rsquo;s <em>What Works on Wall Street</em>. I run all three portfolios with real capital. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">See Research &rarr;</a>
-            </p>
-          </div>
-        </div>
-
-      </div>
+      <h2 style="margin-bottom:12px">Ready to invest?</h2>
+      <p style="color:#aaa;margin-bottom:24px">Pick a strategy and get your stock picks in seconds.</p>
+      <a class="btn" href="invest.html" style="padding:16px 48px;font-size:1rem;display:inline-block;border:1px solid var(--accent);text-decoration:none">Start Investing &rarr;</a>
     </div>
   </section>
 
@@ -491,279 +369,6 @@
   </footer>
 
   <script>
-    let wizardData = null;
-    let selectedStrategy = '';
-    let selectedGeo = '';
-
-    // Default market cap by strategy (in $M)
-    const defaultMktCap = { value: 200, trend: 200, momentum: 2000 };
-
-    // Data indices — name is index 1, mktcap is index 2
-    // value:    [ticker, name, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
-    // trend:    [ticker, name, mktcap, mom6m, vc2]
-    // momentum: [ticker, name, mktcap, mom12m, mom6m, intmom]
-    const NAME_IDX = 1;
-    const MKTCAP_IDX = 2;
-
-    fetch('wizard-data.json')
-      .then(r => r.json())
-      .then(d => { wizardData = d; })
-      .catch(() => { console.error('Failed to load wizard-data.json'); });
-
-    function goToStep(n) {
-      document.querySelectorAll('.wizard-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('step' + n).classList.add('active');
-      document.getElementById('wizard-steps').style.display = n === 1 ? 'none' : 'flex';
-      for (let i = 1; i <= 3; i++) {
-        const dot = document.getElementById('dot' + i);
-        dot.classList.remove('active', 'done');
-        if (i < n) dot.classList.add('done');
-        else if (i === n) dot.classList.add('active');
-      }
-      document.getElementById('line1').classList.toggle('active', n >= 2);
-      document.getElementById('line2').classList.toggle('active', n >= 3);
-      window.scrollTo({ top: document.getElementById('wizard').offsetTop - 100, behavior: 'smooth' });
-    }
-
-    function selectStrategy(s) {
-      selectedStrategy = s;
-      document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
-      event.currentTarget.classList.add('selected');
-      // Set default market cap for this strategy
-      const sel = document.getElementById('mktcap-filter');
-      const def = defaultMktCap[s] || 0;
-      for (let o of sel.options) { o.selected = parseInt(o.value) === def; }
-      setTimeout(() => goToStep(2), 200);
-    }
-
-    function selectGeo(g) {
-      selectedGeo = g;
-      document.querySelectorAll('.geo-btn').forEach(b => b.classList.remove('selected'));
-      event.currentTarget.classList.add('selected');
-      setTimeout(() => showLoading(), 200);
-    }
-
-    function showLoading() {
-      const stratLabels = { value: 'Value', trend: 'Trending Value', momentum: 'Momentum' };
-      const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
-      const panel = document.getElementById('step3');
-      panel.innerHTML = `
-        <div class="loading-overlay">
-          <div class="loading-spinner"></div>
-          <div class="loading-text">Screening ${geoLabel} universe...</div>
-          <div class="loading-sub">Applying ${stratLabels[selectedStrategy]} filters</div>
-        </div>`;
-      goToStep(3);
-      setTimeout(() => rebuildStep3(), 1400);
-    }
-
-    function rebuildStep3() {
-      const panel = document.getElementById('step3');
-      panel.innerHTML = `
-        <button class="back-btn" onclick="goToStep(2)">&larr; Back</button>
-        <div class="output-header">
-          <div>
-            <h2 id="output-title"></h2>
-            <div class="output-meta" id="output-meta"></div>
-          </div>
-          <div class="output-actions">
-            <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
-              Stocks:
-              <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
-            </label>
-            <button class="action-btn" onclick="randomSelect()">Random Selector</button>
-            <button class="action-btn" onclick="exportCSV()">Export CSV</button>
-            <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
-          </div>
-        </div>
-        <div class="rules-box" id="rules-box"></div>
-        <div style="overflow-x:auto">
-          <table class="stock-table">
-            <thead id="table-head"></thead>
-            <tbody id="table-body"></tbody>
-          </table>
-        </div>
-        <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
-          <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
-            Every strategy is backed by 20&ndash;40+ years of US market data and validated against peer-reviewed research and James O&rsquo;Shaughnessy&rsquo;s <em>What Works on Wall Street</em>. I run all three portfolios with real capital. Past performance does not guarantee future results. <a href="research.html" style="color:var(--accent)">See Research &rarr;</a>
-          </p>
-        </div>`;
-      showOutput();
-    }
-
-    function getFilteredStocks() {
-      if (!wizardData) return [];
-      const sourceKey = selectedStrategy === 'value' ? 'value' : selectedStrategy === 'momentum' ? 'momentum' : 'trend';
-      const source = wizardData[sourceKey] || {};
-      const raw = source[selectedGeo] || [];
-      const minCap = parseInt(document.getElementById('mktcap-filter').value) || 0;
-      if (minCap === 0) return raw;
-      return raw.filter(s => s[MKTCAP_IDX] != null && s[MKTCAP_IDX] >= minCap);
-    }
-
-    function showOutput(randomCount) {
-      if (!wizardData) return;
-
-      const isRandom = typeof randomCount === 'number';
-      const stratLabels = { value: 'Value', trend: 'Momentum + Value', momentum: 'Momentum' };
-      const stratLabel = stratLabels[selectedStrategy] || selectedStrategy;
-      const geoLabel = selectedGeo === 'Emerging' ? 'Emerging Markets' : selectedGeo;
-
-      const filtered = getFilteredStocks();
-      const count = isRandom ? Math.min(randomCount, filtered.length) : Math.min(25, filtered.length);
-      const weight = count > 0 ? (100 / count).toFixed(1) : '0';
-
-      const minCap = parseInt(document.getElementById('mktcap-filter').value) || 0;
-      const capLabel = minCap > 0 ? ` · Min $${minCap >= 1000 ? (minCap/1000)+'B' : minCap+'M'}` : '';
-
-      const title = isRandom
-        ? `Random Selection — ${stratLabel} ${geoLabel}`
-        : `${stratLabel} — ${geoLabel}`;
-
-      document.getElementById('output-title').textContent = title;
-      document.getElementById('output-meta').textContent =
-        `${count} stocks · Equal weight (${weight}% each)${capLabel} · Data: ${wizardData.date}`;
-
-      // Rules
-      const rulesBox = document.getElementById('rules-box');
-      const recommendTip = `<li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>`;
-      if (selectedStrategy === 'value') {
-        rulesBox.innerHTML = `
-          <h3>Value Strategy Rules</h3>
-          <ol>
-            <li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li>
-            <li>Exclude financial sector stocks (P/B and EV/EBITDA are not meaningful for financials)</li>
-            <li>Exclude stocks with negative earnings</li>
-            <li>Combine the percentile ranks into a composite Value Score</li>
-            <li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked)' : ''}</li>
-            <li>Equal weight each position at ${weight}%</li>
-            <li>Rebalance annually</li>
-            ${recommendTip}
-          </ol>`;
-      } else if (selectedStrategy === 'momentum') {
-        rulesBox.innerHTML = `
-          <h3>Intermediate Momentum Strategy Rules</h3>
-          <ol>
-            <li>Take the ${geoLabel} universe of stocks</li>
-            <li>Calculate intermediate momentum: 12-month return minus 6-month return (months 7&ndash;12)</li>
-            <li>Select the top ${count} stocks with the strongest intermediate momentum${isRandom ? ' (randomly picked)' : ''}</li>
-            <li>Equal weight each position at ${weight}%</li>
-            <li>Rebalance annually</li>
-            ${recommendTip}
-          </ol>`;
-      } else {
-        rulesBox.innerHTML = `
-          <h3>Trending Value Strategy Rules</h3>
-          <ol>
-            <li>Start with the Value strategy: rank the ${geoLabel} universe using 6 value metrics</li>
-            <li>Exclude financial sector stocks and stocks without positive earnings</li>
-            <li>Identify the cheapest 10% of stocks based on the composite Value Score</li>
-            <li>Within that cheapest 10%, rank by 6-month price momentum</li>
-            <li>Select the top ${count} stocks with the strongest momentum${isRandom ? ' (randomly picked)' : ''}</li>
-            <li>Equal weight each position at ${weight}%</li>
-            <li>Rebalance annually</li>
-            ${recommendTip}
-          </ol>`;
-      }
-
-      // Table
-      const thead = document.getElementById('table-head');
-      const tbody = document.getElementById('table-body');
-
-      let stocks = isRandom
-        ? [...filtered].sort(() => Math.random() - 0.5).slice(0, count)
-        : filtered.slice(0, 25);
-
-      if (stocks.length === 0) {
-        thead.innerHTML = '';
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">No stocks match this filter. Try lowering the market cap threshold.</td></tr>`;
-      } else if (selectedStrategy === 'value') {
-        // [ticker, name, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
-        thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th>
-          <th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th>
-          <th class="r">P/CF</th><th class="r">EV/EBITDA</th>
-          <th class="r">SH Yield %</th><th class="r">Weight</th>
-        </tr>`;
-        tbody.innerHTML = stocks.map((s, i) =>
-          `<tr>
-            <td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td>
-            <td class="r">${fmtCap(s[2])}</td>
-            <td class="r">${fmt(s[3],1)}</td>
-            <td class="r">${fmt(s[4],2)}</td>
-            <td class="r">${fmt(s[5],2)}</td>
-            <td class="r">${fmt(s[6],1)}</td>
-            <td class="r">${fmt(s[7],1)}</td>
-            <td class="r">${fmt(s[8],1)}</td>
-            <td class="r weight-col">${weight}%</td>
-          </tr>`
-        ).join('');
-      } else if (selectedStrategy === 'momentum') {
-        // [ticker, name, mktcap, mom12m, mom6m, intmom]
-        thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th>
-          <th class="r">12M %</th><th class="r">6M %</th>
-          <th class="r">Int. Mom %</th><th class="r">Weight</th>
-        </tr>`;
-        tbody.innerHTML = stocks.map((s, i) =>
-          `<tr>
-            <td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td>
-            <td class="r">${fmtCap(s[2])}</td>
-            <td class="r">${fmt(s[3],1)}</td>
-            <td class="r">${fmt(s[4],1)}</td>
-            <td class="r">${fmt(s[5],1)}</td>
-            <td class="r weight-col">${weight}%</td>
-          </tr>`
-        ).join('');
-      } else {
-        // trend: [ticker, name, mktcap, mom6m, vc2]
-        thead.innerHTML = `<tr>
-          <th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th>
-          <th class="r">Momentum 6M %</th><th class="r">Weight</th>
-        </tr>`;
-        tbody.innerHTML = stocks.map((s, i) =>
-          `<tr>
-            <td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td>
-            <td class="r">${fmtCap(s[2])}</td>
-            <td class="r">${fmt(s[3],1)}</td>
-            <td class="r weight-col">${weight}%</td>
-          </tr>`
-        ).join('');
-      }
-
-      goToStep(3);
-    }
-
-    function fmt(v, d) { return v != null ? v.toFixed(d) : '—'; }
-    function fmtCap(v) {
-      if (v == null) return '—';
-      if (v >= 1000) return '$' + (v/1000).toFixed(1) + 'B';
-      return '$' + v + 'M';
-    }
-
-    function randomSelect() {
-      const n = Math.min(25, Math.max(1, parseInt(document.getElementById('pick-count').value) || 25));
-      showOutput(n);
-    }
-
-    function exportCSV() {
-      const table = document.querySelector('.stock-table');
-      const rows = table.querySelectorAll('tr');
-      let csv = [];
-      rows.forEach(row => {
-        const cells = row.querySelectorAll('th, td');
-        const rowData = Array.from(cells).map(c => '"' + c.textContent.trim().replace(/"/g, '""') + '"');
-        csv.push(rowData.join(','));
-      });
-      const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = (selectedStrategy + '_' + selectedGeo + '_stocks.csv').toLowerCase();
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
     // Growth chart — responsive
     function drawStratChart() {
       const canvas = document.getElementById('growthChart');
@@ -816,30 +421,6 @@
     }
     drawStratChart();
     window.addEventListener('resize',drawStratChart);
-
-    // Auto-select strategy from URL param and jump to step 2
-    (function() {
-      const p = new URLSearchParams(window.location.search).get('strategy');
-      if (p && ['value','trend','momentum'].includes(p)) {
-        selectedStrategy = p;
-        // Highlight the correct button in step 1
-        const btns = document.querySelectorAll('#step1 .btn');
-        btns.forEach(b => { if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + p + "'")) b.classList.add('selected'); });
-        // Set default market cap
-        const sel = document.getElementById('mktcap-filter');
-        const def = defaultMktCap[p] || 0;
-        for (let o of sel.options) { o.selected = parseInt(o.value) === def; }
-        // Jump directly to step 2 (instant, no smooth scroll)
-        document.querySelectorAll('.wizard-panel').forEach(p2 => p2.classList.remove('active'));
-        document.getElementById('step2').classList.add('active');
-        document.getElementById('wizard-steps').style.display = 'flex';
-        document.getElementById('dot1').classList.add('done');
-        document.getElementById('dot1').classList.remove('active');
-        document.getElementById('dot2').classList.add('active');
-        document.getElementById('line1').classList.add('active');
-        window.scrollTo(0, document.getElementById('wizard').offsetTop - 100);
-      }
-    })();
   </script>
 
 </body>

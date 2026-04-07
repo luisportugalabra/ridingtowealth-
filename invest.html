@@ -252,7 +252,7 @@
   <footer class="footer">
     <span class="footer-logo">RIDING TO WEALTH</span>
     <div class="footer-links">
-      <a href="invest.html">Invest</a>
+      <a href="/">Invest</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="strategies.html">Strategies</a>
       <a href="research.html">Research</a>
@@ -422,6 +422,24 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = (selectedStrategy + '_' + selectedGeo + '_stocks.csv').toLowerCase(); a.click(); URL.revokeObjectURL(url);
     }
+
+    // Auto-select strategy from URL param and jump to step 2 instantly
+    (function() {
+      const p = new URLSearchParams(window.location.search).get('strategy');
+      if (p && ['value','trend','momentum'].includes(p)) {
+        selectedStrategy = p;
+        const sel = document.getElementById('mktcap-filter');
+        const def = defaultMktCap[p] || 0;
+        for (let o of sel.options) { o.selected = parseInt(o.value) === def; }
+        document.querySelectorAll('.wizard-panel').forEach(x => x.classList.remove('active'));
+        document.getElementById('step2').classList.add('active');
+        document.getElementById('wizard-steps').style.display = 'flex';
+        document.getElementById('dot1').classList.add('done');
+        document.getElementById('dot1').classList.remove('active');
+        document.getElementById('dot2').classList.add('active');
+        document.getElementById('line1').classList.add('active');
+      }
+    })();
   </script>
 
 </body>
