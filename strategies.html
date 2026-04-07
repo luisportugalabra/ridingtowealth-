@@ -174,6 +174,12 @@
     }
     .card .btn:hover, .card .btn:active { color: #2d7a4f; border-color: #2d7a4f; }
   </style>
+  <script>
+    // If coming from homepage with strategy param, hide everything above wizard instantly
+    if (new URLSearchParams(window.location.search).get('strategy')) {
+      document.write('<style>.pre-wizard{display:none!important}</style>');
+    }
+  </script>
 </head>
 <body>
 
@@ -194,14 +200,14 @@
   </nav>
 
   <!-- Hero -->
-  <header class="hero">
+  <header class="hero pre-wizard">
     <span class="label">Systematic Strategies &middot; Rules-Based</span>
     <h1 style="margin-top:16px">Rules-based strategies.<br><span class="italic">Proven returns.</span></h1>
     <p>No discretionary calls. No anxiety. Just rules and rebalances.</p>
   </header>
 
   <!-- Why It Works -->
-  <section class="section" style="padding:48px 0 0">
+  <section class="section pre-wizard" style="padding:48px 0 0">
     <div class="container" style="max-width:800px">
       <div style="text-align:center;margin-bottom:48px">
         <span class="sublabel">The Evidence</span>
@@ -269,7 +275,7 @@
   </section>
 
   <!-- Strategy Deep Dives -->
-  <section style="padding:48px 0;border-top:1px solid var(--border)">
+  <section class="pre-wizard" style="padding:48px 0;border-top:1px solid var(--border)">
     <div class="container" style="max-width:800px">
       <div style="text-align:center;margin-bottom:48px">
         <span class="sublabel">The Three Strategies</span>
