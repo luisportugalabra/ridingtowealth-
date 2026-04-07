@@ -84,8 +84,8 @@
       </div>
       <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px 28px 20px">
         <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
-          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR &mdash; $5.05M</span>
-          <span style="font-size:0.72rem;color:#555">&#9679; S&amp;P 500 10.9% CAGR &mdash; $795K</span>
+          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR</span>
+          <span style="font-size:0.72rem;color:#555">&#9679; S&amp;P 500 ~10.9% CAGR</span>
         </div>
         <canvas id="homeChart" style="width:100%;height:220px"></canvas>
       </div>
@@ -210,12 +210,12 @@
     if (isMobile) {
       // Labels inside chart on mobile
       ctx.textAlign='right';
-      ctx.fillStyle='#4ade80';ctx.fillText(fmtVal(Math.round(momFinal))+' ('+momX+'x)',W-pad.r-4,yp(momFinal)-8);
-      ctx.fillStyle='#aaa';ctx.fillText(fmtVal(Math.round(spFinal))+' ('+spX+'x)',W-pad.r-4,yp(spFinal)-8);
+      ctx.fillStyle='#4ade80';ctx.fillText(fmtVal(Math.round(momFinal))+' ('+momX+'x)',W-pad.r-4,yp(momFinal)-10);
+      ctx.fillStyle='#aaa';ctx.fillText(fmtVal(Math.round(spFinal))+' ('+spX+'x)',W-pad.r-4,yp(spFinal)-10);
     } else {
       ctx.textAlign='left';
-      ctx.fillStyle='#4ade80';ctx.fillText(fmtVal(Math.round(momFinal))+' ('+momX+'x)',xp(years.length)+4,yp(momFinal)-8);
-      ctx.fillStyle='#aaa';ctx.fillText(fmtVal(Math.round(spFinal))+' ('+spX+'x)',xp(years.length)+4,yp(spFinal)+16);
+      ctx.fillStyle='#4ade80';ctx.fillText(fmtVal(Math.round(momFinal))+' ('+momX+'x)',xp(years.length)+6,yp(momFinal)-12);
+      ctx.fillStyle='#aaa';ctx.fillText(fmtVal(Math.round(spFinal))+' ('+spX+'x)',xp(years.length)+6,yp(spFinal)+20);
     }
   }
   drawGrowthChart('homeChart');
