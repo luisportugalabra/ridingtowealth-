@@ -44,26 +44,68 @@
     <p style="margin-top:16px;color:#ccc">Three strategies averaging <strong style="color:#fff">20.5% CAGR</strong> vs the S&amp;P 500's ~10.9%.</p>
   </header>
 
-  <!-- Cards -->
+  <!-- Strategy Cards -->
   <section class="section">
     <div class="container">
-      <div class="cards-grid">
+      <div class="cards-grid" style="grid-template-columns:repeat(3,1fr)">
 
         <a href="strategies.html" class="card" style="text-decoration:none;cursor:pointer">
-          <span class="label">Rules-Based</span>
-          <h3>Systematic Strategies</h3>
-          <p>Follow proven, rules-based systems. No discretion needed. Annual and monthly rebalance options.</p>
-          <span class="card-link">Explore strategies &rarr;</span>
+          <span class="label">Value Strategy</span>
+          <h3>18.61% CAGR</h3>
+          <p>Buy the cheapest stocks using 6 fundamental metrics. Fully systematic, annual rebalance.</p>
+          <span class="card-link">Explore strategy &rarr;</span>
         </a>
 
-        <a href="portfolio.html" class="card" style="text-decoration:none;cursor:pointer">
-          <span class="label">Active Portfolio</span>
-          <h3>Follow My Portfolio</h3>
-          <p>Real capital, real positions. Full investment thesis behind every decision. 23 positions across global markets.</p>
-          <span class="card-link">View portfolio &rarr;</span>
+        <a href="strategies.html" class="card" style="text-decoration:none;cursor:pointer">
+          <span class="label">Momentum + Value</span>
+          <h3>21.19% CAGR</h3>
+          <p>Cheapest 10% of stocks ranked by price momentum. The best of both worlds.</p>
+          <span class="card-link">Explore strategy &rarr;</span>
+        </a>
+
+        <a href="strategies.html" class="card" style="text-decoration:none;cursor:pointer">
+          <span class="label">Momentum</span>
+          <h3>21.7% CAGR</h3>
+          <p>Intermediate momentum (months 7&ndash;12). Backed by Novy-Marx academic research.</p>
+          <span class="card-link">Explore strategy &rarr;</span>
         </a>
 
       </div>
+    </div>
+  </section>
+
+  <!-- Growth Comparison -->
+  <section class="section" style="padding:48px 0">
+    <div class="container" style="text-align:center">
+      <span class="sublabel">20 Years &middot; 2006&ndash;2025</span>
+      <h2 style="margin:12px 0 8px">$10,000 invested in 2006</h2>
+      <p style="margin:0 auto 32px;color:#888">What would your money be worth today?</p>
+      <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap">
+        <div style="text-align:center">
+          <div style="font-size:2.4rem;font-weight:700;color:#4ade80">$505,100</div>
+          <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Momentum Strategy</div>
+        </div>
+        <div style="text-align:center;opacity:0.5">
+          <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:8px">vs</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:2.4rem;font-weight:700;color:#fff">$79,500</div>
+          <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">S&amp;P 500</div>
+        </div>
+      </div>
+      <p style="margin:24px auto 0;font-size:0.78rem;color:#444;max-width:100%">Based on 20-year backtest (2006&ndash;2025). I run all three strategies with real capital.</p>
+    </div>
+  </section>
+
+  <!-- Portfolio Card -->
+  <section class="section" style="padding:0 0 24px">
+    <div class="container">
+      <a href="portfolio.html" class="card" style="text-decoration:none;cursor:pointer;max-width:600px;margin:0 auto">
+        <span class="label">Active Portfolio</span>
+        <h3>Follow My Portfolio</h3>
+        <p>Real capital, real positions. Full investment thesis behind every decision. 23 positions across global markets.</p>
+        <span class="card-link">View portfolio &rarr;</span>
+      </a>
     </div>
   </section>
 
