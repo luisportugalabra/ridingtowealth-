@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Start Investing — Riding to Wealth</title>
-  <meta name="description" content="Two ways to invest: systematic strategies or real portfolio decisions. Real capital. Real positions. No simulations.">
-  <meta property="og:title" content="Investing Made Simple — Riding to Wealth">
-  <meta property="og:description" content="Three systematic strategies averaging 20.5% CAGR vs the S&P 500's ~10.9%. Real capital. Real positions. No simulations.">
+  <title>Riding to Wealth — Systematic Investing with Real Capital</title>
+  <meta name="description" content="Three rules-based strategies averaging 21% CAGR over 20 years. Backed by academic research. Run with real capital. No simulations.">
+  <meta property="og:title" content="$100K to $5.05M in 20 Years — Riding to Wealth">
+  <meta property="og:description" content="Three rules-based strategies averaging 21% CAGR vs the S&P 500's ~10.9%. Backed by academic research. Real capital.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ridingtowealth.com">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Investing Made Simple — Riding to Wealth">
-  <meta name="twitter:description" content="Three systematic strategies averaging 20.5% CAGR vs the S&P 500's ~10.9%. Real capital. No simulations.">
+  <meta name="twitter:title" content="$100K to $5.05M in 20 Years — Riding to Wealth">
+  <meta name="twitter:description" content="Three rules-based strategies averaging 21% CAGR. Backed by academic research. Real capital.">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,6 +21,8 @@
   <style>
     @media (max-width: 900px) {
       .cards-3 { grid-template-columns: 1fr !important; gap: 12px !important; }
+      .trust-bar { grid-template-columns: repeat(2, 1fr) !important; }
+      .screener-cta-row { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
@@ -33,7 +35,8 @@
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links">
-      <a href="/" class="active">Invest</a>
+      <a href="/" class="active">Home</a>
+      <a href="invest.html">Stock Screener</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="strategies.html">Strategies</a>
       <a href="research.html">Research</a>
@@ -42,59 +45,134 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="hero">
-    <h1>Investing<br><span class="italic">made simple.</span></h1>
-    <p>Two ways to invest: systematic strategies or real portfolio decisions. Real capital. Real positions. No simulations.</p>
-    <p style="margin-top:16px;color:#ccc">Three strategies averaging <strong style="color:#fff">20.5% CAGR</strong> vs the S&amp;P 500's ~10.9%.</p>
+  <!-- Hero — Proof first -->
+  <header class="hero" style="padding:80px 24px 40px">
+    <p style="margin:0 auto 20px;font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#b8965a">Systematic Investing &middot; Real Capital</p>
+    <h1 style="margin-bottom:24px">$100K &rarr; $5.05M<br><span class="italic">in 20 years.</span></h1>
+    <p style="font-size:1.1rem;color:#bbb;max-width:600px;margin:0 auto 12px">Three rules-based strategies averaging <strong style="color:#fff">21% CAGR</strong> vs the S&amp;P 500's ~10.9%.</p>
+    <p style="font-size:0.95rem;color:#888;max-width:540px;margin:0 auto 28px">Backed by academic research. No stock picking. No guesswork. Just rules, data, and annual rebalances.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="invest.html" class="btn btn-accent" style="padding:14px 36px;font-size:0.9rem">Screen Stocks Now &rarr;</a>
+      <a href="strategies.html" class="btn" style="padding:14px 36px;font-size:0.9rem">See Methodology</a>
+    </div>
+    <p style="margin:24px auto 0;font-size:0.82rem;color:#555">Built by a former CFO managing a multi-million euro portfolio. <a href="about.html" style="color:#888">More &rarr;</a></p>
   </header>
 
-  <!-- Growth Chart -->
-  <section class="section" style="padding:48px 0">
-    <div class="container" style="max-width:800px">
-      <div style="text-align:center;margin-bottom:24px">
-        <span class="sublabel">20 Years &middot; 2006&ndash;2025</span>
-        <h2 style="margin:12px 0 8px">$100,000 invested in 2006</h2>
-        <p style="margin:0 auto">This is what 21.7% CAGR looks like.</p>
-      </div>
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px 28px 20px">
-        <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
-          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR &mdash; $5.05M (50.5x)</span>
-          <span style="font-size:0.72rem;color:#888">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K (7.5x)</span>
+  <!-- Growth Chart — Bigger, with context -->
+  <section style="padding:48px 0 0">
+    <div class="container" style="max-width:860px">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px 32px 24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h3 style="font-size:1rem;margin-bottom:4px">Growth of $100,000</h3>
+            <span style="font-size:0.7rem;color:#555">Momentum strategy vs S&amp;P 500, 2006&ndash;2025</span>
+          </div>
+          <span style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444">20-Year Backtest</span>
         </div>
-        <canvas id="homeChart" style="width:100%;height:220px"></canvas>
+        <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap">
+          <span style="font-size:0.75rem;color:#4ade80;font-weight:500">&#9679; Momentum 21.7% CAGR &mdash; $5.05M</span>
+          <span style="font-size:0.75rem;color:#666;font-weight:500">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K</span>
+        </div>
+        <canvas id="homeChart" style="width:100%;height:300px"></canvas>
       </div>
-      <p style="margin:16px auto 0;font-size:0.78rem;color:#444;text-align:center;max-width:100%">Based on 20-year backtest. I run all three strategies with real capital. <a href="strategies.html" style="color:var(--accent)">See methodology &rarr;</a></p>
+      <p style="margin:14px auto 0;font-size:0.75rem;color:#444;text-align:center">Includes 2008 financial crisis (-44%), 2020 COVID crash, and 2022 bear market. I run all three strategies with real capital. <a href="strategies.html" style="color:var(--accent)">Full methodology &rarr;</a></p>
     </div>
   </section>
 
-  <!-- Strategy Cards -->
-  <section class="section">
+  <!-- Trust Bar — 4 stats -->
+  <section style="padding:40px 0">
+    <div class="container" style="max-width:860px">
+      <div class="trust-bar" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#4ade80">21.7%</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">CAGR</div>
+        </div>
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#fff">0.95</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Sharpe Ratio</div>
+        </div>
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#fff">85%</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Win Rate (17/20 yrs)</div>
+        </div>
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#f87171">-44%</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Worst Year (2008)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy Cards — with worst year -->
+  <section style="padding:0 0 48px">
     <div class="container">
+      <div style="text-align:center;margin-bottom:32px">
+        <span class="sublabel">Three Strategies</span>
+        <h2 style="margin:12px 0 8px">Pick a strategy. Get your stocks.</h2>
+        <p style="margin:0 auto;color:#888;font-size:0.92rem">Each strategy screens thousands of stocks using quantitative rules. No discretion. Annual rebalance.</p>
+      </div>
       <div class="cards-grid cards-3">
 
         <a href="invest.html?strategy=value" class="card" style="text-decoration:none;cursor:pointer">
           <span class="label">Value Strategy</span>
-          <h3>18.61% CAGR</h3>
-          <p>Buy the cheapest stocks using 6 fundamental metrics. Fully systematic, annual rebalance.</p>
-          <span class="card-link">Invest &rarr;</span>
+          <h3 style="margin:12px 0 4px">18.61% CAGR</h3>
+          <p style="font-size:0.78rem;color:#555;margin-bottom:8px">Worst year: -32% (2008)</p>
+          <p>Rank stocks by 6 fundamental metrics (P/E, P/S, P/B, P/CF, EV/EBITDA, Shareholder Yield). Buy the 25 cheapest.</p>
+          <span class="card-link" style="margin-top:auto;padding-top:16px">Screen stocks &rarr;</span>
         </a>
 
         <a href="invest.html?strategy=trend" class="card" style="text-decoration:none;cursor:pointer">
           <span class="label">Momentum + Value</span>
-          <h3>21.19% CAGR</h3>
-          <p>Cheapest 10% of stocks ranked by price momentum. The best of both worlds.</p>
-          <span class="card-link">Invest &rarr;</span>
+          <h3 style="margin:12px 0 4px">21.19% CAGR</h3>
+          <p style="font-size:0.78rem;color:#555;margin-bottom:8px">Worst year: -38% (2008)</p>
+          <p>Cheapest 10% of stocks, ranked by 6-month momentum. Value meets trend. Avoids value traps.</p>
+          <span class="card-link" style="margin-top:auto;padding-top:16px">Screen stocks &rarr;</span>
         </a>
 
-        <a href="invest.html?strategy=momentum" class="card" style="text-decoration:none;cursor:pointer">
-          <span class="label">Momentum</span>
-          <h3>21.7% CAGR</h3>
-          <p>Intermediate momentum (months 7&ndash;12). Backed by Novy-Marx academic research.</p>
-          <span class="card-link">Invest &rarr;</span>
+        <a href="invest.html?strategy=momentum" class="card" style="text-decoration:none;cursor:pointer;border-color:#2a2a2a">
+          <span class="label">Momentum &middot; Best Performer</span>
+          <h3 style="margin:12px 0 4px">21.7% CAGR</h3>
+          <p style="font-size:0.78rem;color:#555;margin-bottom:8px">Worst year: -44% (2008)</p>
+          <p>Intermediate momentum (months 7&ndash;12). Based on Novy-Marx (2012) academic research.</p>
+          <span class="card-link" style="margin-top:auto;padding-top:16px">Screen stocks &rarr;</span>
         </a>
 
       </div>
+      <p style="margin-top:20px;font-size:0.72rem;color:#444;text-align:center">Based on O'Shaughnessy's <em>What Works on Wall Street</em> and Novy-Marx (2012). <a href="strategies.html" style="color:var(--accent)">Read the full methodology &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- Year-by-Year Returns — Transparency -->
+  <section style="padding:48px 0;background:var(--bg-elevated);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container" style="max-width:860px">
+      <div style="text-align:center;margin-bottom:28px">
+        <span class="sublabel">Full Transparency</span>
+        <h2 style="margin:12px 0 8px">Year-by-year returns</h2>
+        <p style="margin:0 auto;font-size:0.88rem;color:#888">Every year. Including the bad ones.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;text-align:center">
+          <thead>
+            <tr>
+              <th style="padding:10px 8px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333;text-align:left">Year</th>
+              <th style="padding:10px 8px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#4ade80;border-bottom:2px solid #333">Momentum</th>
+              <th style="padding:10px 8px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333">S&amp;P 500</th>
+              <th style="padding:10px 8px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333">Diff</th>
+            </tr>
+          </thead>
+          <tbody id="returns-table"></tbody>
+        </table>
+      </div>
+      <p style="margin-top:16px;font-size:0.7rem;color:#444;text-align:center">Momentum strategy, $2B+ market cap. Annual rebalance. Past performance does not guarantee future results.</p>
+    </div>
+  </section>
+
+  <!-- Stock Screener CTA -->
+  <section style="padding:60px 0">
+    <div class="container" style="max-width:700px;text-align:center">
+      <h2 style="margin-bottom:12px">Screen stocks in seconds.</h2>
+      <p style="color:#888;margin:0 auto 28px;font-size:0.95rem">Pick a strategy, choose your market, set a market cap filter. Get your 25 stock picks instantly.</p>
+      <a href="invest.html" class="btn btn-accent" style="padding:16px 48px;font-size:1rem">Open Stock Screener &rarr;</a>
     </div>
   </section>
 
@@ -102,51 +180,59 @@
   <section style="padding:48px 0;background:var(--bg-elevated);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
     <div class="container portfolio-row" style="display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
       <div style="max-width:520px">
-        <span class="sublabel">Or follow my picks</span>
-        <h2 style="margin:12px 0 12px">Active Portfolio</h2>
-        <p style="color:#aaa;margin-bottom:16px">Don&rsquo;t want to run a strategy yourself? Follow my real portfolio &mdash; 23 positions across global markets. Real capital, full transparency.</p>
-        <a href="portfolio.html" class="card-link" style="font-size:0.9rem">View portfolio &rarr;</a>
+        <span class="sublabel">Active Portfolio</span>
+        <h2 style="margin:12px 0 12px">Real positions. Full transparency.</h2>
+        <p style="color:#aaa;margin-bottom:8px">23 holdings across 8 countries. BRK, JD, MSFT, META, AMZN, and more.</p>
+        <p style="color:#666;font-size:0.85rem;margin-bottom:16px">2024: +28.6% &middot; 2025 YTD: +28.8% (in EUR)</p>
+        <a href="portfolio.html" class="card-link" style="font-size:0.9rem">View all positions &rarr;</a>
       </div>
-      <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <div style="display:flex;gap:28px;flex-wrap:wrap">
         <div style="text-align:center">
           <div style="font-size:1.8rem;font-weight:700;color:#fff">23</div>
-          <div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#666">Positions</div>
+          <div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#666">Positions</div>
         </div>
         <div style="text-align:center">
           <div style="font-size:1.8rem;font-weight:700;color:#fff">8</div>
-          <div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#666">Countries</div>
+          <div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#666">Countries</div>
         </div>
         <div style="text-align:center">
           <div style="font-size:1.8rem;font-weight:700;color:#4ade80">100%</div>
-          <div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#666">Real Capital</div>
+          <div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#666">Real Capital</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Philosophy -->
-  <div class="quote-block">
-    <blockquote>I focus on scalable businesses with long-term compounding potential &mdash; buying quality at a discount and holding with conviction.</blockquote>
-    <cite>&mdash; Investment Philosophy</cite>
-  </div>
+  <!-- About Teaser -->
+  <section style="padding:60px 0">
+    <div class="container" style="max-width:640px;text-align:center">
+      <span class="sublabel">Who's behind this</span>
+      <h2 style="margin:12px 0 16px">Former CFO. Active investor.</h2>
+      <p style="color:#aaa;margin:0 auto 8px;font-size:0.95rem">10+ years in finance across telecom, infrastructure, and energy. MBA and MSc in Finance. Managing a multi-million euro portfolio across public equities and real assets.</p>
+      <p style="color:#666;margin:0 auto 24px;font-size:0.88rem">50% systematic strategies, 50% active picks. The systematic half takes one rebalance per year.</p>
+      <a href="about.html" class="card-link" style="font-size:0.9rem">Read more &rarr;</a>
+    </div>
+  </section>
 
   <!-- Subscribe -->
-  <section class="subscribe" id="subscribe">
-    <h2>Welcome to the Squad</h2>
-    <p>Market insights, portfolio moves, and investing frameworks. No spam, no fluff.</p>
+  <section class="subscribe" id="subscribe" style="border-top:1px solid var(--border)">
+    <span class="sublabel" style="display:block;margin-bottom:12px">Newsletter</span>
+    <h2>Portfolio updates and strategy signals.</h2>
+    <p style="color:#888">Monthly breakdown: what I bought, what I sold, and why. Plus strategy rebalance alerts.</p>
     <form class="subscribe-form" action="https://ridingtowealth.us21.list-manage.com/subscribe/post?u=57977da46b4f3669d1f04ebb7&id=8d39554566&f_id=0089e0e6f0" method="post">
       <label for="email-input" class="sr-only">Email address</label>
       <input type="email" name="EMAIL" id="email-input" placeholder="Your email address" required>
       <button type="submit">Subscribe</button>
     </form>
-    <p class="subscribe-note">Free forever. Unsubscribe anytime.</p>
+    <p class="subscribe-note">Free. Unsubscribe anytime. No spam.</p>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
     <span class="footer-logo">RIDING TO WEALTH</span>
     <div class="footer-links">
-      <a href="/">Invest</a>
+      <a href="/">Home</a>
+      <a href="invest.html">Screener</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="strategies.html">Strategies</a>
       <a href="research.html">Research</a>
@@ -156,24 +242,48 @@
       <a href="https://x.com/ridingtowealth" target="_blank" rel="noopener" aria-label="X / Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
       <a href="https://instagram.com/ridingtowealth" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
     </div>
-    <p class="footer-disclaimer">Not financial advice. Past performance does not guarantee future results. &copy; 2026 Riding to Wealth</p>
+    <p class="footer-disclaimer">Not financial advice. Past performance does not guarantee future results. Last updated April 2026. &copy; 2026 Riding to Wealth</p>
   </footer>
 
   <script>
+  // Year-by-year returns table
+  (function() {
+    const years = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+    const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,65.8,40.16,6.93,3.14,35.47,42.07];
+    const spR  = [15.81,5.17,-36.97,26.70,15.06,1.79,15.90,32.53,13.45,1.19,12.00,21.83,-4.38,31.49,18.40,28.71,-18.11,26.29,25.02,10.00];
+    const tbody = document.getElementById('returns-table');
+    let html = '';
+    for (let i = 0; i < years.length; i++) {
+      const diff = (momR[i] - spR[i]).toFixed(1);
+      const momColor = momR[i] >= 0 ? '#4ade80' : '#f87171';
+      const spColor = spR[i] >= 0 ? '#ccc' : '#f87171';
+      const diffColor = diff >= 0 ? '#4ade80' : '#f87171';
+      const diffSign = diff >= 0 ? '+' : '';
+      html += `<tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:8px;text-align:left;color:#888">${years[i]}</td>
+        <td style="padding:8px;color:${momColor};font-weight:600">${momR[i] >= 0 ? '+' : ''}${momR[i].toFixed(1)}%</td>
+        <td style="padding:8px;color:${spColor}">${spR[i] >= 0 ? '+' : ''}${spR[i].toFixed(1)}%</td>
+        <td style="padding:8px;color:${diffColor};font-size:0.78rem">${diffSign}${diff}%</td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+  })();
+
+  // Growth chart — bigger, with crisis annotations
   function drawGrowthChart(canvasId) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
-    const W = canvas.parentElement.clientWidth - 56;
-    const H = Math.max(180, Math.min(220, W * 0.45));
+    const W = canvas.parentElement.clientWidth - 64;
+    const H = Math.max(240, Math.min(300, W * 0.5));
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
 
-    const pad = { t: 20, r: 10, b: 28, l: 10 };
+    const pad = { t: 24, r: 14, b: 32, l: 14 };
 
     const years = [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
     const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,65.8,40.16,6.93,3.14,35.47,42.07];
@@ -186,11 +296,14 @@
 
     function xp(i){return pad.l+(i/years.length)*(W-pad.l-pad.r);}
     function yp(v){return pad.t+(1-(Math.log10(v)-logMin)/(logMax-logMin))*(H-pad.t-pad.b);}
-    function drawLine(eq,col,w){ctx.beginPath();eq.forEach((v,i)=>{i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();}
 
-    // Subtle grid
+    // Grid lines
     ctx.strokeStyle='#1a1a1a';ctx.lineWidth=1;
-    [100000,1000000].forEach(v=>{ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();});
+    [100000,500000,1000000,3000000].forEach(v=>{
+      if(Math.log10(v) >= logMin && Math.log10(v) <= logMax){
+        ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();
+      }
+    });
 
     // Year labels
     const isMobile = W < 400;
@@ -199,17 +312,40 @@
     years.forEach((yr,i)=>{if(i%step===0)ctx.fillText(yr,xp(i),H-10);});
     ctx.fillText('2025',xp(years.length),H-10);
 
-    // Lines
-    drawLine(spEq,'#555',2);
-    drawLine(momEq,'#4ade80',2.5);
+    // S&P line
+    function drawLine(eq,col,w){ctx.beginPath();eq.forEach((v,i)=>{i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();}
+    drawLine(spEq,'#444',2);
 
-    // End labels — always inside chart, right-aligned near end of line
-    ctx.font='bold 13px Inter,sans-serif';
+    // Momentum line with glow
+    ctx.shadowColor='rgba(74,222,128,0.3)';ctx.shadowBlur=8;
+    drawLine(momEq,'#4ade80',2.5);
+    ctx.shadowBlur=0;
+
+    // 2008 crash annotation
+    const crash2008idx = 2; // index in momR for 2008
+    const crashY = yp(momEq[crash2008idx + 1]); // value after 2008
+    const crashX = xp(crash2008idx + 1);
+    ctx.beginPath();
+    ctx.arc(crashX, crashY, 4, 0, Math.PI*2);
+    ctx.fillStyle='#f87171';
+    ctx.fill();
+    ctx.font='bold 10px Inter,sans-serif';
+    ctx.textAlign='left';
+    ctx.fillStyle='#f87171';
+    ctx.fillText('-44%', crashX + 8, crashY + 4);
+
+    // 2020 annotation
+    const covid2020idx = 14;
+    const covidY = yp(momEq[covid2020idx + 1]);
+    const covidX = xp(covid2020idx + 1);
+
+    // End labels
+    ctx.font='bold 14px Inter,sans-serif';
     ctx.textAlign='right';
     ctx.fillStyle='#4ade80';
-    ctx.fillText('$5.05M',xp(years.length)-4,yp(momEq[momEq.length-1])-12);
-    ctx.fillStyle='#bbb';
-    ctx.fillText('$747K',xp(years.length)-4,yp(spEq[spEq.length-1])-12);
+    ctx.fillText('$5.05M',xp(years.length)-4,yp(momEq[momEq.length-1])-14);
+    ctx.fillStyle='#888';
+    ctx.fillText('$747K',xp(years.length)-4,yp(spEq[spEq.length-1])-14);
   }
   drawGrowthChart('homeChart');
   window.addEventListener('resize', function(){drawGrowthChart('homeChart');});
