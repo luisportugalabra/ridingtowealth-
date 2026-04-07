@@ -23,6 +23,7 @@
       .cards-3 { grid-template-columns: 1fr !important; gap: 12px !important; }
       .trust-bar { grid-template-columns: repeat(2, 1fr) !important; }
       .screener-cta-row { flex-direction: column; text-align: center; }
+      .two-sides { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -167,24 +168,53 @@
     </div>
   </section>
 
-  <!-- Stock Screener CTA -->
+  <!-- How I Invest — Two sides -->
   <section style="padding:60px 0">
-    <div class="container" style="max-width:700px;text-align:center">
-      <h2 style="margin-bottom:12px">Screen stocks in seconds.</h2>
-      <p style="color:#888;margin:0 auto 28px;font-size:0.95rem">Pick a strategy, choose your market, set a market cap filter. Get your 25 stock picks instantly.</p>
-      <a href="invest.html" class="btn btn-accent" style="padding:16px 48px;font-size:1rem">Open Stock Screener &rarr;</a>
+    <div class="container" style="max-width:860px">
+      <div style="text-align:center;margin-bottom:36px">
+        <span class="sublabel">How I Invest</span>
+        <h2 style="margin:12px 0 8px">Two sides of the same portfolio.</h2>
+        <p style="margin:0 auto;color:#888;font-size:0.92rem">I split my capital 50/50 between systematic strategies and active stock picking. Both run with real money.</p>
+      </div>
+      <div class="two-sides" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+        <!-- Systematic -->
+        <div style="background:var(--bg-card);padding:36px">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#4ade80;font-weight:600;margin-bottom:12px">50% &mdash; Systematic</div>
+          <h3 style="font-size:1.15rem;margin-bottom:10px">Rules-based strategies</h3>
+          <p style="font-size:0.88rem;color:#888;margin-bottom:16px;max-width:none">Three quantitative strategies backed by 20+ years of data. No opinions, no discretion. The rules pick the stocks, I just rebalance once a year.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+            <span class="tag">Value</span>
+            <span class="tag">Momentum</span>
+            <span class="tag">Annual Rebalance</span>
+          </div>
+          <a href="invest.html" class="card-link" style="font-size:0.85rem">Get strategy picks &rarr;</a>
+        </div>
+        <!-- Active -->
+        <div style="background:var(--bg-card);padding:36px">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px">50% &mdash; Active Picks</div>
+          <h3 style="font-size:1.15rem;margin-bottom:10px">Conviction-based portfolio</h3>
+          <p style="font-size:0.88rem;color:#888;margin-bottom:16px;max-width:none">23 positions I chose based on deep research. Scalable businesses, strong compounding potential, bought at a discount. Real capital, full transparency.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+            <span class="tag">23 Holdings</span>
+            <span class="tag">8 Countries</span>
+            <span class="tag">Real Capital</span>
+          </div>
+          <a href="portfolio.html" class="card-link" style="font-size:0.85rem">View portfolio &rarr;</a>
+        </div>
+      </div>
+      <p style="margin-top:16px;font-size:0.75rem;color:#444;text-align:center">The systematic half requires almost zero time &mdash; one rebalance per year. The active half is where I spend my research hours.</p>
     </div>
   </section>
 
-  <!-- Portfolio -->
+  <!-- Portfolio highlights -->
   <section style="padding:48px 0;background:var(--bg-elevated);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
     <div class="container portfolio-row" style="display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap">
       <div style="max-width:520px">
-        <span class="sublabel">Active Portfolio</span>
-        <h2 style="margin:12px 0 12px">Real positions. Full transparency.</h2>
-        <p style="color:#aaa;margin-bottom:8px">23 holdings across 8 countries. BRK, JD, MSFT, META, AMZN, and more.</p>
+        <span class="sublabel">Active Side &middot; Portfolio</span>
+        <h2 style="margin:12px 0 12px">Current positions</h2>
+        <p style="color:#aaa;margin-bottom:8px">BRK, JD, MSFT, META, AMZN, Cellnex, Prosus, and more across global markets.</p>
         <p style="color:#666;font-size:0.85rem;margin-bottom:16px">2024: +28.6% &middot; 2025 YTD: +28.8% (in EUR)</p>
-        <a href="portfolio.html" class="card-link" style="font-size:0.9rem">View all positions &rarr;</a>
+        <a href="portfolio.html" class="card-link" style="font-size:0.9rem">View all 23 positions &rarr;</a>
       </div>
       <div style="display:flex;gap:28px;flex-wrap:wrap">
         <div style="text-align:center">
