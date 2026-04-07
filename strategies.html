@@ -823,8 +823,15 @@
         const sel = document.getElementById('mktcap-filter');
         const def = defaultMktCap[p] || 0;
         for (let o of sel.options) { o.selected = parseInt(o.value) === def; }
-        // Jump directly to step 2
-        goToStep(2);
+        // Jump directly to step 2 (instant, no smooth scroll)
+        document.querySelectorAll('.wizard-panel').forEach(p2 => p2.classList.remove('active'));
+        document.getElementById('step2').classList.add('active');
+        document.getElementById('wizard-steps').style.display = 'flex';
+        document.getElementById('dot1').classList.add('done');
+        document.getElementById('dot1').classList.remove('active');
+        document.getElementById('dot2').classList.add('active');
+        document.getElementById('line1').classList.add('active');
+        window.scrollTo(0, document.getElementById('wizard').offsetTop - 100);
       }
     })();
   </script>
