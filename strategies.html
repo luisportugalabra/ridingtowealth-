@@ -216,9 +216,8 @@
           <span style="font-size:0.7rem;color:#555;letter-spacing:0.08em">20-YEAR BACKTEST</span>
         </div>
         <div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap">
-          <span style="font-size:0.72rem;color:#4ade80">&marker; Momentum 21.7% CAGR</span>
-          <span style="font-size:0.72rem;color:var(--accent)">&marker; Trending Value 21.2% CAGR</span>
-          <span style="font-size:0.72rem;color:#555">&marker; S&amp;P 500 10.9% CAGR</span>
+          <span style="font-size:0.72rem;color:#4ade80">&#9679; Momentum 21.7% CAGR</span>
+          <span style="font-size:0.72rem;color:#555">&#9679; S&amp;P 500 10.9% CAGR</span>
         </div>
         <canvas id="growthChart" height="220"></canvas>
       </div>
@@ -262,9 +261,68 @@
         </div>
       </div>
 
-      <div class="quote-block" style="border-radius:12px;margin-bottom:32px">
+      <div class="quote-block" style="border-radius:12px;margin-bottom:0">
         <blockquote style="font-size:1.1rem">&ldquo;The strategy that works best is the one you can stick with. Rules-based systems remove the hardest part of investing: yourself.&rdquo;</blockquote>
         <cite>&mdash; James O&rsquo;Shaughnessy, What Works on Wall Street</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy Deep Dives -->
+  <section style="padding:48px 0;border-top:1px solid var(--border)">
+    <div class="container" style="max-width:800px">
+      <div style="text-align:center;margin-bottom:48px">
+        <span class="sublabel">The Three Strategies</span>
+        <h2 style="margin:12px 0 16px">How each strategy works</h2>
+      </div>
+
+      <!-- Value -->
+      <div class="research-section">
+        <span class="section-label">Strategy 1</span>
+        <h2 style="font-size:1.3rem">Value Composite &mdash; 18.61% CAGR</h2>
+        <p>Rank every stock in the market using six fundamental metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield. Combine them into a single composite score (VC2). Buy the 25 cheapest. Rebalance annually.</p>
+        <p>Financial stocks are excluded because P/B and EV/EBITDA are not meaningful for banks and insurers. Stocks with negative earnings are also removed.</p>
+        <p>Historically, this strategy performs best when including small caps &mdash; <strong style="color:#fff">market cap above $200M</strong> is the sweet spot that balances liquidity with the small-cap value premium.</p>
+      </div>
+
+      <!-- Trending Value -->
+      <div class="research-section">
+        <span class="section-label">Strategy 2</span>
+        <h2 style="font-size:1.3rem">Trending Value &mdash; 21.19% CAGR</h2>
+        <p>Start with the Value strategy. Identify the cheapest 10% of stocks by composite score. Then, within that cheap decile, rank by 6-month price momentum and buy the top 25.</p>
+        <p>This combines two of the strongest factors in finance &mdash; value and momentum &mdash; into one strategy. You&rsquo;re buying cheap stocks that are already moving up, avoiding value traps.</p>
+        <p>Like the Value strategy, this works best with <strong style="color:#fff">$200M+ market cap</strong>, and excludes financials and negative earnings.</p>
+      </div>
+
+      <!-- Momentum -->
+      <div class="research-section">
+        <span class="section-label">Strategy 3</span>
+        <h2 style="font-size:1.3rem">Intermediate Momentum &mdash; 21.7% CAGR</h2>
+        <p>Based on <strong style="color:#fff">Novy-Marx (2012)</strong> academic research. Instead of looking at recent returns (which tend to reverse), this strategy uses returns from months 7&ndash;12 &mdash; the &ldquo;intermediate&rdquo; momentum window that has been shown to persist.</p>
+        <p>Calculate: 12-month return minus 6-month return. Buy the top 25 stocks. Rebalance annually.</p>
+        <p>Unlike value strategies, momentum historically performs better on larger, more liquid stocks. <strong style="color:#fff">$2B+ market cap</strong> tends to deliver the best risk-adjusted returns, closely matching the S&amp;P 500 universe where the original research was conducted.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:20px 0">
+          <div style="background:var(--bg-card);padding:16px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:#4ade80">$505K</div>
+            <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:2px">$10K &rarr; 20 years</div>
+          </div>
+          <div style="background:var(--bg-card);padding:16px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:#fff">0.95</div>
+            <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:2px">Sharpe Ratio</div>
+          </div>
+          <div style="background:var(--bg-card);padding:16px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:#fff">85%</div>
+            <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:2px">Win Rate (17/20 yrs)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diversification -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px;margin-bottom:32px">
+        <span class="section-label">How I invest</span>
+        <h2 style="font-size:1.3rem;margin-top:8px;margin-bottom:16px">Why I run all three</h2>
+        <p style="color:#aaa;max-width:none">Running multiple strategies lowers overall portfolio variance and improves the Sharpe ratio. Value and momentum are <strong style="color:#fff">negatively correlated</strong> &mdash; when one underperforms, the other tends to pick up the slack. Combining them smooths out returns and makes the portfolio easier to hold through drawdowns.</p>
+        <p style="color:#aaa;max-width:none">That&rsquo;s why systematic strategies are powerful: you don&rsquo;t need to think, analyse, or second-guess. The rules run themselves. I split my capital <strong style="color:#fff">50% in my active picks, 50% across these three strategies</strong>. The systematic half requires almost zero time &mdash; just one rebalance per year.</p>
       </div>
     </div>
   </section>
@@ -429,7 +487,7 @@
     let selectedGeo = '';
 
     // Default market cap by strategy (in $M)
-    const defaultMktCap = { value: 200, trend: 200, momentum: 1000 };
+    const defaultMktCap = { value: 200, trend: 200, momentum: 2000 };
 
     // Data indices — name is index 1, mktcap is index 2
     // value:    [ticker, name, mktcap, pe, ps, pb, pcf, eveb, shy, vc2]
@@ -716,9 +774,6 @@
       const momR = [13.41,24.49,-43.96,39.37,38.14,2.79,25.24,49.86,35.52,-0.63,17.49,31.95,-1.20,68.96,20.0,40.16,6.93,3.14,35.47,42.07];
       // S&P 500 annual returns
       const spR = [15.81,5.17,-36.97,26.70,15.06,1.79,15.90,32.53,13.45,1.19,12.00,21.83,-4.38,31.49,18.40,28.71,-18.11,26.29,25.02,10.00];
-      // Trending Value (approx 21.2% CAGR, similar pattern)
-      const tvR = [11.5,22.1,-41.2,42.5,35.8,5.1,22.0,45.2,30.1,2.4,19.8,28.5,-3.5,62.0,18.0,38.5,4.2,5.8,32.1,38.0];
-
       function buildEquity(returns) {
         let eq = [10000];
         for (let r of returns) eq.push(eq[eq.length-1] * (1 + r/100));
@@ -726,9 +781,8 @@
       }
       const momEq = buildEquity(momR);
       const spEq = buildEquity(spR);
-      const tvEq = buildEquity(tvR);
 
-      const allVals = [...momEq, ...spEq, ...tvEq];
+      const allVals = [...momEq, ...spEq];
       const maxVal = Math.max(...allVals);
       const minVal = Math.min(...allVals);
       const logMin = Math.log10(minVal * 0.8);
@@ -770,7 +824,6 @@
 
       // Lines
       drawLine(spEq, '#333', 1.5);
-      drawLine(tvEq, '#b8965a', 2);
       drawLine(momEq, '#4ade80', 2.5);
 
       // End labels
@@ -778,8 +831,6 @@
       ctx.textAlign = 'left';
       ctx.fillStyle = '#4ade80';
       ctx.fillText('$' + Math.round(momEq[momEq.length-1]/1000) + 'K', x(years.length) + 4, y(momEq[momEq.length-1]) - 6);
-      ctx.fillStyle = '#b8965a';
-      ctx.fillText('$' + Math.round(tvEq[tvEq.length-1]/1000) + 'K', x(years.length) + 4, y(tvEq[tvEq.length-1]) + 2);
       ctx.fillStyle = '#666';
       ctx.fillText('$' + Math.round(spEq[spEq.length-1]/1000) + 'K', x(years.length) + 4, y(spEq[spEq.length-1]) + 14);
     })();
