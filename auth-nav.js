@@ -21,9 +21,7 @@
     const name = user.email.split('@')[0];
     const isPaid = user.user_metadata && user.user_metadata.is_paid === true;
     link.textContent = name;
-    if (isPaid) {
-      link.innerHTML = name + ' <span style="font-size:0.55rem;font-weight:700;padding:2px 6px;background:#b8965a;color:#0a0a0a;border-radius:4px;letter-spacing:0.08em;margin-left:4px;vertical-align:middle">PRO</span>';
-    }
+    link.innerHTML = name + (isPaid ? ' <span style="font-size:0.55rem;font-weight:700;padding:2px 6px;background:#b8965a;color:#0a0a0a;border-radius:4px;letter-spacing:0.08em;margin-left:4px;vertical-align:middle">PRO</span>' : '') + ' <span style="color:#888;font-size:0.65rem">&middot; Sign Out</span>';
     link.href = '#';
     link.onclick = function(e) {
       e.preventDefault();
