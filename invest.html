@@ -12,17 +12,11 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .wizard { max-width: 900px; margin: 0 auto; }
     .wizard-steps { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 48px; }
-    .step-dot {
-      width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 700;
-      border: 2px solid var(--border);
-      color: var(--text-muted);
-      transition: all 0.3s;
-    }
+    .step-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; border: 2px solid var(--border); color: var(--text-muted); transition: all 0.3s; }
     .step-dot.active { border-color: var(--green); color: var(--green); }
     .step-dot.done { background: var(--green); border-color: var(--green); color: #fff; }
     .step-line { width: 40px; height: 2px; background: var(--border); transition: background 0.3s; }
@@ -31,61 +25,40 @@
     .wizard-question { text-align: center; margin-bottom: 32px; }
     .wizard-question h2 { font-size: 1.6rem; }
     .options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .opt-btn {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 28px 36px; cursor: pointer; transition: all 0.2s; text-align: center; min-width: 200px;
-    }
+    .opt-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 36px; cursor: pointer; transition: all 0.2s; text-align: center; min-width: 200px; }
     .opt-btn:hover { border-color: #444; transform: translateY(-2px); }
     .opt-btn.selected { border-color: var(--accent); }
     .opt-btn h3 { font-size: 1.15rem; margin-bottom: 4px; }
     .opt-btn .cagr { color: var(--accent); font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
     .opt-btn p { font-size: 0.82rem; color: var(--text-muted); max-width: 220px; margin: 0 auto; }
-    .geo-btn {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
-      padding: 18px 28px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; font-weight: 500; color: #ccc;
-    }
+    .geo-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 28px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; font-weight: 500; color: #ccc; }
     .geo-btn:hover { border-color: #444; transform: translateY(-2px); }
     .geo-btn.selected { border-color: var(--accent); color: var(--accent); }
+    .geo-btn.locked { opacity: 0.4; cursor: not-allowed; position: relative; }
+    .geo-btn.locked:hover { transform: none; border-color: var(--border); }
+    .geo-btn.locked::after { content: 'PRO'; position: absolute; top: -8px; right: -8px; background: var(--accent); color: #0a0a0a; font-size: 0.55rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.08em; }
     .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
     .output-header h2 { font-size: 1.4rem; }
     .output-meta { font-size: 0.75rem; color: var(--text-muted); }
     .output-actions { display: flex; gap: 10px; }
-    .action-btn {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
-      padding: 8px 16px; font-size: 0.78rem; font-weight: 600; color: #ccc;
-      cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em;
-    }
+    .action-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; font-size: 0.78rem; font-weight: 600; color: #ccc; cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em; }
     .action-btn:hover { border-color: #444; color: #fff; }
     .action-btn.accent { border-color: var(--accent); color: var(--accent); }
     .action-btn.accent:hover { background: var(--accent); color: #0a0a0a; }
     .stock-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 32px; }
-    .stock-table th {
-      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--text-muted);
-      text-align: left; padding: 10px 12px;
-      border-bottom: 2px solid #333;
-      position: sticky; top: 0; background: var(--bg-primary);
-    }
+    .stock-table th { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-align: left; padding: 10px 12px; border-bottom: 2px solid #333; position: sticky; top: 0; background: var(--bg-primary); }
     .stock-table th.r { text-align: right; }
     .stock-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: #ccc; }
     .stock-table td.r { text-align: right; font-variant-numeric: tabular-nums; }
     .stock-table td.ticker { font-weight: 600; color: #fff; }
     .stock-table tr:hover { background: var(--bg-elevated); }
+    .stock-table tr.blurred td { filter: blur(6px); user-select: none; pointer-events: none; }
     .weight-col { color: var(--text-muted) !important; }
-    .rules-box {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 28px; margin-bottom: 32px;
-    }
+    .rules-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 32px; }
     .rules-box h3 { margin-bottom: 16px; font-size: 1rem; }
     .rules-box ol { padding-left: 20px; }
     .rules-box li { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 10px; line-height: 1.5; }
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.78rem; font-weight: 500; color: var(--text-muted);
-      letter-spacing: 0.06em; text-transform: uppercase;
-      cursor: pointer; transition: color 0.2s; margin-bottom: 24px;
-      background: none; border: none; padding: 0;
-    }
+    .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: color 0.2s; margin-bottom: 24px; background: none; border: none; padding: 0; }
     .back-btn:hover { color: var(--accent); }
     .wizard-panel { display: none; }
     .wizard-panel.active { display: block; }
@@ -94,6 +67,37 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.06em; }
     .loading-sub { font-size: 0.7rem; color: #444; letter-spacing: 0.04em; margin-top: -12px; }
+
+    /* Paywall overlay */
+    .paywall-wrap { position: relative; }
+    .paywall-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.85) 30%, rgba(10,10,10,0.95) 100%); z-index: 10; padding: 40px 24px; text-align: center; }
+    .paywall-overlay h3 { font-size: 1.2rem; margin-bottom: 8px; color: #fff; }
+    .paywall-overlay p { font-size: 0.88rem; color: #888; margin-bottom: 20px; max-width: 400px; }
+    .paywall-overlay .paywall-price { font-size: 1.8rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .paywall-overlay .paywall-period { font-size: 0.78rem; color: #666; margin-bottom: 20px; }
+
+    /* Auth modal */
+    .auth-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+    .auth-backdrop.open { display: flex; }
+    .auth-modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 100%; max-width: 400px; position: relative; }
+    .auth-modal h2 { font-size: 1.3rem; margin-bottom: 20px; text-align: center; }
+    .auth-modal input { width: 100%; padding: 12px 16px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 0.9rem; margin-bottom: 12px; outline: none; }
+    .auth-modal input:focus { border-color: var(--accent); }
+    .auth-modal .auth-btn { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 8px; color: #0a0a0a; font-size: 0.9rem; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; transition: background 0.2s; }
+    .auth-modal .auth-btn:hover { background: var(--accent-hover); }
+    .auth-modal .auth-toggle { text-align: center; margin-top: 16px; font-size: 0.82rem; color: #666; }
+    .auth-modal .auth-toggle a { color: var(--accent); cursor: pointer; }
+    .auth-modal .auth-error { color: #f87171; font-size: 0.78rem; margin-bottom: 12px; display: none; }
+    .auth-modal .auth-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #666; font-size: 1.2rem; cursor: pointer; }
+    .auth-modal .auth-close:hover { color: #fff; }
+
+    /* Nav auth */
+    .nav-auth { display: flex; align-items: center; gap: 12px; }
+    .nav-auth-btn { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; cursor: pointer; transition: color 0.2s; background: none; border: none; }
+    .nav-auth-btn:hover { color: #fff; }
+    .nav-user { font-size: 0.72rem; color: var(--accent); letter-spacing: 0.05em; }
+    .pro-tag { display: inline-block; font-size: 0.55rem; font-weight: 700; padding: 2px 6px; background: var(--accent); color: #0a0a0a; border-radius: 4px; letter-spacing: 0.08em; margin-left: 6px; vertical-align: middle; }
+
     @media (max-width: 600px) {
       .opt-btn { min-width: 100%; }
       .geo-btn { min-width: calc(50% - 8px); text-align: center; }
@@ -101,6 +105,7 @@
       .stock-table th, .stock-table td { padding: 8px 5px; white-space: nowrap; }
       .output-header { flex-direction: column; align-items: flex-start; }
       .output-actions { flex-wrap: wrap; }
+      .auth-modal { margin: 20px; padding: 28px; }
     }
     .card .btn:hover, .card .btn:active { color: #2d7a4f; border-color: #2d7a4f; }
   </style>
@@ -116,8 +121,10 @@
       <a href="/">Home</a>
       <a href="invest.html" class="active">Stocks</a>
       <a href="strategies.html">Strategies</a>
-
       <a href="about.html">About</a>
+      <div class="nav-auth" id="nav-auth">
+        <button class="nav-auth-btn" onclick="openAuth('login')">Sign In</button>
+      </div>
     </div>
   </nav>
 
@@ -180,14 +187,14 @@
           <button class="back-btn" onclick="goToStep(1)">&larr; Back</button>
           <div class="wizard-title">Step 2</div>
           <div class="wizard-question"><h2>Where do you want to invest?</h2></div>
-          <div class="options">
+          <div class="options" id="geo-options">
             <div class="geo-btn" onclick="selectGeo('USA')">USA</div>
             <div class="geo-btn" onclick="selectGeo('Global')">Global</div>
             <div class="geo-btn" onclick="selectGeo('Europe')">Europe</div>
             <div class="geo-btn" onclick="selectGeo('Asia')">Asia</div>
             <div class="geo-btn" onclick="selectGeo('Emerging')">Emerging Markets</div>
           </div>
-          <div style="margin-top:32px;text-align:center">
+          <div id="mktcap-wrap" style="margin-top:32px;text-align:center">
             <label style="display:inline-flex;align-items:center;gap:10px;font-size:0.85rem;color:#888">
               Min. Market Cap:
               <select id="mktcap-filter" style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:#fff;font-size:0.85rem">
@@ -211,26 +218,31 @@
               <h2 id="output-title"></h2>
               <div class="output-meta" id="output-meta"></div>
             </div>
-            <div class="output-actions">
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
-                Stocks:
-                <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
-              </label>
-              <button class="action-btn" onclick="randomSelect()">Random Selector</button>
-              <button class="action-btn" onclick="exportCSV()">Export CSV</button>
+            <div class="output-actions" id="output-actions">
               <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
             </div>
           </div>
           <div class="rules-box" id="rules-box"></div>
-          <div style="overflow-x:auto">
-            <table class="stock-table">
-              <thead id="table-head"></thead>
-              <tbody id="table-body"></tbody>
-            </table>
+          <div class="paywall-wrap">
+            <div style="overflow-x:auto">
+              <table class="stock-table">
+                <thead id="table-head"></thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+            <div class="paywall-overlay" id="paywall-overlay" style="display:none">
+              <h3>Unlock all 25 stocks</h3>
+              <p>Get the full list for every strategy, every region, with CSV export and daily updates.</p>
+              <div class="paywall-price">$39<span style="font-size:0.9rem;font-weight:400;color:#888">/month</span></div>
+              <div class="paywall-period">or $299/year (save 36%)</div>
+              <button class="auth-btn" style="padding:14px 36px;background:var(--accent);border:none;border-radius:8px;color:#0a0a0a;font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:12px" onclick="openAuth('register')">Sign Up to Unlock</button>
+              <p style="font-size:0.72rem;color:#555;margin:0">Already have an account? <a style="color:var(--accent);cursor:pointer" onclick="openAuth('login')">Sign in</a></p>
+            </div>
           </div>
           <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
             <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
-              Every strategy is backed by 20&ndash;40+ years of US market data. Past performance does not guarantee future results.            </p>
+              Every strategy is backed by 20&ndash;40+ years of US market data. Past performance does not guarantee future results.
+            </p>
           </div>
         </div>
 
@@ -238,23 +250,176 @@
     </div>
   </section>
 
+  <!-- Auth Modal -->
+  <div class="auth-backdrop" id="auth-backdrop" onclick="if(event.target===this)closeAuth()">
+    <div class="auth-modal">
+      <button class="auth-close" onclick="closeAuth()">&times;</button>
+      <h2 id="auth-title">Sign In</h2>
+      <div class="auth-error" id="auth-error"></div>
+      <input type="email" id="auth-email" placeholder="Email address" autocomplete="email">
+      <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
+      <button class="auth-btn" id="auth-submit" onclick="submitAuth()">Sign In</button>
+      <div class="auth-toggle" id="auth-toggle">
+        Don't have an account? <a onclick="switchAuth()">Sign up</a>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <span class="footer-logo">RIDING TO WEALTH</span>
     <div class="footer-links">
       <a href="/">Home</a>
       <a href="invest.html">Stocks</a>
       <a href="strategies.html">Strategies</a>
-
       <a href="about.html">About</a>
     </div>
     <div class="social-icons">
       <a href="https://x.com/LuisPAbr" target="_blank" rel="noopener" aria-label="X / Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
       <a href="https://instagram.com/ridingtowealth" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
     </div>
-    <p class="footer-disclaimer">Not financial advice. Past performance does not guarantee future results. &copy; 2026 Riding to Wealth</p>
+    <p class="footer-disclaimer">Not financial advice. Past performance does not guarantee future results. Strategy data updated daily. &copy; 2026 Riding to Wealth</p>
   </footer>
 
   <script>
+    // ========== SUPABASE AUTH ==========
+    const SUPABASE_URL = 'https://efiyeiwdywodjxxnslvu.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_IccFybhqHU9RM5rc-Em1KA_G5Dsrqha';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+    let userIsPaid = false;
+    let authMode = 'login'; // 'login' or 'register'
+    const FREE_STOCKS = 5;
+
+    async function checkAuth() {
+      try {
+        const { data: { user } } = await sb.auth.getUser();
+        currentUser = user;
+        userIsPaid = user?.user_metadata?.is_paid === true;
+      } catch (e) {
+        currentUser = null;
+        userIsPaid = false;
+      }
+      updateNavAuth();
+      updateGeoLocks();
+    }
+
+    function updateNavAuth() {
+      const nav = document.getElementById('nav-auth');
+      if (currentUser) {
+        const email = currentUser.email.split('@')[0];
+        nav.innerHTML = `
+          <span class="nav-user">${email}${userIsPaid ? '<span class="pro-tag">PRO</span>' : ''}</span>
+          <button class="nav-auth-btn" onclick="doLogout()">Sign Out</button>
+        `;
+      } else {
+        nav.innerHTML = `<button class="nav-auth-btn" onclick="openAuth('login')">Sign In</button>`;
+      }
+    }
+
+    function updateGeoLocks() {
+      const btns = document.querySelectorAll('#geo-options .geo-btn');
+      btns.forEach(btn => {
+        const geo = btn.textContent.trim();
+        if (geo !== 'USA' && !userIsPaid) {
+          btn.classList.add('locked');
+        } else {
+          btn.classList.remove('locked');
+        }
+      });
+      // Lock market cap filter for free
+      const mktWrap = document.getElementById('mktcap-wrap');
+      if (mktWrap) {
+        mktWrap.style.display = userIsPaid ? '' : 'none';
+      }
+    }
+
+    function openAuth(mode) {
+      authMode = mode;
+      document.getElementById('auth-title').textContent = mode === 'register' ? 'Create Account' : 'Sign In';
+      document.getElementById('auth-submit').textContent = mode === 'register' ? 'Create Account' : 'Sign In';
+      document.getElementById('auth-toggle').innerHTML = mode === 'register'
+        ? 'Already have an account? <a onclick="switchAuth()">Sign in</a>'
+        : 'Don\'t have an account? <a onclick="switchAuth()">Sign up</a>';
+      document.getElementById('auth-error').style.display = 'none';
+      document.getElementById('auth-email').value = '';
+      document.getElementById('auth-password').value = '';
+      document.getElementById('auth-backdrop').classList.add('open');
+      document.getElementById('auth-email').focus();
+    }
+
+    function closeAuth() {
+      document.getElementById('auth-backdrop').classList.remove('open');
+    }
+
+    function switchAuth() {
+      openAuth(authMode === 'login' ? 'register' : 'login');
+    }
+
+    async function submitAuth() {
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value;
+      const errEl = document.getElementById('auth-error');
+      errEl.style.display = 'none';
+
+      if (!email || !password) {
+        errEl.textContent = 'Please fill in all fields.';
+        errEl.style.display = 'block';
+        return;
+      }
+      if (password.length < 6) {
+        errEl.textContent = 'Password must be at least 6 characters.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('auth-submit');
+      btn.textContent = 'Loading...';
+      btn.disabled = true;
+
+      let result;
+      if (authMode === 'register') {
+        result = await sb.auth.signUp({ email, password });
+      } else {
+        result = await sb.auth.signInWithPassword({ email, password });
+      }
+
+      btn.disabled = false;
+      btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
+
+      if (result.error) {
+        errEl.textContent = result.error.message;
+        errEl.style.display = 'block';
+        return;
+      }
+
+      if (authMode === 'register' && result.data?.user && !result.data.session) {
+        errEl.textContent = 'Check your email to confirm your account.';
+        errEl.style.display = 'block';
+        errEl.style.color = '#4ade80';
+        return;
+      }
+
+      closeAuth();
+      await checkAuth();
+    }
+
+    async function doLogout() {
+      await sb.auth.signOut();
+      currentUser = null;
+      userIsPaid = false;
+      updateNavAuth();
+      updateGeoLocks();
+    }
+
+    // Listen for auth changes (e.g. email confirmation redirect)
+    sb.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+        await checkAuth();
+      }
+    });
+
+    // ========== WIZARD LOGIC ==========
     let wizardData = null;
     let selectedStrategy = '';
     let selectedGeo = '';
@@ -289,10 +454,16 @@
       const sel = document.getElementById('mktcap-filter');
       const def = defaultMktCap[s] || 0;
       for (let o of sel.options) { o.selected = parseInt(o.value) === def; }
+      updateGeoLocks();
       setTimeout(() => goToStep(2), 200);
     }
 
     function selectGeo(g) {
+      // Check if locked
+      if (g !== 'USA' && !userIsPaid) {
+        openAuth('register');
+        return;
+      }
       selectedGeo = g;
       document.querySelectorAll('.geo-btn').forEach(b => b.classList.remove('selected'));
       event.currentTarget.classList.add('selected');
@@ -315,6 +486,15 @@
 
     function rebuildStep3() {
       const panel = document.getElementById('step3');
+      const paidActions = userIsPaid ? `
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
+          Stocks:
+          <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
+        </label>
+        <button class="action-btn" onclick="randomSelect()">Random Selector</button>
+        <button class="action-btn" onclick="exportCSV()">Export CSV</button>
+      ` : '';
+
       panel.innerHTML = `
         <button class="back-btn" onclick="goToStep(2)">&larr; Back</button>
         <div class="output-header">
@@ -323,25 +503,31 @@
             <div class="output-meta" id="output-meta"></div>
           </div>
           <div class="output-actions">
-            <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:#888">
-              Stocks:
-              <input type="number" id="pick-count" value="25" min="1" max="25" style="width:50px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:#fff;font-size:0.85rem;text-align:center">
-            </label>
-            <button class="action-btn" onclick="randomSelect()">Random Selector</button>
-            <button class="action-btn" onclick="exportCSV()">Export CSV</button>
+            ${paidActions}
             <button class="action-btn accent" onclick="goToStep(1)">Start Over</button>
           </div>
         </div>
         <div class="rules-box" id="rules-box"></div>
-        <div style="overflow-x:auto">
-          <table class="stock-table">
-            <thead id="table-head"></thead>
-            <tbody id="table-body"></tbody>
-          </table>
+        <div class="paywall-wrap">
+          <div style="overflow-x:auto">
+            <table class="stock-table">
+              <thead id="table-head"></thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+          <div class="paywall-overlay" id="paywall-overlay" style="display:none">
+            <h3>Unlock all 25 stocks</h3>
+            <p>Full list for every strategy and region. CSV export. Daily updates. Live portfolio access.</p>
+            <div class="paywall-price">$39<span style="font-size:0.9rem;font-weight:400;color:#888">/month</span></div>
+            <div class="paywall-period">or $299/year (save 36%)</div>
+            <button class="auth-btn" style="padding:14px 36px;background:var(--accent);border:none;border-radius:8px;color:#0a0a0a;font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:12px" onclick="openAuth('register')">Sign Up to Unlock</button>
+            <p style="font-size:0.72rem;color:#555;margin:0">Already have an account? <a style="color:var(--accent);cursor:pointer" onclick="openAuth('login')">Sign in</a></p>
+          </div>
         </div>
         <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
           <p style="font-size:0.78rem;color:#666;max-width:100%;margin-bottom:0;line-height:1.6">
-            Every strategy is backed by 20&ndash;40+ years of US market data. Past performance does not guarantee future results.          </p>
+            Every strategy is backed by 20&ndash;40+ years of US market data. Past performance does not guarantee future results.
+          </p>
         </div>`;
       showOutput();
     }
@@ -351,7 +537,7 @@
       const sourceKey = selectedStrategy === 'value' ? 'value' : selectedStrategy === 'momentum' ? 'momentum' : 'trend';
       const source = wizardData[sourceKey] || {};
       const raw = source[selectedGeo] || [];
-      const minCap = parseInt(document.getElementById('mktcap-filter').value) || 0;
+      const minCap = userIsPaid ? (parseInt(document.getElementById('mktcap-filter')?.value) || 0) : 0;
       if (minCap === 0) return raw;
       return raw.filter(s => s[MKTCAP_IDX] != null && s[MKTCAP_IDX] >= minCap);
     }
@@ -365,7 +551,7 @@
       const filtered = getFilteredStocks();
       const count = isRandom ? Math.min(randomCount, filtered.length) : Math.min(25, filtered.length);
       const weight = count > 0 ? (100 / count).toFixed(1) : '0';
-      const minCap = parseInt(document.getElementById('mktcap-filter').value) || 0;
+      const minCap = userIsPaid ? (parseInt(document.getElementById('mktcap-filter')?.value) || 0) : 0;
       const capLabel = minCap > 0 ? ` · Min $${minCap >= 1000 ? (minCap/1000)+'B' : minCap+'M'}` : '';
       const title = isRandom ? `Random Selection — ${stratLabel} ${geoLabel}` : `${stratLabel} — ${geoLabel}`;
       document.getElementById('output-title').textContent = title;
@@ -382,19 +568,27 @@
       const thead = document.getElementById('table-head');
       const tbody = document.getElementById('table-body');
       let stocks = isRandom ? [...filtered].sort(() => Math.random() - 0.5).slice(0, count) : filtered.slice(0, 25);
+
       if (stocks.length === 0) {
         thead.innerHTML = '';
         tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">No stocks match this filter. Try lowering the market cap threshold.</td></tr>`;
       } else if (selectedStrategy === 'value') {
         thead.innerHTML = `<tr><th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th><th class="r">P/E</th><th class="r">P/S</th><th class="r">P/B</th><th class="r">P/CF</th><th class="r">EV/EBITDA</th><th class="r">SH Yield %</th><th class="r">Weight</th></tr>`;
-        tbody.innerHTML = stocks.map((s, i) => `<tr><td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td><td class="r">${fmtCap(s[2])}</td><td class="r">${fmt(s[3],1)}</td><td class="r">${fmt(s[4],2)}</td><td class="r">${fmt(s[5],2)}</td><td class="r">${fmt(s[6],1)}</td><td class="r">${fmt(s[7],1)}</td><td class="r">${fmt(s[8],1)}</td><td class="r weight-col">${weight}%</td></tr>`).join('');
+        tbody.innerHTML = stocks.map((s, i) => `<tr class="${!userIsPaid && i >= FREE_STOCKS ? 'blurred' : ''}"><td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td><td class="r">${fmtCap(s[2])}</td><td class="r">${fmt(s[3],1)}</td><td class="r">${fmt(s[4],2)}</td><td class="r">${fmt(s[5],2)}</td><td class="r">${fmt(s[6],1)}</td><td class="r">${fmt(s[7],1)}</td><td class="r">${fmt(s[8],1)}</td><td class="r weight-col">${weight}%</td></tr>`).join('');
       } else if (selectedStrategy === 'momentum') {
         thead.innerHTML = `<tr><th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th><th class="r">12M %</th><th class="r">6M %</th><th class="r">Int. Mom %</th><th class="r">Weight</th></tr>`;
-        tbody.innerHTML = stocks.map((s, i) => `<tr><td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td><td class="r">${fmtCap(s[2])}</td><td class="r">${fmt(s[3],1)}</td><td class="r">${fmt(s[4],1)}</td><td class="r">${fmt(s[5],1)}</td><td class="r weight-col">${weight}%</td></tr>`).join('');
+        tbody.innerHTML = stocks.map((s, i) => `<tr class="${!userIsPaid && i >= FREE_STOCKS ? 'blurred' : ''}"><td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td><td class="r">${fmtCap(s[2])}</td><td class="r">${fmt(s[3],1)}</td><td class="r">${fmt(s[4],1)}</td><td class="r">${fmt(s[5],1)}</td><td class="r weight-col">${weight}%</td></tr>`).join('');
       } else {
         thead.innerHTML = `<tr><th>#</th><th>Ticker</th><th>Company</th><th class="r">Mkt Cap</th><th class="r">Momentum 6M %</th><th class="r">Weight</th></tr>`;
-        tbody.innerHTML = stocks.map((s, i) => `<tr><td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td><td class="r">${fmtCap(s[2])}</td><td class="r">${fmt(s[3],1)}</td><td class="r weight-col">${weight}%</td></tr>`).join('');
+        tbody.innerHTML = stocks.map((s, i) => `<tr class="${!userIsPaid && i >= FREE_STOCKS ? 'blurred' : ''}"><td>${i+1}</td><td class="ticker">${s[0]}</td><td>${s[1]}</td><td class="r">${fmtCap(s[2])}</td><td class="r">${fmt(s[3],1)}</td><td class="r weight-col">${weight}%</td></tr>`).join('');
       }
+
+      // Show/hide paywall overlay
+      const overlay = document.getElementById('paywall-overlay');
+      if (overlay) {
+        overlay.style.display = (!userIsPaid && stocks.length > FREE_STOCKS) ? 'flex' : 'none';
+      }
+
       goToStep(3);
     }
 
@@ -411,7 +605,7 @@
       const a = document.createElement('a'); a.href = url; a.download = (selectedStrategy + '_' + selectedGeo + '_stocks.csv').toLowerCase(); a.click(); URL.revokeObjectURL(url);
     }
 
-    // Auto-select strategy from URL param and jump to step 2 instantly
+    // Auto-select strategy from URL param
     (function() {
       const p = new URLSearchParams(window.location.search).get('strategy');
       if (p && ['value','trend','momentum'].includes(p)) {
@@ -428,6 +622,9 @@
         document.getElementById('line1').classList.add('active');
       }
     })();
+
+    // Init auth on page load
+    checkAuth();
   </script>
 
 </body>
