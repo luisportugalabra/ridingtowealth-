@@ -211,10 +211,33 @@
     </div>
   </section>
 
-  <!-- Live System Signal -->
+  <!-- Live Preview -->
   <section style="padding:32px 0 0">
-    <div class="container" style="max-width:860px;text-align:center">
-      <p style="font-size:0.78rem;color:#888"><span style="display:inline-block;width:8px;height:8px;background:#4ade80;border-radius:50%;margin-right:6px;vertical-align:middle"></span>System is live &mdash; strategies re-computed daily from market close. Data powered by TradingView.</p>
+    <div class="container" style="max-width:860px">
+      <div style="text-align:center;margin-bottom:20px">
+        <span class="sublabel">Live Preview</span>
+        <h2 style="margin:12px 0 8px">Today's top 3 — Momentum strategy, USA</h2>
+        <p style="margin:0 auto;color:#888;font-size:0.82rem"><span style="display:inline-block;width:8px;height:8px;background:#4ade80;border-radius:50%;margin-right:6px;vertical-align:middle"></span>Live data &mdash; updated daily from market close</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;max-width:700px;margin:0 auto">
+          <thead>
+            <tr>
+              <th style="padding:10px 12px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333;text-align:left">#</th>
+              <th style="padding:10px 12px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333;text-align:left">Ticker</th>
+              <th style="padding:10px 12px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333;text-align:left">Company</th>
+              <th style="padding:10px 12px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;border-bottom:2px solid #333;text-align:right">Int. Mom %</th>
+            </tr>
+          </thead>
+          <tbody id="preview-tbody">
+            <tr><td colspan="4" style="padding:20px;text-align:center;color:#555">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <a href="invest.html?strategy=momentum" style="font-size:0.82rem;color:var(--accent)">See all 25 &rarr;</a>
+        <span style="font-size:0.72rem;color:#333;margin-left:12px">PRO members only</span>
+      </div>
     </div>
   </section>
 
@@ -358,6 +381,25 @@
   window.addEventListener('resize', function(){drawGrowthChart('homeChart');});
   </script>
 
+  <script>
+  // Live preview — load top 3 momentum USA stocks from wizard-data.json
+  fetch('wizard-data.json')
+    .then(r => r.json())
+    .then(d => {
+      const stocks = (d.momentum && d.momentum.USA) ? d.momentum.USA.slice(0, 3) : [];
+      const tbody = document.getElementById('preview-tbody');
+      if (stocks.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding:20px;text-align:center;color:#555">No data</td></tr>'; return; }
+      tbody.innerHTML = stocks.map((s, i) =>
+        `<tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px 12px;color:#888">${i+1}</td>
+          <td style="padding:10px 12px;font-weight:600;color:#fff">${s[0]}</td>
+          <td style="padding:10px 12px;color:#ccc">${s[1]}</td>
+          <td style="padding:10px 12px;text-align:right;color:#4ade80;font-weight:600">${s[5] != null ? s[5].toFixed(1) + '%' : '—'}</td>
+        </tr>`
+      ).join('');
+    })
+    .catch(() => {});
+  </script>
   <script src="auth-nav.js"></script>
 </body>
 </html>
