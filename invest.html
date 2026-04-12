@@ -580,7 +580,7 @@
       document.getElementById('output-title').textContent = title;
       document.getElementById('output-meta').textContent = `${count} stocks · Equal weight (${weight}% each)${capLabel} · Data: ${wizardData.date}`;
       const rulesBox = document.getElementById('rules-box');
-      const recommendTip = `<li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>`;
+      const recommendTip = `<li>We recommend holding a <strong>minimum of 10 stocks</strong> per strategy. For larger portfolios, 25 stocks is optimal (best Sharpe ratio). Fewer than 10 exposes you to excessive single-stock risk.</li><li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>`;
       if (selectedStrategy === 'value') {
         rulesBox.innerHTML = `<h3>Value Strategy Rules</h3><ol><li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li><li>Exclude financial sector stocks</li><li>Exclude stocks with negative earnings</li><li>Combine the percentile ranks into a composite Value Score</li><li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
       } else if (selectedStrategy === 'momentum') {

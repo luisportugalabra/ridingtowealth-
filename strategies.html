@@ -263,6 +263,31 @@
         </div>
       </div>
 
+      <!-- How many stocks -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px;margin-bottom:32px">
+        <span class="section-label">Portfolio Size</span>
+        <h2 style="font-size:1.3rem;margin-top:8px;margin-bottom:16px">How many stocks should you hold?</h2>
+        <p style="color:#aaa;max-width:none">We recommend a <strong style="color:#fff">minimum of 10 stocks</strong> per strategy. This is the threshold where diversification begins to meaningfully reduce single-stock risk while still capturing the momentum or value signal. With fewer than 10, one bad position can significantly damage your annual return.</p>
+        <p style="color:#aaa;max-width:none">For larger portfolios, <strong style="color:#fff">25 stocks is optimal</strong>. Our backtests show that the Sharpe ratio peaks at 25 &mdash; beyond that, you start diluting the factor exposure. The difference between 10 and 25 is modest in terms of raw CAGR (~2%), but the risk-adjusted returns improve and drawdowns become more manageable.</p>
+        <div class="grid-3-responsive" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:20px 0">
+          <div style="background:var(--bg-card);padding:16px;text-align:center">
+            <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-bottom:4px">Minimum</div>
+            <div style="font-size:1.4rem;font-weight:700;color:#fff">10 stocks</div>
+            <div style="font-size:0.72rem;color:#888;margin-top:4px">Good diversification</div>
+          </div>
+          <div style="background:var(--bg-card);padding:16px;text-align:center">
+            <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px">Recommended</div>
+            <div style="font-size:1.4rem;font-weight:700;color:#4ade80">25 stocks</div>
+            <div style="font-size:0.72rem;color:#888;margin-top:4px">Optimal Sharpe ratio</div>
+          </div>
+          <div style="background:var(--bg-card);padding:16px;text-align:center">
+            <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-bottom:4px">Too few</div>
+            <div style="font-size:1.4rem;font-weight:700;color:#f87171">&lt;5 stocks</div>
+            <div style="font-size:0.72rem;color:#888;margin-top:4px">Concentrated risk</div>
+          </div>
+        </div>
+      </div>
+
       <div class="quote-block" style="border-radius:12px;margin-bottom:0">
         <blockquote style="font-size:1.1rem">&ldquo;The strategy that works best is the one you can stick with. Rules-based systems remove the hardest part of investing: yourself.&rdquo;</blockquote>
         <cite>&mdash; James O&rsquo;Shaughnessy, What Works on Wall Street</cite>
