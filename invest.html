@@ -236,7 +236,7 @@
               <div class="paywall-period">or $299/year (save 36%) &middot; Cancel anytime</div>
               <button class="auth-btn" style="padding:14px 36px;background:var(--accent);border:none;border-radius:8px;color:#0a0a0a;font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:12px" onclick="openAuth('register')">Go Pro &rarr;</button>
               <p style="font-size:0.72rem;color:#555;margin:0">Already have an account? <a style="color:var(--accent);cursor:pointer" onclick="openAuth('login')">Sign in</a></p>
-              <p style="font-size:0.68rem;color:#333;margin-top:12px">Similar services charge $1,000&ndash;2,000/year.</p>
+              <p style="font-size:0.78rem;color:#888;margin-top:16px">Similar services charge <strong style="color:#ccc">$1,000&ndash;2,000/year</strong>. A financial advisor costs <strong style="color:#ccc">1% AUM</strong>.</p>
             </div>
           </div>
           <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-top:32px">
@@ -585,6 +585,10 @@
           </div>
         </div>
         <div class="rules-box" id="rules-box"></div>
+        <div id="data-date-bar" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;padding:10px 16px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px">
+          <span style="display:inline-block;width:8px;height:8px;background:#4ade80;border-radius:50%"></span>
+          <span style="font-size:0.78rem;color:#888">Data as of: <strong id="data-date-display" style="color:#ccc"></strong> &mdash; updated daily from market close</span>
+        </div>
         <div class="paywall-wrap">
           <div style="overflow-x:auto">
             <table class="stock-table">
@@ -632,7 +636,9 @@
       const capLabel = minCap > 0 ? ` · Min $${minCap >= 1000 ? (minCap/1000)+'B' : minCap+'M'}` : '';
       const title = isRandom ? `Random Selection — ${stratLabel} ${geoLabel}` : `${stratLabel} — ${geoLabel}`;
       document.getElementById('output-title').textContent = title;
-      document.getElementById('output-meta').textContent = `${count} stocks · Equal weight (${weight}% each)${capLabel} · Data: ${wizardData.date}`;
+      document.getElementById('output-meta').textContent = `${count} stocks · Equal weight (${weight}% each)${capLabel}`;
+      const dateEl = document.getElementById('data-date-display');
+      if (dateEl) dateEl.textContent = wizardData.date;
       const rulesBox = document.getElementById('rules-box');
       const recommendTip = `<li>We recommend holding a <strong>minimum of 10 stocks</strong> per strategy. For larger portfolios, 25 stocks is optimal (best Sharpe ratio). Fewer than 10 exposes you to excessive single-stock risk.</li><li>We recommend investing at least 3&ndash;4 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>`;
       if (selectedStrategy === 'value') {
