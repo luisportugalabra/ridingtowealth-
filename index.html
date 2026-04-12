@@ -42,6 +42,7 @@
       .trust-bar { grid-template-columns: repeat(2, 1fr) !important; }
       .screener-cta-row { flex-direction: column; text-align: center; }
       .two-sides { grid-template-columns: 1fr !important; }
+      .pricing-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -157,6 +158,56 @@
 
       </div>
       <p style="margin-top:20px;font-size:0.72rem;color:#444;text-align:center">Based on O'Shaughnessy's <em>What Works on Wall Street</em> and Novy-Marx (2012). <a href="strategies.html" style="color:var(--accent)">Read the full methodology &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- Live System Signal -->
+  <section style="padding:32px 0 0">
+    <div class="container" style="max-width:860px;text-align:center">
+      <p style="font-size:0.78rem;color:#888"><span style="display:inline-block;width:8px;height:8px;background:#4ade80;border-radius:50%;margin-right:6px;vertical-align:middle"></span>System is live &mdash; strategies re-computed daily from market close. Data powered by TradingView.</p>
+    </div>
+  </section>
+
+  <!-- Free vs Pro -->
+  <section style="padding:48px 0">
+    <div class="container" style="max-width:860px">
+      <div style="text-align:center;margin-bottom:32px">
+        <span class="sublabel">Pricing</span>
+        <h2 style="margin:12px 0 8px">Free to explore. Pro to deploy.</h2>
+      </div>
+      <div class="pricing-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:700px;margin:0 auto">
+        <!-- Free -->
+        <div style="background:var(--bg-card);padding:36px 28px">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#666;font-weight:600;margin-bottom:12px">Free</div>
+          <div style="font-size:2rem;font-weight:700;color:#fff;margin-bottom:4px">$0</div>
+          <div style="font-size:0.78rem;color:#555;margin-bottom:24px">No card required</div>
+          <div style="font-size:0.85rem;color:#aaa;line-height:2">
+            <div>3 stocks per strategy</div>
+            <div>USA market only</div>
+            <div>Strategy methodology</div>
+            <div style="color:#333">CSV export</div>
+            <div style="color:#333">Global markets</div>
+            <div style="color:#333">Live portfolio</div>
+          </div>
+          <a href="invest.html" style="display:block;text-align:center;margin-top:24px;padding:12px;border:1px solid var(--border);border-radius:8px;color:#ccc;font-size:0.85rem;font-weight:600;text-decoration:none;transition:border-color 0.2s">Start Free &rarr;</a>
+        </div>
+        <!-- Pro -->
+        <div style="background:var(--bg-elevated);padding:36px 28px;border-left:2px solid var(--accent)">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px">Pro</div>
+          <div style="font-size:2rem;font-weight:700;color:#fff;margin-bottom:4px">$39<span style="font-size:0.9rem;font-weight:400;color:#888">/mo</span></div>
+          <div style="font-size:0.78rem;color:#555;margin-bottom:24px">or $299/year (save 36%)</div>
+          <div style="font-size:0.85rem;color:#aaa;line-height:2">
+            <div><strong style="color:#fff">25 stocks</strong> per strategy</div>
+            <div><strong style="color:#fff">All regions</strong> (USA, Europe, Asia, Emerging)</div>
+            <div>Strategy methodology</div>
+            <div><strong style="color:#fff">CSV export</strong></div>
+            <div><strong style="color:#fff">Market cap filters</strong></div>
+            <div><strong style="color:#fff">Founder&rsquo;s live portfolio</strong> <span style="font-size:0.65rem;color:var(--accent)">(coming soon)</span></div>
+          </div>
+          <a href="invest.html#signin" style="display:block;text-align:center;margin-top:24px;padding:12px;background:var(--accent);border:none;border-radius:8px;color:#0a0a0a;font-size:0.85rem;font-weight:700;text-decoration:none;transition:background 0.2s">Go Pro &rarr;</a>
+        </div>
+      </div>
+      <p style="margin-top:20px;font-size:0.75rem;color:#444;text-align:center">Similar services charge $1,000&ndash;2,000/year. A financial advisor running these strategies costs 1% AUM &mdash; $5,000/year on a $500K portfolio. Cancel anytime.</p>
     </div>
   </section>
 
