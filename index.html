@@ -78,53 +78,8 @@
     <p style="margin:24px auto 0;font-size:0.82rem;color:#999">Built by a former CFO with 15 years in finance across Asia, Europe &amp; Africa. <a href="about.html" style="color:#bbb">More &rarr;</a></p>
   </header>
 
-  <!-- Growth Chart — Bigger, with context -->
-  <section style="padding:48px 0 0">
-    <div class="container" style="max-width:860px">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px 32px 24px">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;flex-wrap:wrap;gap:8px">
-          <div>
-            <h3 style="font-size:1rem;margin-bottom:4px">Growth of $100,000</h3>
-            <span style="font-size:0.7rem;color:#555">Momentum strategy vs S&amp;P 500, 2006&ndash;2025</span>
-          </div>
-          <span style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444">20-Year Backtest</span>
-        </div>
-        <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap">
-          <span style="font-size:0.75rem;color:#4ade80;font-weight:500">&#9679; Momentum 21.7% CAGR &mdash; $5.05M</span>
-          <span style="font-size:0.75rem;color:#666;font-weight:500">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K</span>
-        </div>
-        <canvas id="homeChart" style="width:100%;height:300px"></canvas>
-      </div>
-      <p style="margin:14px auto 0;font-size:0.75rem;color:#444;text-align:center">Includes 2008 financial crisis (-44%), 2020 COVID crash, and 2022 bear market. I run all three strategies with real capital. <a href="strategies.html" style="color:var(--accent)">Full methodology &rarr;</a></p>
-    </div>
-  </section>
-
-  <!-- Trust Bar — 4 stats -->
-  <section style="padding:40px 0">
-    <div class="container" style="max-width:860px">
-      <div class="trust-bar" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden">
-        <div style="background:var(--bg-card);padding:24px;text-align:center">
-          <div style="font-size:1.8rem;font-weight:700;color:#4ade80">21.7%</div>
-          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">CAGR</div>
-        </div>
-        <div style="background:var(--bg-card);padding:24px;text-align:center">
-          <div style="font-size:1.8rem;font-weight:700;color:#fff">0.95</div>
-          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Sharpe Ratio</div>
-        </div>
-        <div style="background:var(--bg-card);padding:24px;text-align:center">
-          <div style="font-size:1.8rem;font-weight:700;color:#fff">85%</div>
-          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Win Rate (17/20 yrs)</div>
-        </div>
-        <div style="background:var(--bg-card);padding:24px;text-align:center">
-          <div style="font-size:1.8rem;font-weight:700;color:#f87171">-44%</div>
-          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Worst Year (2008)</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Live Performance -->
-  <section style="padding:0 0 40px">
+  <!-- Live Performance — FIRST (what's happening NOW) -->
+  <section style="padding:48px 0 40px">
     <div class="container" style="max-width:860px">
       <div style="text-align:center;margin-bottom:24px">
         <span class="sublabel">Live Performance</span>
@@ -170,6 +125,51 @@
         </table>
       </div>
       <p style="margin-top:12px;font-size:0.7rem;color:#444;text-align:center">Returns in EUR, including dividends. Live since January 2024. Last rebalance: April 1, 2026.</p>
+    </div>
+  </section>
+
+  <!-- Backtest Chart — validation of long-term performance -->
+  <section style="padding:24px 0 0">
+    <div class="container" style="max-width:860px">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px 32px 24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h3 style="font-size:1rem;margin-bottom:4px">Growth of $100,000</h3>
+            <span style="font-size:0.7rem;color:#555">Momentum strategy vs S&amp;P 500, 2006&ndash;2025</span>
+          </div>
+          <span style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444">20-Year Backtest</span>
+        </div>
+        <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap">
+          <span style="font-size:0.75rem;color:#4ade80;font-weight:500">&#9679; Momentum 21.7% CAGR &mdash; $5.05M</span>
+          <span style="font-size:0.75rem;color:#666;font-weight:500">&#9679; S&amp;P 500 ~10.9% CAGR &mdash; $747K</span>
+        </div>
+        <canvas id="homeChart" style="width:100%;height:300px"></canvas>
+      </div>
+      <p style="margin:14px auto 0;font-size:0.75rem;color:#444;text-align:center">Includes 2008 financial crisis (-44%), 2020 COVID crash, and 2022 bear market. <a href="strategies.html" style="color:var(--accent)">Full methodology &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- Trust Bar — 4 stats -->
+  <section style="padding:40px 0">
+    <div class="container" style="max-width:860px">
+      <div class="trust-bar" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#4ade80">21.7%</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">CAGR</div>
+        </div>
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#fff">0.95</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Sharpe Ratio</div>
+        </div>
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#fff">85%</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Win Rate (17/20 yrs)</div>
+        </div>
+        <div style="background:var(--bg-card);padding:24px;text-align:center">
+          <div style="font-size:1.8rem;font-weight:700;color:#f87171">-44%</div>
+          <div style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin-top:4px">Worst Year (2008)</div>
+        </div>
+      </div>
     </div>
   </section>
 
