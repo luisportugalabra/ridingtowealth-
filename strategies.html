@@ -248,7 +248,7 @@
       <div class="grid-3-responsive" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:48px">
         <div>
           <div style="font-size:1.8rem;font-weight:700;color:var(--accent);margin-bottom:8px">01</div>
-          <h3 style="font-size:0.95rem;margin-bottom:6px">Screen the universe</h3>
+          <h3 style="font-size:0.95rem;margin-bottom:6px">Rank the universe</h3>
           <p style="font-size:0.82rem;color:#888">Each strategy ranks thousands of stocks using quantitative metrics &mdash; value ratios, momentum signals, or both.</p>
         </div>
         <div>
@@ -421,9 +421,7 @@
       function xp(i){return pad.l+(i/years.length)*(W-pad.l-pad.r);}
       function yp(v){return pad.t+(1-(Math.log10(v)-logMin)/(logMax-logMin))*(H-pad.t-pad.b);}
       function drawLine(eq,col,w){ctx.beginPath();eq.forEach((v,i)=>{i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();}
-      // Subtle grid
-      ctx.strokeStyle='#1a1a1a';ctx.lineWidth=1;
-      [100000,1000000].forEach(v=>{ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();});
+      // No grid lines
 
       // Years
       const isMobile = W < 400;
@@ -432,7 +430,7 @@
       years.forEach((yr,i)=>{if(i%step===0)ctx.fillText(yr,xp(i),H-10);});
       ctx.fillText('2025',xp(years.length),H-10);
 
-      drawLine(spEq,'#555',2);
+      drawLine(spEq,'#888',2.5);
       drawLine(momEq,'#4ade80',2.5);
 
       // End labels — always right-aligned inside chart

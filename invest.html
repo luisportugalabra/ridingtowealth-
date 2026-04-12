@@ -151,7 +151,7 @@
               <h3>18.61% CAGR</h3>
               <p>Buy undervalued stocks based on fundamental metrics. Fully systematic.</p>
               <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag">Annual Rebalance</span>
+                <span class="tag">Systematic</span>
                 <span class="tag">Undervalued Companies</span>
               </div>
               <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px;border:1px solid var(--accent)" onclick="selectStrategy('value')">Run strategy &rarr;</a>
@@ -161,7 +161,7 @@
               <h3>21.19% CAGR</h3>
               <p>Undervalued companies combined with momentum. Fully systematic.</p>
               <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag">Annual Rebalance</span>
+                <span class="tag">Systematic</span>
                 <span class="tag">Value + Momentum</span>
               </div>
               <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px;border:1px solid var(--accent)" onclick="selectStrategy('trend')">Run strategy &rarr;</a>
@@ -171,7 +171,7 @@
               <h3>21.7% CAGR</h3>
               <p>Strongest intermediate momentum stocks. Fully systematic.</p>
               <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-                <span class="tag">Annual Rebalance</span>
+                <span class="tag">Systematic</span>
                 <span class="tag">Intermediate Momentum</span>
               </div>
               <a class="btn" style="cursor:pointer;padding:16px 40px;font-size:1rem;margin-top:auto;padding-top:16px;border:1px solid var(--accent)" onclick="selectStrategy('momentum')">Run strategy &rarr;</a>
@@ -304,7 +304,27 @@
         const res = await fetch(SUPABASE_URL + '/auth/v1/user', {
           headers: { 'Authorization': 'Bearer ' + token, 'apikey': SUPABASE_KEY }
         });
-        if (!res.ok) throw new Error('expired');
+        if (!res.ok) {
+          // Try refresh
+          const refreshToken = localStorage.getItem('rtw_refresh');
+          if (refreshToken) {
+            const refRes = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+              body: JSON.stringify({ refresh_token: refreshToken })
+            });
+            if (refRes.ok) {
+              const data = await refRes.json();
+              localStorage.setItem('rtw_token', data.access_token);
+              if (data.refresh_token) localStorage.setItem('rtw_refresh', data.refresh_token);
+              currentUser = data.user;
+              userIsPaid = data.user?.user_metadata?.is_paid === true;
+              updateNavAuth(); updateGeoLocks();
+              return;
+            }
+          }
+          throw new Error('expired');
+        }
         const user = await res.json();
         currentUser = user;
         userIsPaid = user?.user_metadata?.is_paid === true;

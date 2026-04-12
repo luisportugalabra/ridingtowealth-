@@ -44,8 +44,27 @@
     parent.appendChild(signout);
   })
   .catch(() => {
-    // Token expired/invalid — clean up
-    localStorage.removeItem('rtw_token');
-    localStorage.removeItem('rtw_refresh');
+    // Token expired — try refresh
+    var refreshToken = localStorage.getItem('rtw_refresh');
+    if (refreshToken) {
+      fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      })
+      .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function(data) {
+        localStorage.setItem('rtw_token', data.access_token);
+        if (data.refresh_token) localStorage.setItem('rtw_refresh', data.refresh_token);
+        window.location.reload();
+      })
+      .catch(function() {
+        localStorage.removeItem('rtw_token');
+        localStorage.removeItem('rtw_refresh');
+      });
+    } else {
+      localStorage.removeItem('rtw_token');
+      localStorage.removeItem('rtw_refresh');
+    }
   });
 })();
