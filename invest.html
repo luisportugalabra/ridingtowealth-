@@ -322,14 +322,30 @@
       const el = document.getElementById('nav-auth-link');
       if (!el) return;
       if (currentUser) {
-        const email = currentUser.email.split('@')[0];
-        el.innerHTML = `${email}${userIsPaid ? ' <span class="pro-tag">PRO</span>' : ''} &middot; <span style="color:#888;font-size:0.65rem">Sign Out</span>`;
+        const name = currentUser.email.split('@')[0].toUpperCase();
+        el.innerHTML = name + (userIsPaid ? ' <span class="pro-tag">PRO</span>' : '');
         el.href = '#';
-        el.onclick = function(e) { e.preventDefault(); doLogout(); window.location.reload(); };
+        el.onclick = function(e) { e.preventDefault(); };
+        el.style.cursor = 'default';
+        if (userIsPaid) el.style.borderColor = '#b8965a';
+        // Add separate sign out link
+        if (!document.getElementById('nav-signout')) {
+          var signout = document.createElement('a');
+          signout.id = 'nav-signout';
+          signout.textContent = 'Sign Out';
+          signout.href = '#';
+          signout.style.cssText = 'font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#666;cursor:pointer;margin-left:12px;transition:color 0.2s;';
+          signout.onmouseover = function() { this.style.color = '#fff'; };
+          signout.onmouseout = function() { this.style.color = '#666'; };
+          signout.onclick = function(e) { e.preventDefault(); doLogout(); window.location.reload(); };
+          el.parentNode.appendChild(signout);
+        }
       } else {
         el.textContent = 'Sign In';
         el.href = '#signin';
         el.onclick = function(e) { e.preventDefault(); openAuth('login'); };
+        var old = document.getElementById('nav-signout');
+        if (old) old.remove();
       }
     }
 
