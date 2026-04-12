@@ -441,6 +441,10 @@
 
         closeAuth();
         await checkAuth();
+        // Re-render the table if we're on step 3
+        if (document.getElementById('table-body') && document.getElementById('table-body').innerHTML) {
+          showOutput();
+        }
       } catch (e) {
         btn.disabled = false;
         btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
