@@ -448,7 +448,19 @@
         }
 
         if (authMode === 'register' && !data.access_token) {
-          errEl.textContent = 'Check your email to confirm your account.';
+          // Auto-login after registration (email confirmation disabled)
+          const loginData = await authFetch('/token?grant_type=password', { email, password });
+          if (loginData.access_token) {
+            localStorage.setItem('rtw_token', loginData.access_token);
+            if (loginData.refresh_token) localStorage.setItem('rtw_refresh', loginData.refresh_token);
+            closeAuth();
+            await checkAuth();
+            if (document.getElementById('table-body') && document.getElementById('table-body').innerHTML) {
+              showOutput();
+            }
+            return;
+          }
+          errEl.textContent = 'Account created! You can now sign in.';
           errEl.style.display = 'block';
           errEl.style.color = '#4ade80';
           return;
