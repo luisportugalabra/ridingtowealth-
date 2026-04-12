@@ -122,9 +122,7 @@
       <a href="invest.html" class="active">Stocks</a>
       <a href="strategies.html">Strategies</a>
       <a href="about.html">About</a>
-      <div class="nav-auth" id="nav-auth">
-        <button class="nav-auth-btn" onclick="openAuth('login')">Sign In</button>
-      </div>
+      <a href="#signin" class="btn-sub" id="nav-auth-link" onclick="event.preventDefault();openAuth('login')">Sign In</a>
     </div>
   </nav>
 
@@ -321,15 +319,18 @@
     }
 
     function updateNavAuth() {
-      const nav = document.getElementById('nav-auth');
+      const el = document.getElementById('nav-auth-link');
+      if (!el) return;
       if (currentUser) {
         const email = currentUser.email.split('@')[0];
-        nav.innerHTML = `
-          <span class="nav-user">${email}${userIsPaid ? '<span class="pro-tag">PRO</span>' : ''}</span>
-          <button class="nav-auth-btn" onclick="doLogout()">Sign Out</button>
-        `;
+        el.textContent = '';
+        el.innerHTML = `${email}${userIsPaid ? ' <span class="pro-tag">PRO</span>' : ''}`;
+        el.onclick = function(e) { e.preventDefault(); doLogout(); };
+        el.title = 'Click to sign out';
       } else {
-        nav.innerHTML = `<button class="nav-auth-btn" onclick="openAuth('login')">Sign In</button>`;
+        el.textContent = 'Sign In';
+        el.onclick = function(e) { e.preventDefault(); openAuth('login'); };
+        el.title = '';
       }
     }
 
@@ -648,6 +649,10 @@
 
     // Init auth on page load
     checkAuth();
+    // Auto-open sign in modal if URL has #signin
+    if (window.location.hash === '#signin') {
+      setTimeout(() => openAuth('login'), 300);
+    }
   </script>
 
 </body>
