@@ -286,7 +286,7 @@
     let currentUser = null;
     let userIsPaid = false;
     let authMode = 'login';
-    const FREE_STOCKS = 5;
+    const FREE_STOCKS = 3;
 
     async function authFetch(endpoint, body) {
       const res = await fetch(SUPABASE_URL + '/auth/v1' + endpoint, {
