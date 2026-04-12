@@ -323,14 +323,13 @@
       if (!el) return;
       if (currentUser) {
         const email = currentUser.email.split('@')[0];
-        el.textContent = '';
-        el.innerHTML = `${email}${userIsPaid ? ' <span class="pro-tag">PRO</span>' : ''}`;
-        el.onclick = function(e) { e.preventDefault(); doLogout(); };
-        el.title = 'Click to sign out';
+        el.innerHTML = `${email}${userIsPaid ? ' <span class="pro-tag">PRO</span>' : ''} &middot; <span style="color:#888;font-size:0.65rem">Sign Out</span>`;
+        el.href = '#';
+        el.onclick = function(e) { e.preventDefault(); doLogout(); window.location.reload(); };
       } else {
         el.textContent = 'Sign In';
+        el.href = '#signin';
         el.onclick = function(e) { e.preventDefault(); openAuth('login'); };
-        el.title = '';
       }
     }
 
