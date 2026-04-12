@@ -258,8 +258,8 @@
         </div>
         <div>
           <div style="font-size:1.8rem;font-weight:700;color:var(--accent);margin-bottom:8px">03</div>
-          <h3 style="font-size:0.95rem;margin-bottom:6px">Rebalance annually</h3>
-          <p style="font-size:0.82rem;color:#888">Once a year, repeat the process. Sell the old, buy the new. Backed by 20&ndash;40+ years of data and academic research.</p>
+          <h3 style="font-size:0.95rem;margin-bottom:6px">Rebalance at your pace</h3>
+          <p style="font-size:0.82rem;color:#888">When you&rsquo;re ready, repeat the process. Sell the old, buy the new. Annually is recommended &mdash; monthly is more effective if your tax regime allows it.</p>
         </div>
       </div>
 
@@ -288,9 +288,37 @@
         </div>
       </div>
 
-      <div class="quote-block" style="border-radius:12px;margin-bottom:0">
+      <div class="quote-block" style="border-radius:12px;margin-bottom:32px">
         <blockquote style="font-size:1.1rem">&ldquo;The strategy that works best is the one you can stick with. Rules-based systems remove the hardest part of investing: yourself.&rdquo;</blockquote>
         <cite>&mdash; James O&rsquo;Shaughnessy, What Works on Wall Street</cite>
+      </div>
+
+      <!-- How to use it -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px;margin-bottom:0">
+        <span class="section-label">Getting started</span>
+        <h2 style="font-size:1.3rem;margin-top:8px;margin-bottom:20px">How to use it</h2>
+        <div style="display:grid;gap:16px">
+          <div style="display:flex;gap:16px;align-items:baseline">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);min-width:28px">1.</div>
+            <p style="color:#aaa;max-width:none;margin:0"><strong style="color:#fff">Pick one or more strategies.</strong> Value, Momentum + Value, or Momentum. Or run all three for better diversification.</p>
+          </div>
+          <div style="display:flex;gap:16px;align-items:baseline">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);min-width:28px">2.</div>
+            <p style="color:#aaa;max-width:none;margin:0"><strong style="color:#fff">See today&rsquo;s ranked stocks.</strong> The system ranks thousands of stocks daily using live market data. The top 25 are your portfolio.</p>
+          </div>
+          <div style="display:flex;gap:16px;align-items:baseline">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);min-width:28px">3.</div>
+            <p style="color:#aaa;max-width:none;margin:0"><strong style="color:#fff">Buy when you&rsquo;re ready.</strong> In your own broker (IBKR, any broker), equal weight. There&rsquo;s no fixed date &mdash; you decide when to act.</p>
+          </div>
+          <div style="display:flex;gap:16px;align-items:baseline">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);min-width:28px">4.</div>
+            <p style="color:#aaa;max-width:none;margin:0"><strong style="color:#fff">Rebalance at your own pace.</strong> Check back when you want to rotate. Annually is recommended. The data is always there.</p>
+          </div>
+          <div style="display:flex;gap:16px;align-items:baseline">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--accent);min-width:28px">5.</div>
+            <p style="color:#aaa;max-width:none;margin:0"><strong style="color:#fff">The system does the thinking.</strong> You just execute. No research, no analysis, no second-guessing. Rules and data.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -306,7 +334,7 @@
       <!-- Value -->
       <div class="research-section">
         <span class="section-label">Strategy 1</span>
-        <h2 style="font-size:1.3rem">Value Composite &mdash; 18.61% CAGR</h2>
+        <h2 style="font-size:1.3rem">Value Strategy &mdash; 18.61% CAGR</h2>
         <p>I rank every stock in the market using six fundamental metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield. Combine them into a single composite score (VC2). Buy the cheapest. Rebalance.</p>
         <p>I exclude financial stocks because P/B and EV/EBITDA aren&rsquo;t meaningful for banks and insurers. Stocks with negative earnings are also removed.</p>
         <p>This strategy performs best when including small caps &mdash; <strong style="color:#fff">market cap above $200M</strong> is the sweet spot that balances liquidity with the small-cap value premium.</p>
@@ -316,7 +344,7 @@
       <!-- Trending Value -->
       <div class="research-section">
         <span class="section-label">Strategy 2</span>
-        <h2 style="font-size:1.3rem">Trending Value &mdash; 21.19% CAGR</h2>
+        <h2 style="font-size:1.3rem">Momentum + Value &mdash; 21.19% CAGR</h2>
         <p>Start with the Value strategy. Take the cheapest 10% of stocks by composite score. Then, within that cheap decile, rank by 6-month price momentum and buy the top ones.</p>
         <p>This combines two of the strongest factors in finance &mdash; value and momentum. You&rsquo;re buying cheap stocks that are already moving up, avoiding value traps.</p>
         <p>Like the Value strategy, this works best with <strong style="color:#fff">$200M+ market cap</strong>, and excludes financials and negative earnings.</p>
@@ -366,12 +394,20 @@
     </div>
   </section>
 
-  <!-- Invest CTA -->
-  <section class="section" style="text-align:center">
-    <div class="container">
-      <h2 style="margin-bottom:12px">Ready to invest?</h2>
-      <p style="color:#aaa;margin-bottom:24px">Pick a strategy and run it in seconds.</p>
-      <a class="btn" href="invest.html" style="padding:16px 48px;font-size:1rem;display:inline-block;border:1px solid var(--accent);text-decoration:none">Run the Strategy &rarr;</a>
+  <!-- Pricing -->
+  <section style="padding:48px 0;border-top:1px solid var(--border)">
+    <div class="container" style="max-width:700px;text-align:center">
+      <span class="sublabel">Pricing</span>
+      <h2 style="margin:12px 0 8px">Free to explore. Pro to deploy.</h2>
+      <p style="color:#888;margin:0 auto 28px;font-size:0.88rem">See 3 stocks for free. Go Pro for the full system.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:24px">
+        <a href="invest.html" class="btn" style="padding:14px 36px;font-size:0.9rem">Start Free &rarr;</a>
+        <a href="invest.html#signin" class="btn btn-accent" style="padding:14px 36px;font-size:0.9rem">Go Pro &mdash; $39/month &rarr;</a>
+      </div>
+      <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:20px 28px;text-align:center">
+        <p style="font-size:0.88rem;color:#ccc;margin-bottom:8px;font-weight:500">The alternative costs more.</p>
+        <p style="font-size:0.82rem;color:#888;margin:0">Similar services: <strong style="color:#fff">$1,000&ndash;2,000/year</strong>. Financial advisor: <strong style="color:#fff">1% AUM</strong>. Riding to Wealth: <strong style="color:#4ade80">$39/month</strong>. Cancel anytime.</p>
+      </div>
     </div>
   </section>
 
