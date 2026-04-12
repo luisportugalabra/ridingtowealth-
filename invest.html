@@ -12,7 +12,7 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Auth via direct Supabase REST API -->
   <style>
     .wizard { max-width: 900px; margin: 0 auto; }
     .wizard-steps { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 48px; }
@@ -281,22 +281,38 @@
   </footer>
 
   <script>
-    // ========== SUPABASE AUTH ==========
+    // ========== AUTH (direct REST API) ==========
     const SUPABASE_URL = 'https://efiyeiwdywodjxxnslvu.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_IccFybhqHU9RM5rc-Em1KA_G5Dsrqha';
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let currentUser = null;
     let userIsPaid = false;
-    let authMode = 'login'; // 'login' or 'register'
+    let authMode = 'login';
     const FREE_STOCKS = 5;
 
+    async function authFetch(endpoint, body) {
+      const res = await fetch(SUPABASE_URL + '/auth/v1' + endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+        body: JSON.stringify(body)
+      });
+      return res.json();
+    }
+
     async function checkAuth() {
+      const token = localStorage.getItem('rtw_token');
+      if (!token) { currentUser = null; userIsPaid = false; updateNavAuth(); updateGeoLocks(); return; }
       try {
-        const { data: { user } } = await sb.auth.getUser();
+        const res = await fetch(SUPABASE_URL + '/auth/v1/user', {
+          headers: { 'Authorization': 'Bearer ' + token, 'apikey': SUPABASE_KEY }
+        });
+        if (!res.ok) throw new Error('expired');
+        const user = await res.json();
         currentUser = user;
         userIsPaid = user?.user_metadata?.is_paid === true;
       } catch (e) {
+        localStorage.removeItem('rtw_token');
+        localStorage.removeItem('rtw_refresh');
         currentUser = null;
         userIsPaid = false;
       }
@@ -361,6 +377,7 @@
       const password = document.getElementById('auth-password').value;
       const errEl = document.getElementById('auth-error');
       errEl.style.display = 'none';
+      errEl.style.color = '#f87171';
 
       if (!email || !password) {
         errEl.textContent = 'Please fill in all fields.';
@@ -377,47 +394,53 @@
       btn.textContent = 'Loading...';
       btn.disabled = true;
 
-      let result;
-      if (authMode === 'register') {
-        result = await sb.auth.signUp({ email, password });
-      } else {
-        result = await sb.auth.signInWithPassword({ email, password });
-      }
+      try {
+        let data;
+        if (authMode === 'register') {
+          data = await authFetch('/signup', { email, password });
+        } else {
+          data = await authFetch('/token?grant_type=password', { email, password });
+        }
 
-      btn.disabled = false;
-      btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
+        btn.disabled = false;
+        btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
 
-      if (result.error) {
-        errEl.textContent = result.error.message;
+        if (data.error || data.error_code || data.msg) {
+          errEl.textContent = data.msg || data.error_description || data.error || 'Something went wrong';
+          errEl.style.display = 'block';
+          return;
+        }
+
+        if (authMode === 'register' && !data.access_token) {
+          errEl.textContent = 'Check your email to confirm your account.';
+          errEl.style.display = 'block';
+          errEl.style.color = '#4ade80';
+          return;
+        }
+
+        if (data.access_token) {
+          localStorage.setItem('rtw_token', data.access_token);
+          if (data.refresh_token) localStorage.setItem('rtw_refresh', data.refresh_token);
+        }
+
+        closeAuth();
+        await checkAuth();
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
+        errEl.textContent = 'Connection error. Please try again.';
         errEl.style.display = 'block';
-        return;
       }
-
-      if (authMode === 'register' && result.data?.user && !result.data.session) {
-        errEl.textContent = 'Check your email to confirm your account.';
-        errEl.style.display = 'block';
-        errEl.style.color = '#4ade80';
-        return;
-      }
-
-      closeAuth();
-      await checkAuth();
     }
 
-    async function doLogout() {
-      await sb.auth.signOut();
+    function doLogout() {
+      localStorage.removeItem('rtw_token');
+      localStorage.removeItem('rtw_refresh');
       currentUser = null;
       userIsPaid = false;
       updateNavAuth();
       updateGeoLocks();
     }
-
-    // Listen for auth changes (e.g. email confirmation redirect)
-    sb.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-        await checkAuth();
-      }
-    });
 
     // ========== WIZARD LOGIC ==========
     let wizardData = null;
