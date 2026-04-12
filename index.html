@@ -207,13 +207,7 @@
     function xp(i){return pad.l+(i/years.length)*(W-pad.l-pad.r);}
     function yp(v){return pad.t+(1-(Math.log10(v)-logMin)/(logMax-logMin))*(H-pad.t-pad.b);}
 
-    // Grid lines
-    ctx.strokeStyle='#1a1a1a';ctx.lineWidth=1;
-    [100000,500000,1000000,3000000].forEach(v=>{
-      if(Math.log10(v) >= logMin && Math.log10(v) <= logMax){
-        ctx.beginPath();ctx.moveTo(pad.l,yp(v));ctx.lineTo(W-pad.r,yp(v));ctx.stroke();
-      }
-    });
+    // No grid lines
 
     // Year labels
     const isMobile = W < 400;
@@ -224,7 +218,7 @@
 
     // S&P line
     function drawLine(eq,col,w){ctx.beginPath();eq.forEach((v,i)=>{i===0?ctx.moveTo(xp(i),yp(v)):ctx.lineTo(xp(i),yp(v));});ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();}
-    drawLine(spEq,'#444',2);
+    drawLine(spEq,'#888',2.5);
 
     // Momentum line with glow
     ctx.shadowColor='rgba(74,222,128,0.3)';ctx.shadowBlur=8;
