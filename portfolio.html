@@ -65,8 +65,19 @@
   </header>
 
   <section class="section" style="padding-top:24px">
-    <div class="container" style="max-width:900px">
+    <div class="container" style="max-width:900px;position:relative">
 
+      <!-- Paywall gate -->
+      <div id="portfolio-gate" style="display:flex;position:absolute;inset:0;z-index:20;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,10,0.85);border-radius:12px;padding:40px 24px;text-align:center">
+        <h3 style="font-size:1.3rem;margin-bottom:10px;color:#fff">Pro members only</h3>
+        <p style="font-size:0.88rem;color:#888;margin-bottom:20px;max-width:400px">The Founder's Portfolio — every position, every strategy, updated live — is available exclusively to Pro members.</p>
+        <div style="font-size:1.8rem;font-weight:700;color:var(--accent);margin-bottom:4px">$39<span style="font-size:0.9rem;font-weight:400;color:#888">/month</span></div>
+        <div style="font-size:0.78rem;color:#555;margin-bottom:20px">or $299/year (save 36%)</div>
+        <a href="invest.html#signin" style="display:inline-block;padding:14px 36px;background:var(--accent);border-radius:8px;color:#0a0a0a;font-size:0.9rem;font-weight:700;text-decoration:none">Go Pro &rarr;</a>
+        <p style="font-size:0.72rem;color:#555;margin-top:12px">Already a member? <a href="invest.html#signin" style="color:var(--accent)">Sign in</a></p>
+      </div>
+
+      <div id="portfolio-content">
       <!-- Stats bar -->
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:32px">
         <div style="background:var(--bg-card);padding:20px" class="port-stat">
@@ -200,6 +211,7 @@
 
       <p style="margin-top:32px;font-size:0.72rem;color:#444;text-align:center">Positions as of April 2026. Updated at each rebalance. Not financial advice.</p>
 
+      </div><!-- /portfolio-content -->
     </div>
   </section>
 
@@ -220,12 +232,61 @@
   </footer>
 
   <script>
+  const SUPABASE_URL = 'https://efiyeiwdywodjxxnslvu.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_IccFybhqHU9RM5rc-Em1KA_G5Dsrqha';
+
   function showTab(id) {
     document.querySelectorAll('.port-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.port-section').forEach(s => s.classList.remove('active'));
     event.currentTarget.classList.add('active');
     document.getElementById('sec-' + id).classList.add('active');
   }
+
+  // Auth check — gate everything behind PRO
+  async function checkPortfolioAuth() {
+    const token = localStorage.getItem('rtw_token');
+    let isPaid = false;
+    if (token) {
+      try {
+        let res = await fetch(SUPABASE_URL + '/auth/v1/user', {
+          headers: { 'Authorization': 'Bearer ' + token, 'apikey': SUPABASE_KEY }
+        });
+        if (!res.ok) {
+          const rt = localStorage.getItem('rtw_refresh');
+          if (rt) {
+            const rr = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
+              method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+              body: JSON.stringify({ refresh_token: rt })
+            });
+            if (rr.ok) {
+              const d = await rr.json();
+              localStorage.setItem('rtw_token', d.access_token);
+              if (d.refresh_token) localStorage.setItem('rtw_refresh', d.refresh_token);
+              isPaid = d.user?.user_metadata?.is_paid === true;
+            }
+          }
+        } else {
+          const user = await res.json();
+          isPaid = user?.user_metadata?.is_paid === true;
+        }
+      } catch(e) {}
+    }
+
+    const gate = document.getElementById('portfolio-gate');
+    const content = document.getElementById('portfolio-content');
+    if (isPaid) {
+      gate.style.display = 'none';
+      content.style.filter = 'none';
+      content.style.pointerEvents = 'auto';
+      content.style.userSelect = 'auto';
+    } else {
+      gate.style.display = 'flex';
+      content.style.filter = 'blur(8px)';
+      content.style.pointerEvents = 'none';
+      content.style.userSelect = 'none';
+    }
+  }
+  checkPortfolioAuth();
   </script>
   <script src="auth-nav.js"></script>
 </body>
