@@ -83,11 +83,10 @@ p { color: var(--text-secondary); font-size: 0.95rem; max-width: 640px; }
 }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
 .btn-sub, .nav-signin {
-  padding: 7px 18px; border: 1px solid var(--border-light); border-radius: 6px;
-  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); transition: all 0.25s;
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted); transition: color 0.25s;
 }
-.btn-sub:hover, .nav-signin:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sub:hover, .nav-signin:hover { color: var(--text); }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
 .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text); margin: 5px 0; transition: 0.3s; }
 
