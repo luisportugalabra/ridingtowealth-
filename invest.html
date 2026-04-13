@@ -270,8 +270,8 @@
               </table>
             </div>
             <div class="paywall-overlay" id="paywall-overlay" style="display:none">
-              <h3>Follow the system. Deploy the capital.</h3>
-              <p>Full access to all three strategies &mdash; 25 stocks, every region, updated daily. Plus the founder's live portfolio.</p>
+              <h3>You're seeing 3 of 25 stocks.</h3>
+              <p style="max-width:420px">The stocks you can't see are where the edge is. Full access to all three strategies, every region, updated daily.</p>
               <div class="paywall-price">$39<span style="font-size:0.9rem;font-weight:400;color:var(--text-muted)">/month</span></div>
               <div class="paywall-period">or $299/year (save 36%) &middot; Cancel anytime</div>
               <button class="auth-btn" style="padding:14px 36px;background:var(--accent);border:none;border-radius:7px;color:var(--bg);font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:12px" onclick="openAuth('register')">Go Pro &rarr;</button>
@@ -631,10 +631,11 @@
             </table>
           </div>
           <div class="paywall-overlay" id="paywall-overlay" style="display:none">
-            <h3>Follow the system. Deploy the capital.</h3>
-            <p>Full access to all three strategies &mdash; 25 stocks, every region, updated daily. Plus the founder's live portfolio.</p>
+            <h3>You're seeing 3 of 25 stocks.</h3>
+            <p style="max-width:420px">The stocks you can't see are where the edge is. Full access to all three strategies, every region, updated daily.</p>
             <div class="paywall-price">$39<span style="font-size:0.9rem;font-weight:400;color:var(--text-muted)">/month</span></div>
             <div class="paywall-period">or $299/year (save 36%)</div>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:16px;max-width:380px">Less than one trade commission. Similar services charge $1,000\u20132,000/year.</p>
             <button class="auth-btn" style="padding:14px 36px;background:var(--accent);border:none;border-radius:7px;color:var(--bg);font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:12px" onclick="openAuth('register')">Go Pro &rarr;</button>
             <p style="font-size:0.72rem;color:var(--text-muted);margin:0">Already have an account? <a style="color:var(--accent);cursor:pointer" onclick="openAuth('login')">Sign in</a></p>
           </div>
@@ -675,12 +676,25 @@
       if (dateEl) dateEl.textContent = wizardData.date;
       const rulesBox = document.getElementById('rules-box');
       const recommendTip = `<li>We recommend holding a <strong>minimum of 10 stocks</strong> per strategy. For larger portfolios, 25 stocks is optimal (best Sharpe ratio). Fewer than 10 exposes you to excessive single-stock risk.</li><li>We recommend investing at least 3\u20134 times a year to reduce the impact of seasonality or isolated market events. Spreading your entries helps smooth out timing risk.</li>`;
-      if (selectedStrategy === 'value') {
-        rulesBox.innerHTML = `<h3>Value Strategy Rules</h3><ol><li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li><li>Exclude financial sector stocks</li><li>Exclude stocks with negative earnings</li><li>Combine the percentile ranks into a composite Value Score</li><li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
-      } else if (selectedStrategy === 'momentum') {
-        rulesBox.innerHTML = `<h3>Intermediate Momentum Strategy Rules</h3><ol><li>Take the ${geoLabel} universe of stocks</li><li>Calculate intermediate momentum: 12-month return minus 6-month return (months 7\u201312)</li><li>Select the top ${count} stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
+      if (userIsPaid) {
+        // Pro users see full methodology
+        if (selectedStrategy === 'value') {
+          rulesBox.innerHTML = `<h3>Value Strategy Rules</h3><ol><li>Rank the entire ${geoLabel} universe using 6 value metrics: P/E, P/S, P/B, P/CF, EV/EBITDA, and Shareholder Yield</li><li>Exclude financial sector stocks</li><li>Exclude stocks with negative earnings</li><li>Combine the percentile ranks into a composite Value Score</li><li>Select the ${count} cheapest stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
+        } else if (selectedStrategy === 'momentum') {
+          rulesBox.innerHTML = `<h3>Intermediate Momentum Strategy Rules</h3><ol><li>Take the ${geoLabel} universe of stocks</li><li>Calculate intermediate momentum: 12-month return minus 6-month return (months 7\u201312)</li><li>Select the top ${count} stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
+        } else {
+          rulesBox.innerHTML = `<h3>Trending Value Strategy Rules</h3><ol><li>Start with the Value strategy: rank the ${geoLabel} universe using 6 value metrics</li><li>Exclude financial sector stocks and stocks without positive earnings</li><li>Identify the cheapest 10% of stocks</li><li>Within that cheapest 10%, rank by 6-month price momentum</li><li>Select the top ${count} stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
+        }
       } else {
-        rulesBox.innerHTML = `<h3>Trending Value Strategy Rules</h3><ol><li>Start with the Value strategy: rank the ${geoLabel} universe using 6 value metrics</li><li>Exclude financial sector stocks and stocks without positive earnings</li><li>Identify the cheapest 10% of stocks</li><li>Within that cheapest 10%, rank by 6-month price momentum</li><li>Select the top ${count} stocks${isRandom ? ' (randomly picked)' : ''}</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li>${recommendTip}</ol>`;
+        // Free users see high-level overview only
+        const proNote = `<div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-top:16px"><p style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);margin:0;max-width:none">The exact ranking formula, filters, and parameters are available to Pro members.</p></div>`;
+        if (selectedStrategy === 'value') {
+          rulesBox.innerHTML = `<h3>Value Strategy</h3><ol><li>Rank the entire ${geoLabel} universe using a proprietary composite of fundamental value metrics</li><li>Apply sector and quality filters</li><li>Select the ${count} cheapest stocks by composite score</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li></ol>${proNote}`;
+        } else if (selectedStrategy === 'momentum') {
+          rulesBox.innerHTML = `<h3>Intermediate Momentum Strategy</h3><ol><li>Take the ${geoLabel} universe of stocks</li><li>Calculate intermediate momentum using a specific lookback window</li><li>Select the top ${count} stocks by momentum score</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li></ol>${proNote}`;
+        } else {
+          rulesBox.innerHTML = `<h3>Trending Value Strategy</h3><ol><li>Start with the Value composite to identify undervalued stocks</li><li>Apply sector and quality filters</li><li>Within the cheapest stocks, rank by price momentum</li><li>Select the top ${count} stocks</li><li>Equal weight each position at ${weight}%</li><li>Rebalance annually</li></ol>${proNote}`;
+        }
       }
       const thead = document.getElementById('table-head');
       const tbody = document.getElementById('table-body');
