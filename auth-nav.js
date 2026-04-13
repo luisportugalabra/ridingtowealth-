@@ -10,9 +10,8 @@
   if (!link) return;
 
   const token = localStorage.getItem('rtw_token');
-  if (!token) return; // not logged in, keep "Sign In" as-is
+  if (!token) return;
 
-  // Check if token is still valid
   fetch(SUPABASE_URL + '/auth/v1/user', {
     headers: { 'Authorization': 'Bearer ' + token, 'apikey': SUPABASE_KEY }
   })
@@ -20,21 +19,18 @@
   .then(user => {
     const name = user.email.split('@')[0];
     const isPaid = user.user_metadata && user.user_metadata.is_paid === true;
-    // Replace the Sign In link with user info + a separate Sign Out link
     var parent = link.parentNode;
-    // User badge
-    link.innerHTML = name.toUpperCase() + (isPaid ? ' <span style="font-size:0.55rem;font-weight:700;padding:2px 6px;background:#b8965a;color:#0a0a0a;border-radius:4px;letter-spacing:0.08em;margin-left:4px;vertical-align:middle">PRO</span>' : '');
+    link.innerHTML = name.toUpperCase() + (isPaid ? ' <span style="font-family:var(--font-mono,monospace);font-size:0.5rem;font-weight:700;padding:2px 6px;background:var(--accent,#c4a265);color:var(--bg,#060608);border-radius:4px;letter-spacing:0.08em;margin-left:4px;vertical-align:middle">PRO</span>' : '');
     link.href = '#';
     link.onclick = function(e) { e.preventDefault(); };
     link.style.cursor = 'default';
-    link.style.borderColor = isPaid ? '#b8965a' : '#fff';
-    // Sign Out link (separate element)
+    link.style.borderColor = isPaid ? 'var(--accent,#c4a265)' : 'var(--border-light,#2a2a35)';
     var signout = document.createElement('a');
     signout.textContent = 'Sign Out';
     signout.href = '#';
-    signout.style.cssText = 'font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#666;cursor:pointer;margin-left:12px;transition:color 0.2s;';
-    signout.onmouseover = function() { this.style.color = '#fff'; };
-    signout.onmouseout = function() { this.style.color = '#666'; };
+    signout.style.cssText = 'font-family:var(--font-mono,monospace);font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted,#5a5a68);cursor:pointer;margin-left:12px;transition:color 0.2s;';
+    signout.onmouseover = function() { this.style.color = 'var(--text,#e8e8ec)'; };
+    signout.onmouseout = function() { this.style.color = 'var(--text-muted,#5a5a68)'; };
     signout.onclick = function(e) {
       e.preventDefault();
       localStorage.removeItem('rtw_token');
@@ -44,7 +40,6 @@
     parent.appendChild(signout);
   })
   .catch(() => {
-    // Token expired — try refresh
     var refreshToken = localStorage.getItem('rtw_refresh');
     if (refreshToken) {
       fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
