@@ -19,7 +19,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" href="favicon.png" type="image/png">
-<link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -37,7 +36,70 @@
 }
 </script>
 <style>
-/* === Homepage-specific styles === */
+:root {
+  --bg: #060608;
+  --bg-card: #0c0c10;
+  --bg-elevated: #111116;
+  --border: #1a1a22;
+  --border-light: #2a2a35;
+  --text: #e8e8ec;
+  --text-secondary: #9898a4;
+  --text-muted: #5a5a68;
+  --accent: #c4a265;
+  --accent-hover: #d4b87a;
+  --green: #4ade80;
+  --green-dim: rgba(74,222,128,0.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* === Utilities === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+.label { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+.sublabel { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+
+/* === Animations === */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.fade-up { animation: fadeUp 0.8s ease-out both; }
+.fade-up-1 { animation-delay: 0.1s; }
+.fade-up-2 { animation-delay: 0.2s; }
+.fade-up-3 { animation-delay: 0.3s; }
+.fade-up-4 { animation-delay: 0.4s; }
+.fade-up-5 { animation-delay: 0.5s; }
+.live-dot { display: inline-block; width: 7px; height: 7px; background: var(--green); border-radius: 50%; margin-right: 6px; vertical-align: middle; animation: pulse 2s ease-in-out infinite; }
+
+/* === Navigation === */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 36px; position: sticky; top: 0; z-index: 100;
+  background: rgba(6,6,8,0.88); backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.32em; color: var(--text); }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); transition: color 0.25s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-signin { padding: 7px 18px; border: 1px solid var(--border-light); border-radius: 6px; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); transition: all 0.25s; }
+.nav-signin:hover { border-color: var(--accent); color: var(--accent); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text); margin: 5px 0; transition: 0.3s; }
+
+/* === Hero === */
+.hero {
+  text-align: center; padding: 100px 28px 60px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(196,162,101,0.04) 0%, transparent 60%);
+}
+.hero h1 { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.08; color: var(--text); margin-bottom: 28px; letter-spacing: -0.02em; }
 .hero h1 .serif-italic { font-style: italic; color: var(--accent); display: block; font-size: 0.88em; margin-top: 4px; }
 .hero .sub { font-size: 1.08rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 10px; }
 .hero .sub strong { color: var(--text); font-weight: 600; }
@@ -51,28 +113,38 @@
 .hero .credential a { color: var(--text-secondary); transition: color 0.2s; }
 .hero .credential a:hover { color: var(--accent); }
 
+/* === Section titles === */
 .section-head { text-align: center; margin-bottom: 36px; }
 .section-head h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; color: var(--text); margin: 10px 0 8px; letter-spacing: -0.01em; }
 .section-head p { font-size: 0.88rem; color: var(--text-muted); max-width: 520px; margin: 0 auto; }
 
+/* === Live Performance Table === */
 .perf-section { padding: 64px 0 48px; }
 .perf-table-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg-card); }
 .perf-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
-.perf-table thead th { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 14px 18px; text-align: right; border-bottom: 1px solid var(--border); background: var(--bg-elevated); }
+.perf-table thead th {
+  font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-muted); padding: 14px 18px; text-align: right;
+  border-bottom: 1px solid var(--border); background: var(--bg-elevated);
+}
 .perf-table thead th:first-child { text-align: left; }
 .perf-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
 .perf-table tbody td:first-child { text-align: left; font-weight: 600; color: var(--text); }
 .perf-table tbody tr:last-child td { border-bottom: none; }
 .perf-table tbody tr:hover { background: var(--bg-elevated); }
+.perf-table .pos { color: var(--green); font-weight: 600; }
+.perf-table .neg { color: var(--red); font-weight: 600; }
 .perf-table .muted { color: var(--text-muted); }
 .perf-table .status { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); }
 .perf-footer { font-size: 0.7rem; color: var(--text-muted); margin-top: 14px; text-align: center; }
 
+/* Activity Log */
 .activity-log { margin-top: 20px; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; }
 .activity-log-title { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
 .activity-item { font-size: 0.78rem; color: var(--text-muted); padding: 4px 0; display: flex; gap: 8px; }
 .activity-item .date { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.72rem; min-width: 50px; }
 
+/* === Live Preview === */
 .preview-section { padding: 24px 0 48px; }
 .preview-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 28px; max-width: 680px; margin: 0 auto; }
 .preview-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
@@ -88,6 +160,7 @@
 .preview-link a:hover { color: var(--accent-hover); }
 .preview-link .lock { color: var(--text-muted); margin-left: 8px; }
 
+/* === Chart === */
 .chart-section { padding: 48px 0; }
 .chart-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 32px; }
 .chart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; flex-wrap: wrap; gap: 8px; }
@@ -99,6 +172,7 @@
 .chart-note a { color: var(--accent); }
 .chart-note a:hover { color: var(--accent-hover); }
 
+/* === Trust Bar === */
 .trust-section { padding: 32px 0 48px; }
 .trust-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .trust-stat { background: var(--bg-card); padding: 24px; text-align: center; }
@@ -107,7 +181,9 @@
 .trust-val.red { color: var(--red); }
 .trust-label { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
 
+/* === Strategy Cards === */
 .strategies-section { padding: 48px 0 56px; }
+.cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
 .strat-card {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
   padding: 32px; display: flex; flex-direction: column; transition: border-color 0.3s, transform 0.2s;
@@ -122,6 +198,7 @@
 .strat-card .card-cta { font-size: 0.82rem; font-weight: 600; color: var(--text); margin-top: 20px; transition: color 0.2s; }
 .strat-card:hover .card-cta { color: var(--accent); }
 
+/* === How It Works === */
 .how-section { padding: 56px 0; border-top: 1px solid var(--border); }
 .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 40px; }
 .how-step { position: relative; }
@@ -129,6 +206,7 @@
 .how-step h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
 .how-step p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
 
+/* === Pricing === */
 .pricing-section { padding: 56px 0; border-top: 1px solid var(--border); }
 .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-width: 720px; margin: 0 auto; }
 .pricing-col { background: var(--bg-card); padding: 40px 32px; }
@@ -153,6 +231,7 @@
 .pricing-compare .detail strong { color: var(--text); }
 .pricing-compare .detail .green { color: var(--green); font-weight: 700; }
 
+/* === Founder === */
 .founder-section { padding: 64px 0; border-top: 1px solid var(--border); }
 .founder-inner { max-width: 620px; margin: 0 auto; text-align: center; }
 .founder-name { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; margin-bottom: 8px; }
@@ -160,13 +239,35 @@
 .founder-bio { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; }
 .founder-personal { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; font-style: italic; }
 
+/* === Footer === */
+.footer { padding: 40px 36px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.footer-logo { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.28em; color: var(--text-muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted); transition: all 0.2s; }
+.footer-social a:hover { color: var(--text); border-color: var(--border-light); }
+.footer-social svg { width: 14px; height: 14px; fill: currentColor; }
+.footer-disclaimer { width: 100%; text-align: center; font-size: 0.65rem; color: var(--text-muted); margin-top: 16px; opacity: 0.6; }
+
+/* === Responsive === */
 @media (max-width: 900px) {
+  .nav { padding: 14px 20px; }
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(6,6,8,0.98); border-bottom: 1px solid var(--border); padding: 24px; gap: 18px; align-items: center; }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: block; }
   .hero { padding: 72px 20px 48px; }
   .cards-grid, .how-grid { grid-template-columns: 1fr; }
   .trust-grid { grid-template-columns: repeat(2,1fr); }
   .pricing-grid { grid-template-columns: 1fr; }
+  .footer { padding: 32px 20px; flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
   .perf-table { font-size: 0.75rem; }
   .perf-table thead th, .perf-table tbody td { padding: 10px 10px; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2.2rem; }
 }
 </style>
 </head>
