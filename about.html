@@ -13,12 +13,37 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="About — Riding to Wealth">
   <meta name="twitter:description" content="Luis Abrantes — Former CFO, financially independent at 30. Running systematic strategies with real capital.">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#060608">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .about-intro { max-width: 680px; margin: 0 auto; }
+    .about-intro p { font-size: 1rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 20px; max-width: none; }
+    .about-author { max-width: 680px; margin: 0 auto; }
+    .about-author h2 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 20px; }
+    .about-author p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 16px; max-width: none; }
+    .about-author .personal { font-style: italic; color: var(--text-muted); }
+    .about-credentials {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      max-width: 680px; margin: 32px auto;
+    }
+    .cred-item { background: var(--bg-card); padding: 24px 16px; text-align: center; }
+    .cred-val { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .cred-label { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .about-what { max-width: 680px; margin: 0 auto; }
+    .about-philosophy { max-width: 680px; margin: 0 auto; }
+    .about-philosophy h2 { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 20px; }
+    .about-philosophy p { font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; max-width: none; }
+    .about-philosophy .rule { font-size: 1.05rem; color: var(--text); font-weight: 500; line-height: 1.8; margin-bottom: 20px; }
+    .about-philosophy .disclaimer { font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin-top: 28px; }
+    @media (max-width: 600px) {
+      .about-credentials { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
@@ -33,7 +58,6 @@
       <a href="invest.html">Strategy</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="strategies.html">How It Works</a>
-
       <a href="about.html" class="active">About</a>
       <a href="invest.html#signin" class="btn-sub">Sign In</a>
     </div>
@@ -41,39 +65,59 @@
 
   <!-- Hero -->
   <header class="hero">
-    <span class="label">About</span>
-    <h1 style="margin-top:16px">Real capital.<br><span class="italic">Real conviction.</span></h1>
-    <p>Long-term investing built on discipline, not theory.</p>
+    <p class="label fade-up">About</p>
+    <h1 class="fade-up fade-up-1" style="margin-top:16px">Real capital.<span class="italic" style="display:block;margin-top:4px">Real conviction.</span></h1>
+    <p class="fade-up fade-up-2" style="color:var(--text-muted)">Long-term investing built on discipline, not theory.</p>
   </header>
 
   <!-- Intro -->
   <section class="section">
-    <div class="container" style="max-width:720px">
-      <p style="font-size:1.05rem;color:#bbb;line-height:1.8;margin-bottom:24px">Riding to Wealth is how I invest &mdash; using real capital, not theory.</p>
-      <p style="font-size:1.05rem;color:#bbb;line-height:1.8;margin-bottom:24px">I invest in two ways: systematic strategies backed by decades of data, and my own discretionary positions. Both matter &mdash; discipline and judgment.</p>
-      <p style="font-size:1.05rem;color:#bbb;line-height:1.8;margin-bottom:24px">This platform brings both to the table &mdash; three quantitative strategies updated daily from live market data, and a real portfolio run with real capital.</p>
-      <p style="font-size:1.05rem;color:#bbb;line-height:1.8">No noise. No hype. No short-term trading.</p>
+    <div class="about-intro">
+      <p>Riding to Wealth is how I invest &mdash; using real capital, not theory.</p>
+      <p>I invest in two ways: systematic strategies backed by decades of data, and my own discretionary positions. Both matter &mdash; discipline and judgment.</p>
+      <p>This platform brings both to the table &mdash; three quantitative strategies updated daily from live market data, and a real portfolio run with real capital.</p>
+      <p style="color:var(--text-muted)">No noise. No hype. No short-term trading.</p>
     </div>
   </section>
 
   <!-- Divider -->
-  <div class="container" style="max-width:720px"><div class="divider"></div></div>
+  <div class="container" style="max-width:680px"><div class="divider"></div></div>
 
   <!-- Author -->
   <section class="section">
-    <div class="container" style="max-width:720px">
-      <h2 style="margin-bottom:20px">Luis Abrantes</h2>
-      <p style="font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:16px">Former CFO with 15+ years in telecom infrastructure and energy &mdash; building and operating assets across Europe, Africa, and Asia.</p>
-      <p style="font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:16px">BSc Economics. MSc Finance. MBA.</p>
-      <p style="font-size:1rem;color:#bbb;line-height:1.8;margin-bottom:16px">Financially independent at 30 through disciplined investing. Today, I manage a multi-million euro portfolio across public equities and real assets &mdash; and run every strategy on this platform with my own money.</p>
-      <p style="font-size:0.92rem;color:#666;line-height:1.8">When I&rsquo;m not investing, I race and travel the world by bike. Dozens of countries and counting. Riding to Wealth is exactly that.</p>
+    <div class="about-author">
+      <h2>Luis Abrantes</h2>
+      <p>Former CFO with 15+ years in telecom infrastructure and energy &mdash; building and operating assets across Europe, Africa, and Asia.</p>
+      <p>Financially independent at 30 through disciplined investing. Today, I manage a multi-million euro portfolio across public equities and real assets &mdash; and run every strategy on this platform with my own money.</p>
+      <p class="personal">When I'm not investing, I race and travel the world by bike. Dozens of countries and counting. Riding to Wealth is exactly that.</p>
     </div>
+
+    <!-- Credentials bar -->
+    <div class="about-credentials">
+      <div class="cred-item">
+        <div class="cred-val">15+</div>
+        <div class="cred-label">Years in Finance</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-val">3</div>
+        <div class="cred-label">Degrees</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-val">3</div>
+        <div class="cred-label">Continents</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-val">30</div>
+        <div class="cred-label">FI Age</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);letter-spacing:0.08em;max-width:680px;margin:0 auto">BSc Economics &middot; MSc Finance &middot; MBA</p>
   </section>
 
   <!-- What You'll Find -->
   <section class="section-sm" style="background:var(--bg-elevated);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-    <div class="container" style="max-width:720px">
-      <h3 style="margin-bottom:20px">What You'll Find Here</h3>
+    <div class="about-what" style="padding:0 28px">
+      <h3 style="margin-bottom:20px;font-family:var(--font-display);font-size:1.3rem">What You'll Find Here</h3>
       <div class="feature-list">
         <div class="feature-item">Three systematic strategies backed by 20&ndash;40+ years of data</div>
         <div class="feature-item">Live market data &mdash; updated daily</div>
@@ -85,12 +129,12 @@
 
   <!-- Philosophy -->
   <section class="section">
-    <div class="container" style="max-width:720px">
-      <h2 style="margin-bottom:20px">Philosophy</h2>
-      <p style="font-size:1.05rem;color:#ccc;line-height:1.8;margin-bottom:20px;font-weight:500">Rules remove emotion. Data removes guesswork.</p>
-      <p style="font-size:1rem;color:#999;line-height:1.8;margin-bottom:16px">Markets are noisy. Factors are persistent. These strategies exploit well-documented return drivers &mdash; value and momentum &mdash; that have held across decades and geographies.</p>
-      <p style="font-size:1rem;color:#999;line-height:1.8;margin-bottom:16px">The edge is not in being smarter. It&rsquo;s in being more disciplined.</p>
-      <p style="font-size:0.88rem;color:#555;line-height:1.8;margin-top:28px;font-style:italic">This is not financial advice. This is how capital is deployed in practice.</p>
+    <div class="about-philosophy">
+      <h2>Philosophy</h2>
+      <p class="rule">Rules remove emotion. Data removes guesswork.</p>
+      <p style="color:var(--text-muted)">Markets are noisy. Factors are persistent. These strategies exploit well-documented return drivers &mdash; value and momentum &mdash; that have held across decades and geographies.</p>
+      <p style="color:var(--text-muted)">The edge is not in being smarter. It's in being more disciplined.</p>
+      <p class="disclaimer">This is not financial advice. This is how capital is deployed in practice.</p>
     </div>
   </section>
 
@@ -102,7 +146,6 @@
       <a href="invest.html">Strategy</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="strategies.html">How It Works</a>
-
       <a href="about.html">About</a>
     </div>
     <div class="social-icons">
