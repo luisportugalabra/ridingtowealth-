@@ -2,8 +2,8 @@ name: Update strategy data
 
 on:
   schedule:
-    - cron: '0 23 * * 1-5'  # Mon-Fri 23:00 UTC (after all markets close)
-  workflow_dispatch:         # manual trigger
+    - cron: '0 23 * * 1-5'  # Mon-Fri 23:00 UTC
+  workflow_dispatch:
 
 jobs:
   update:
