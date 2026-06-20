@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19 00:28 UTC",
+  "updated": "2026-06-20 00:10 UTC",
   "strategies": {
     "discretionary": {
       "positions": [
@@ -34,9 +34,9 @@
         {
           "ticker": "CLNX",
           "qty": 1869.0,
-          "price": 32.55,
-          "mkt_value": 60835.71,
-          "weight": 6.3
+          "price": 32.63,
+          "mkt_value": 60985.26,
+          "weight": 6.4
         },
         {
           "ticker": "MSFT",
@@ -69,8 +69,8 @@
         {
           "ticker": "PRX",
           "qty": 910.0,
-          "price": 44.82,
-          "mkt_value": 40784.11,
+          "price": 43.83,
+          "mkt_value": 39884.9,
           "weight": 4.2
         },
         {
@@ -147,7 +147,7 @@
           "ticker": "WISE",
           "qty": 1000.0,
           "price": 10.83,
-          "mkt_value": 10828.8,
+          "mkt_value": 10827.98,
           "weight": 1.1
         },
         {
@@ -172,9 +172,9 @@
           "weight": 0.7
         }
       ],
-      "total_value": 961125.58,
+      "total_value": 960375.1,
       "n_positions": 24,
-      "ytd_2026": 1.7
+      "ytd_2026": 1.6
     },
     "vc2": {
       "positions": [
@@ -383,7 +383,7 @@
   "returns": {
     "discretionary": {
       "2025": 38.7,
-      "2026_ytd": 1.7
+      "2026_ytd": 1.6
     },
     "vc2": {
       "2025": 23.1,
@@ -421,6 +421,10 @@
   },
   "activity": [
     {
+      "date": "Jun 20",
+      "text": "Prices updated from market close"
+    },
+    {
       "date": "Jun 19",
       "text": "Prices updated from market close"
     },
@@ -434,10 +438,6 @@
     },
     {
       "date": "Jun 16",
-      "text": "Prices updated from market close"
-    },
-    {
-      "date": "Jun 13",
       "text": "Prices updated from market close"
     }
   ]
