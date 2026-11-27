@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26 04:43 UTC",
+  "updated": "2026-11-27 04:49 UTC",
   "strategies": {
     "discretionary": {
       "positions": [
@@ -15,7 +15,7 @@
           "qty": 3875.0,
           "price": 26.38,
           "mkt_value": 102222.5,
-          "weight": 10.6
+          "weight": 10.5
         },
         {
           "ticker": "META",
@@ -41,8 +41,8 @@
         {
           "ticker": "CLNX",
           "qty": 1869.0,
-          "price": 27.8,
-          "mkt_value": 51950.82,
+          "price": 27.98,
+          "mkt_value": 52298.36,
           "weight": 5.4
         },
         {
@@ -90,9 +90,9 @@
         {
           "ticker": "PRX",
           "qty": 910.0,
-          "price": 32.1,
-          "mkt_value": 29210.8,
-          "weight": 3.0
+          "price": 32.96,
+          "mkt_value": 29992.15,
+          "weight": 3.1
         },
         {
           "ticker": "NOMD",
@@ -146,15 +146,15 @@
         {
           "ticker": "2330",
           "qty": 178.0,
-          "price": 67.5,
-          "mkt_value": 12015.0,
+          "price": 67.81,
+          "mkt_value": 12070.62,
           "weight": 1.2
         },
         {
           "ticker": "WISE",
           "qty": 1000.0,
-          "price": 11.32,
-          "mkt_value": 11323.67,
+          "price": 11.61,
+          "mkt_value": 11605.61,
           "weight": 1.2
         },
         {
@@ -172,9 +172,9 @@
           "weight": 0.8
         }
       ],
-      "total_value": 967609.34,
+      "total_value": 969075.79,
       "n_positions": 24,
-      "ytd_2026": 2.4
+      "ytd_2026": 2.5
     },
     "vc2": {
       "positions": [
@@ -383,7 +383,7 @@
   "returns": {
     "discretionary": {
       "2025": 38.7,
-      "2026_ytd": 2.4
+      "2026_ytd": 2.5
     },
     "vc2": {
       "2025": 23.1,
@@ -421,6 +421,10 @@
   },
   "activity": [
     {
+      "date": "Nov 27",
+      "text": "Prices updated from market close"
+    },
+    {
       "date": "Nov 26",
       "text": "Prices updated from market close"
     },
@@ -434,10 +438,6 @@
     },
     {
       "date": "Nov 21",
-      "text": "Prices updated from market close"
-    },
-    {
-      "date": "Nov 20",
       "text": "Prices updated from market close"
     }
   ]
